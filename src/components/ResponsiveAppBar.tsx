@@ -131,7 +131,7 @@ function ResponsiveAppBar() {
               Login
             </Button>
             <Button size='small' variant='contained'>
-              Sign up
+              Register
             </Button>
           </Box>
         </Toolbar>
