@@ -127,10 +127,10 @@ function ResponsiveAppBar() {
             ))}
           </Box>
           <Box sx={{ display: 'flex', gap: 2, alignItems: 'center' }}>
-            <Button size='small' variant='outlined'>
+            <Button href='/login' size='small' variant='outlined'>
               Login
             </Button>
-            <Button size='small' variant='contained'>
+            <Button href='/register' size='small' variant='contained'>
               Register
             </Button>
           </Box>

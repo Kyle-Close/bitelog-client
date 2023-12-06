@@ -1,5 +1,6 @@
 import { createBrowserRouter } from 'react-router-dom';
 import App from './App';
+import Authentication from './components/Authentication';
 
 export const router = createBrowserRouter([
   {
@@ -7,10 +8,10 @@ export const router = createBrowserRouter([
     element: <App />,
   },
   {
-    path: 'login',
+    path: '/login',
     element: (
       <App>
-        <div>Login...</div>
+        <Authentication />
       </App>
     ),
   },
