@@ -1,7 +1,42 @@
 import { Box, Typography, Button, Divider, Input, Link } from '@mui/material';
 import GoogleIcon from '@mui/icons-material/Google';
+import {
+  GoogleAuthProvider,
+  getAuth,
+  signInWithPopup,
+  Auth,
+  OAuthCredential,
+} from 'firebase/auth';
+import { UserCredential } from 'firebase/auth/cordova';
 
 function LoginForm() {
+  const provider = new GoogleAuthProvider();
+  const auth = getAuth();
+
+  const googleSignIn = async (auth: Auth, provider: GoogleAuthProvider) => {
+    try {
+      const userCredential: UserCredential = await signInWithPopup(
+        auth,
+        provider
+      );
+      if (userCredential) {
+        const credential: OAuthCredential | null =
+          GoogleAuthProvider.credentialFromResult(userCredential);
+
+        if (credential) {
+          const token = credential.accessToken;
+          // The signed-in user info.
+          const user = userCredential.user;
+
+          console.log(`token: ${token}`);
+          console.dir(userCredential);
+        }
+      }
+    } catch (err: any) {
+      console.log(err.code);
+    }
+  };
+
   return (
     <Box
       sx={{
@@ -13,7 +48,11 @@ function LoginForm() {
       }}
     >
       <Typography variant='h6'>Login to your account</Typography>
-      <Button variant='outlined' startIcon={<GoogleIcon />}>
+      <Button
+        onClick={() => googleSignIn(auth, provider)}
+        variant='outlined'
+        startIcon={<GoogleIcon />}
+      >
         Login with Google
       </Button>
       <Divider>OR</Divider>
