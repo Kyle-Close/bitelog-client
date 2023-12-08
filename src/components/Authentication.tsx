@@ -1,12 +1,12 @@
 import { Box } from '@mui/material';
 import authImg from '../assets/auth.png';
+import LoginForm from './LoginForm';
 
 function Authentication() {
   return (
     <Box
       sx={{
         display: 'flex',
-        flexDirection: { xs: 'column' },
         flex: '1',
         maxHeight: '100%',
       }}
@@ -23,8 +23,7 @@ function Authentication() {
           height: '100%',
         }}
       ></Box>
-
-      <Box sx={{ flex: 1 }}></Box>
+      <LoginForm />
     </Box>
   );
 }
