@@ -9,6 +9,7 @@ import {
 } from 'firebase/auth';
 import { UserCredential } from 'firebase/auth/cordova';
 import { useState } from 'react';
+import { signInWithEmailAndPassword } from 'firebase/auth';
 
 interface LoginFormData {
   email: string;
@@ -18,6 +19,7 @@ interface LoginFormData {
 function LoginForm() {
   const provider = new GoogleAuthProvider();
   const auth = getAuth();
+
   const [formData, setFormData] = useState<LoginFormData>({
     email: '',
     password: '',
@@ -59,6 +61,30 @@ function LoginForm() {
     });
   };
 
+  const handleFormSubmit = async (auth: Auth) => {
+    if (!formData.email || !formData.password)
+      // TODO: handle error msgs
+      return;
+
+    try {
+      const userCredential = await signInWithEmailAndPassword(
+        auth,
+        formData.email,
+        formData.password
+      );
+
+      if (!userCredential) return; // TODO: handle error msg
+
+      const user = userCredential.user;
+      const token = await user.getIdToken();
+
+      console.log(`token: ${token}`);
+      console.dir(user);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   return (
     <Box
       sx={{
@@ -98,7 +124,9 @@ function LoginForm() {
         <Link href='#' underline='none' fontSize='small' alignSelf='end'>
           Forgot Password?
         </Link>
-        <Button variant='contained'>Login</Button>
+        <Button onClick={() => handleFormSubmit(auth)} variant='contained'>
+          Login
+        </Button>
         <Typography paragraph fontSize='small'>
           Don't have an account? <Link href='#'>Create one now.</Link>
         </Typography>
