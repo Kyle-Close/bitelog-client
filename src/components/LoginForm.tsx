@@ -18,6 +18,7 @@ import {
 import { UserCredential } from 'firebase/auth/cordova';
 import { useState } from 'react';
 import { signInWithEmailAndPassword } from 'firebase/auth';
+import ForgotPasswordModal from './ForgotPasswordModal';
 
 interface LoginFormData {
   email: string;
@@ -33,6 +34,9 @@ function LoginForm() {
     password: '',
   });
   const [errors, setErrors] = useState<string[] | null>(null);
+  const [open, setOpen] = useState(false);
+
+  const handleOpen = () => setOpen(true);
 
   const googleSignIn = async (auth: Auth, provider: GoogleAuthProvider) => {
     try {
@@ -129,6 +133,7 @@ function LoginForm() {
         alignSelf: 'center',
       }}
     >
+      {open && <ForgotPasswordModal open={open} setOpen={setOpen} />}
       <Typography variant='h6'>Login to your account</Typography>
       <Button
         onClick={() => googleSignIn(auth, provider)}
@@ -159,9 +164,12 @@ function LoginForm() {
             {displayErrorMessages(errors)}
           </Box>
         )}
-        <Link href='#' underline='none' fontSize='small' alignSelf='end'>
-          Forgot Password?
-        </Link>
+        <Box sx={{ display: 'flex', justifyContent: 'end' }}>
+          <Button onClick={handleOpen} size='small' sx={{ fontSize: '0.7rem' }}>
+            Forgot Password?
+          </Button>
+        </Box>
+
         <Button onClick={() => handleFormSubmit(auth)} variant='contained'>
           Login
         </Button>
