@@ -45,6 +45,7 @@ function LoginForm() {
         flexDirection: 'column',
         gap: '1rem',
         padding: '4rem',
+        alignSelf: 'center',
       }}
     >
       <Typography variant='h6'>Login to your account</Typography>
