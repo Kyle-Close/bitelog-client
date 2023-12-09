@@ -18,7 +18,10 @@ interface LoginFormData {
 function LoginForm() {
   const provider = new GoogleAuthProvider();
   const auth = getAuth();
-  const [formData, setFormData] = useState<LoginFormData | null>(null);
+  const [formData, setFormData] = useState<LoginFormData>({
+    email: '',
+    password: '',
+  });
 
   const googleSignIn = async (auth: Auth, provider: GoogleAuthProvider) => {
     try {
@@ -45,8 +48,15 @@ function LoginForm() {
   };
 
   const handleFormUpdate: React.ChangeEventHandler<HTMLInputElement> = (e) => {
-    const target = e.target;
-    console.log(target);
+    const inputField = e.target.id;
+    const value = e.target.value;
+
+    setFormData((prevFormData) => {
+      return {
+        ...prevFormData,
+        [inputField]: value,
+      };
+    });
   };
 
   return (
