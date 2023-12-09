@@ -1,4 +1,12 @@
-import { Box, Typography, Button, Divider, Input, Link } from '@mui/material';
+import {
+  Box,
+  Typography,
+  Button,
+  Divider,
+  Input,
+  Link,
+  ListItem,
+} from '@mui/material';
 import GoogleIcon from '@mui/icons-material/Google';
 import {
   GoogleAuthProvider,
@@ -24,6 +32,7 @@ function LoginForm() {
     email: '',
     password: '',
   });
+  const [errors, setErrors] = useState<string[] | null>(null);
 
   const googleSignIn = async (auth: Auth, provider: GoogleAuthProvider) => {
     try {
@@ -50,6 +59,10 @@ function LoginForm() {
   };
 
   const handleFormUpdate: React.ChangeEventHandler<HTMLInputElement> = (e) => {
+    if (errors && errors.length > 0) {
+      setErrors(null);
+    }
+
     const inputField = e.target.id;
     const value = e.target.value;
 
@@ -62,9 +75,10 @@ function LoginForm() {
   };
 
   const handleFormSubmit = async (auth: Auth) => {
-    if (!formData.email || !formData.password)
-      // TODO: handle error msgs
+    if (!formData.email || !formData.password) {
+      setErrors(['All fields must be filled out.']);
       return;
+    }
 
     try {
       const userCredential = await signInWithEmailAndPassword(
@@ -73,16 +87,35 @@ function LoginForm() {
         formData.password
       );
 
-      if (!userCredential) return; // TODO: handle error msg
-
       const user = userCredential.user;
       const token = await user.getIdToken();
 
+      setErrors(null);
+
       console.log(`token: ${token}`);
       console.dir(user);
-    } catch (err) {
-      console.log(err);
+    } catch (err: any) {
+      const errorMessage = err.message;
+      const regex: RegExp = /(?<=\()(.*)(?=\))/;
+      const match: RegExpExecArray | null = regex.exec(errorMessage);
+
+      if (match) {
+        const errorBetweenParenthesis = match[0];
+        const authErrorSplit = errorBetweenParenthesis.split('/');
+
+        if (authErrorSplit.length > 1) {
+          setErrors([authErrorSplit[1]]);
+        }
+      }
     }
+  };
+
+  const displayErrorMessages = (errors: string[]) => {
+    return errors.map((errorMsg, key) => (
+      <ListItem key={key} sx={{ padding: 0, fontSize: '0.8rem', color: 'red' }}>
+        {errorMsg}
+      </ListItem>
+    ));
   };
 
   return (
@@ -121,6 +154,11 @@ function LoginForm() {
           type='password'
           required
         />
+        {errors && (
+          <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+            {displayErrorMessages(errors)}
+          </Box>
+        )}
         <Link href='#' underline='none' fontSize='small' alignSelf='end'>
           Forgot Password?
         </Link>
