@@ -8,10 +8,17 @@ import {
   OAuthCredential,
 } from 'firebase/auth';
 import { UserCredential } from 'firebase/auth/cordova';
+import { useState } from 'react';
+
+interface LoginFormData {
+  email: string;
+  password: string;
+}
 
 function LoginForm() {
   const provider = new GoogleAuthProvider();
   const auth = getAuth();
+  const [formData, setFormData] = useState<LoginFormData | null>(null);
 
   const googleSignIn = async (auth: Auth, provider: GoogleAuthProvider) => {
     try {
@@ -35,6 +42,11 @@ function LoginForm() {
     } catch (err: any) {
       console.log(err.code);
     }
+  };
+
+  const handleFormUpdate: React.ChangeEventHandler<HTMLInputElement> = (e) => {
+    const target = e.target;
+    console.log(target);
   };
 
   return (
@@ -61,8 +73,18 @@ function LoginForm() {
         component='form'
         sx={{ display: 'flex', gap: '1rem', flexDirection: 'column' }}
       >
-        <Input placeholder='Email Address' id='email' />
-        <Input placeholder='Password' id='password' type='password' required />
+        <Input
+          onChange={handleFormUpdate}
+          placeholder='Email Address'
+          id='email'
+        />
+        <Input
+          onChange={handleFormUpdate}
+          placeholder='Password'
+          id='password'
+          type='password'
+          required
+        />
         <Link href='#' underline='none' fontSize='small' alignSelf='end'>
           Forgot Password?
         </Link>
