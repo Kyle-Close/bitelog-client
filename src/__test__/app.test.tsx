@@ -7,6 +7,7 @@ import { render } from '@testing-library/react';
 import { firebaseConfig } from '../firebaseConfig';
 import App from '../App';
 import { initializeApp } from 'firebase/app';
+
 describe('App Component', () => {
   test('renders component', () => {
     render(<App />);

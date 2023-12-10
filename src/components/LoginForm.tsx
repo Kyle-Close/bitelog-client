@@ -26,8 +26,8 @@ interface LoginFormData {
 }
 
 function LoginForm() {
-  const provider = new GoogleAuthProvider();
   const auth = getAuth();
+  const provider = new GoogleAuthProvider();
 
   const [formData, setFormData] = useState<LoginFormData>({
     email: '',
@@ -51,7 +51,7 @@ function LoginForm() {
         if (credential) {
           const token = credential.accessToken;
           // The signed-in user info.
-          const user = userCredential.user;
+          //const user = userCredential.user;
 
           console.log(`token: ${token}`);
           console.dir(userCredential);
@@ -145,6 +145,7 @@ function LoginForm() {
       <Divider>OR</Divider>
       <Box
         component='form'
+        id='login-form'
         sx={{ display: 'flex', gap: '1rem', flexDirection: 'column' }}
       >
         <Input
