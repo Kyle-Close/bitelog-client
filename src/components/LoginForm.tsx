@@ -171,7 +171,11 @@ function LoginForm() {
           </Button>
         </Box>
 
-        <Button onClick={() => handleFormSubmit(auth)} variant='contained'>
+        <Button
+          id='login-form-submit'
+          onClick={() => handleFormSubmit(auth)}
+          variant='contained'
+        >
           Login
         </Button>
         <Typography paragraph fontSize='small'>
