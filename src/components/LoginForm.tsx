@@ -106,7 +106,7 @@ function LoginForm() {
       setErrors(null);
       navigate('/');
     } catch (err: any) {
-      console.error('Error during signInWithEmailAndPassword:', err);
+      console.dir(err);
       const errorMessage = err.message;
       const regex: RegExp = /(?<=\()(.*)(?=\))/;
       const match: RegExpExecArray | null = regex.exec(errorMessage);

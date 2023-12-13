@@ -5,10 +5,12 @@ import { signInWithEmailAndPassword } from 'firebase/auth';
 import { BrowserRouter } from 'react-router-dom';
 
 jest.mock('firebase/auth');
+jest.mock('react-router-dom');
 // Mock dependencies
 const mockResolveData = {
   user: 'Kyle',
 };
+
 const mockSignInWithEmailAndPassword = jest
   .fn()
   .mockResolvedValue(mockResolveData);
@@ -17,10 +19,11 @@ const mockSignInWithEmailAndPassword = jest
   mockSignInWithEmailAndPassword
 );
 
-const mockNavigate = jest.fn();
+const mockedUsedNavigate = jest.fn();
+
 jest.mock('react-router-dom', () => ({
-  ...jest.requireActual('react-router-dom'),
-  useNavigate: () => jest.fn(),
+  ...(jest.requireActual('react-router-dom') as any),
+  useNavigate: () => mockedUsedNavigate,
 }));
 
 describe('log-in page', () => {
@@ -159,8 +162,34 @@ describe('log-in page', () => {
     await fireEvent.click(submitButton);
 
     await waitFor(() => {
-      //expect(screen.getByText('Homepage')).toBeInTheDocument();
-      expect(mockNavigate).toHaveBeenCalledWith('/');
+      expect(mockedUsedNavigate).toHaveBeenCalledWith('/');
     });
   });
+
+  // unsuccessful login displays correct error
+  test('unsuccessful login through form displays error message', async () => {
+    const mockRejectData = {
+      message: '"Firebase: Error (auth/invalid-credential).',
+    };
+    mockSignInWithEmailAndPassword.mockRejectedValue(mockRejectData);
+
+    render(<LoginForm />);
+
+    const emailInput = screen.getByPlaceholderText('Email Address');
+    const passInput = screen.getByPlaceholderText('Password');
+    const submitBtn = screen.getByText('Login');
+
+    await fireEvent.change(emailInput, {
+      target: { value: 'invalid@email.com' },
+    });
+    await fireEvent.change(passInput, { target: { value: 'wrong' } });
+    await fireEvent.click(submitBtn);
+
+    await waitFor(() => {
+      expect(screen.getByText('invalid-credential')).toBeInTheDocument();
+    });
+  });
+  // successful login through google redirects to homepage
+
+  // clicking link to create new account redirects to register page
 });
