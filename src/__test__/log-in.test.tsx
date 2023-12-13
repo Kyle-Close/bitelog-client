@@ -2,9 +2,26 @@ import '@testing-library/jest-dom';
 import LoginForm from '../components/LoginForm';
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import { signInWithEmailAndPassword } from 'firebase/auth';
-import userEvent from '@testing-library/user-event';
+import { BrowserRouter } from 'react-router-dom';
 
 jest.mock('firebase/auth');
+// Mock dependencies
+const mockResolveData = {
+  user: 'Kyle',
+};
+const mockSignInWithEmailAndPassword = jest
+  .fn()
+  .mockResolvedValue(mockResolveData);
+
+(signInWithEmailAndPassword as jest.Mock).mockImplementation(
+  mockSignInWithEmailAndPassword
+);
+
+const mockNavigate = jest.fn();
+jest.mock('react-router-dom', () => ({
+  ...jest.requireActual('react-router-dom'),
+  useNavigate: () => jest.fn(),
+}));
 
 describe('log-in page', () => {
   test('sign-in form is rendered', () => {
@@ -31,25 +48,45 @@ describe('log-in page', () => {
     expect(password).toBeInTheDocument();
   });
 
-  test('handles form submission with no data', async () => {
+  test('submit button is disabled when both fields are not filled out', async () => {
     const page = render(<LoginForm />);
     const submitButton = page.container.querySelector('#login-form-submit');
 
-    // Trigger a click event to submit the form with no data
-    if (submitButton) {
-      fireEvent.click(submitButton);
+    expect(submitButton).toBeDisabled();
+  });
 
-      // Wrap the assertions in an async function
-      await (async () => {
-        // Wait for asynchronous operations to settle
-        await page.findByText('All fields must be filled out.');
+  test('submit button is disabled when only email is filled out', async () => {
+    render(<LoginForm />);
+    const emailInput = await screen.findByPlaceholderText('Email Address');
+    const submitButton = await screen.findByText('Login');
 
-        // Assert that appropriate error messages are displayed or handle the result as needed
-        expect(
-          page.getByText('All fields must be filled out.')
-        ).toBeInTheDocument();
-      })();
-    }
+    await fireEvent.change(emailInput, { target: { value: '123456' } });
+
+    expect(submitButton).toBeDisabled();
+  });
+
+  test('submit button is disabled when only password is filled out', async () => {
+    render(<LoginForm />);
+    const emailInput = await screen.findByPlaceholderText('Email Address');
+    const passwordInput = await screen.findByPlaceholderText('Password');
+    const submitButton = await screen.findByText('Login');
+
+    await fireEvent.change(emailInput, { target: { value: 'test@gmail.com' } });
+    await fireEvent.change(passwordInput, { target: { value: '123456' } });
+
+    expect(submitButton).toBeEnabled();
+  });
+
+  test('submit button is enabled when both email and password are filled out', async () => {
+    render(<LoginForm />);
+    const passwordInput = await screen.findByPlaceholderText('Password');
+    const submitButton = await screen.findByText('Login');
+
+    await fireEvent.change(passwordInput, {
+      target: { value: 'test@gmail.com' },
+    });
+
+    expect(submitButton).toBeDisabled();
   });
 
   test('email input updates on page as expected', () => {
@@ -103,38 +140,27 @@ describe('log-in page', () => {
     expect(registerLink).toHaveAttribute('href', '/register');
   });
 
-  // TO-DO
   test('successful login through form redirects user to homepage', async () => {
-    const user = userEvent.setup();
-    // Mock dependencies
-    const mockSignInWithEmailAndPassword = jest.fn().mockResolvedValue('token');
-    (signInWithEmailAndPassword as jest.Mock).mockImplementation(
-      mockSignInWithEmailAndPassword
+    render(
+      <BrowserRouter>
+        <LoginForm />
+      </BrowserRouter>
     );
 
-    // Render component
-    render(<LoginForm />);
     const emailInput: HTMLInputElement =
       screen.getByPlaceholderText('Email Address');
     const passInput: HTMLInputElement = screen.getByPlaceholderText('Password');
-
-    // Simulate filling out the form
-    await user.click(emailInput);
-    await user.keyboard('test@gmail.com');
-
-    await user.click(passInput);
-    await user.keyboard('123456');
-
-    // Simulate clicking sign in button
     const submitButton = screen.getByText('Login');
-    await user.click(submitButton);
 
-    screen.debug();
-    // Check for the presence of the text
-    const test = screen.queryByText('this is a test');
+    await fireEvent.change(emailInput, {
+      target: { value: 'test@gmail.com' },
+    });
+    await fireEvent.change(passInput, { target: { value: '123456' } });
+    await fireEvent.click(submitButton);
 
     await waitFor(() => {
-      expect(test).toBeInTheDocument();
+      //expect(screen.getByText('Homepage')).toBeInTheDocument();
+      expect(mockNavigate).toHaveBeenCalledWith('/');
     });
   });
 });

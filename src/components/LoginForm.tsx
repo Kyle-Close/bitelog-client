@@ -16,9 +16,10 @@ import {
   OAuthCredential,
 } from 'firebase/auth';
 import { UserCredential } from 'firebase/auth/cordova';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import ForgotPasswordModal from './ForgotPasswordModal';
+import { useNavigate } from 'react-router-dom';
 
 interface LoginFormData {
   email: string;
@@ -26,6 +27,7 @@ interface LoginFormData {
 }
 
 function LoginForm() {
+  const navigate = useNavigate();
   const auth = getAuth();
   const provider = new GoogleAuthProvider();
 
@@ -34,6 +36,7 @@ function LoginForm() {
     password: '',
   });
   const [errors, setErrors] = useState<string[] | null>(null);
+  const [submitEnabled, setSubmitEnabled] = useState<boolean>(false);
   const [open, setOpen] = useState(false);
 
   const handleOpen = () => setOpen(true);
@@ -78,7 +81,12 @@ function LoginForm() {
     });
   };
 
-  const handleFormSubmit = async (auth: Auth) => {
+  const handleFormSubmit = async (
+    e: React.FormEvent<HTMLFormElement>,
+    auth: Auth
+  ) => {
+    e.preventDefault();
+
     if (!formData.email || !formData.password) {
       setErrors(['All fields must be filled out.']);
       return;
@@ -92,14 +100,13 @@ function LoginForm() {
       );
 
       const user = userCredential.user;
-      const token = await user.getIdToken();
+      console.log(user);
+      //const token = await user.getIdToken();
 
-      //setErrors(null);
-
-      setErrors(['this is a test']);
-      console.log(`token: ${token}`);
-      console.dir(user);
+      setErrors(null);
+      navigate('/');
     } catch (err: any) {
+      console.error('Error during signInWithEmailAndPassword:', err);
       const errorMessage = err.message;
       const regex: RegExp = /(?<=\()(.*)(?=\))/;
       const match: RegExpExecArray | null = regex.exec(errorMessage);
@@ -123,6 +130,12 @@ function LoginForm() {
     ));
   };
 
+  useEffect(() => {
+    const { email, password } = formData;
+    if (email && password) setSubmitEnabled(true);
+    else setSubmitEnabled(false);
+  }, [formData]);
+
   return (
     <Box
       sx={{
@@ -145,7 +158,7 @@ function LoginForm() {
       </Button>
       <Divider>OR</Divider>
       <Box
-        role='form'
+        onSubmit={(e) => handleFormSubmit(e, auth)}
         component='form'
         id='login-form'
         sx={{ display: 'flex', gap: '1rem', flexDirection: 'column' }}
@@ -173,7 +186,6 @@ function LoginForm() {
         )}
         <Box sx={{ display: 'flex', justifyContent: 'end' }}>
           <Button
-            type='submit'
             id='forgot-password-button'
             onClick={handleOpen}
             size='small'
@@ -184,9 +196,10 @@ function LoginForm() {
         </Box>
 
         <Button
+          disabled={!submitEnabled}
           id='login-form-submit'
-          onClick={() => handleFormSubmit(auth)}
           variant='contained'
+          type='submit'
         >
           Login
         </Button>
