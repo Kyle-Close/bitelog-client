@@ -47,17 +47,20 @@ function LoginForm() {
         auth,
         provider
       );
+      console.log(userCredential);
       if (userCredential) {
         const credential: OAuthCredential | null =
           GoogleAuthProvider.credentialFromResult(userCredential);
 
+        console.log('credential: ', credential);
         if (credential) {
-          const token = credential.accessToken;
+          //const token = credential.accessToken;
+          navigate('/');
           // The signed-in user info.
           //const user = userCredential.user;
 
-          console.log(`token: ${token}`);
-          console.dir(userCredential);
+          //console.log(`token: ${token}`);
+          //console.dir(userCredential);
         }
       }
     } catch (err: any) {

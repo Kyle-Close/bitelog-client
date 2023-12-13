@@ -1,7 +1,7 @@
 import '@testing-library/jest-dom';
 import LoginForm from '../components/LoginForm';
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
-import { signInWithEmailAndPassword } from 'firebase/auth';
+import { signInWithEmailAndPassword, signInWithPopup } from 'firebase/auth';
 import { BrowserRouter } from 'react-router-dom';
 
 jest.mock('firebase/auth');
@@ -166,7 +166,6 @@ describe('log-in page', () => {
     });
   });
 
-  // unsuccessful login displays correct error
   test('unsuccessful login through form displays error message', async () => {
     const mockRejectData = {
       message: '"Firebase: Error (auth/invalid-credential).',
@@ -189,7 +188,26 @@ describe('log-in page', () => {
       expect(screen.getByText('invalid-credential')).toBeInTheDocument();
     });
   });
-  // successful login through google redirects to homepage
+
+  test('successful login through google auth redirects to home', async () => {
+    const res = { user: { accessToken: 'token' } };
+    (signInWithPopup as jest.Mock).mockResolvedValue(res);
+
+    render(
+      <BrowserRouter>
+        <LoginForm />
+      </BrowserRouter>
+    );
+    const googleSignInBtn = screen.getByRole('button', {
+      name: /login with google/i,
+    });
+
+    await fireEvent.click(googleSignInBtn);
+
+    await waitFor(() => {
+      expect(mockedUsedNavigate).toHaveBeenCalledWith('/');
+    });
+  });
 
   // clicking link to create new account redirects to register page
 });
