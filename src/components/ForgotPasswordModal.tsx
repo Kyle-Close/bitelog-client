@@ -55,7 +55,7 @@ export default function ForgotPasswordModal({
   };
 
   return (
-    <div>
+    <div id='forgot-password-modal'>
       <Modal
         open={open}
         onClose={handleClose}
@@ -100,8 +100,8 @@ export default function ForgotPasswordModal({
             account
           </Typography>
           <Box
-            onSubmit={() => sendResetPasswordEmail(auth)}
             component='form'
+            onSubmit={() => sendResetPasswordEmail(auth)}
             sx={{
               display: 'flex',
               pt: '1rem',
@@ -110,11 +110,13 @@ export default function ForgotPasswordModal({
             }}
           >
             <TextField
+              id='forgot-password-email'
               type='email'
               required
               sx={{ flex: 1 }}
               placeholder='Email Address'
               onChange={handleChange}
+              inputProps={{ 'data-testid': 'forgot-password-email-input' }}
             />
             <Button type='submit' variant='contained'>
               Send Email

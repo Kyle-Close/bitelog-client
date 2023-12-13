@@ -94,8 +94,9 @@ function LoginForm() {
       const user = userCredential.user;
       const token = await user.getIdToken();
 
-      setErrors(null);
+      //setErrors(null);
 
+      setErrors(['this is a test']);
       console.log(`token: ${token}`);
       console.dir(user);
     } catch (err: any) {
@@ -144,16 +145,21 @@ function LoginForm() {
       </Button>
       <Divider>OR</Divider>
       <Box
+        role='form'
         component='form'
         id='login-form'
         sx={{ display: 'flex', gap: '1rem', flexDirection: 'column' }}
       >
         <Input
+          type='text'
+          name='email'
+          aria-label='account email'
           onChange={handleFormUpdate}
           placeholder='Email Address'
           id='email'
         />
         <Input
+          name='password'
           onChange={handleFormUpdate}
           placeholder='Password'
           id='password'
@@ -166,7 +172,13 @@ function LoginForm() {
           </Box>
         )}
         <Box sx={{ display: 'flex', justifyContent: 'end' }}>
-          <Button onClick={handleOpen} size='small' sx={{ fontSize: '0.7rem' }}>
+          <Button
+            type='submit'
+            id='forgot-password-button'
+            onClick={handleOpen}
+            size='small'
+            sx={{ fontSize: '0.7rem' }}
+          >
             Forgot Password?
           </Button>
         </Box>
@@ -179,7 +191,7 @@ function LoginForm() {
           Login
         </Button>
         <Typography paragraph fontSize='small'>
-          Don't have an account? <Link href='#'>Create one now.</Link>
+          Don't have an account? <Link href='/register'>Create one now.</Link>
         </Typography>
       </Box>
     </Box>

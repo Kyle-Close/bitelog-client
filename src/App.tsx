@@ -9,9 +9,9 @@ interface AppProps {
   children?: ReactNode;
 }
 
-function App({ children }: AppProps) {
-  initializeApp(firebaseConfig);
+export const app = initializeApp(firebaseConfig);
 
+function App({ children }: AppProps) {
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
