@@ -209,5 +209,15 @@ describe('log-in page', () => {
     });
   });
 
-  // clicking link to create new account redirects to register page
+  test('clicking create account link redirects to the register page', () => {
+    render(<LoginForm />);
+
+    const createAccountLink = screen.getByRole('link', {
+      name: /create one now\./i,
+    });
+
+    expect(createAccountLink).toHaveAttribute('href', '/register');
+  });
+
+  // if user is already logged in redirect to home
 });
