@@ -16,10 +16,11 @@ import {
   OAuthCredential,
 } from 'firebase/auth';
 import { UserCredential } from 'firebase/auth/cordova';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import ForgotPasswordModal from './ForgotPasswordModal';
 import { useNavigate } from 'react-router-dom';
+import { UserContext } from '../contexts';
 
 interface LoginFormData {
   email: string;
@@ -27,6 +28,8 @@ interface LoginFormData {
 }
 
 function LoginForm() {
+  const test = useContext(UserContext);
+  console.log('Context: ', test);
   const navigate = useNavigate();
   const auth = getAuth();
   const provider = new GoogleAuthProvider();
