@@ -1,5 +1,5 @@
 import '@testing-library/jest-dom';
-import ForgotPasswordModal from '../components/ForgotPasswordModal';
+import ForgotPasswordModal from '../components/login/ForgotPasswordModal';
 import { getAuth, sendPasswordResetEmail } from 'firebase/auth';
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import { app } from '../App';

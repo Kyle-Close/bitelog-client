@@ -7,93 +7,41 @@ import {
   Link,
   ListItem,
 } from '@mui/material';
-import GoogleIcon from '@mui/icons-material/Google';
-import {
-  GoogleAuthProvider,
-  getAuth,
-  signInWithPopup,
-  Auth,
-  OAuthCredential,
-} from 'firebase/auth';
-import { UserCredential } from 'firebase/auth/cordova';
-import { useState, useEffect, useContext } from 'react';
+import { getAuth, Auth } from 'firebase/auth';
+import { useState, useContext } from 'react';
 import { signInWithEmailAndPassword } from 'firebase/auth';
-import ForgotPasswordModal from './ForgotPasswordModal';
 import { useNavigate } from 'react-router-dom';
-import { UserContext } from '../contexts';
-
-interface LoginFormData {
-  email: string;
-  password: string;
-}
+import { UserContext } from '../../contexts';
+import GoogleSignInButton from './GoogleSignInButton';
+import ForgotPasswordModal from './ForgotPasswordModal';
+import useAuthForm from '../../hooks/useAuthForm';
 
 function LoginForm() {
+  const [
+    formData,
+    handleFormUpdate,
+    errors,
+    addError,
+    clearErrors,
+    isSubmitEnabled,
+  ] = useAuthForm();
   const { user } = useContext(UserContext);
   const navigate = useNavigate();
   const auth = getAuth();
-  const provider = new GoogleAuthProvider();
 
-  const [formData, setFormData] = useState<LoginFormData>({
-    email: '',
-    password: '',
-  });
-  const [errors, setErrors] = useState<string[] | null>(null);
-  const [submitEnabled, setSubmitEnabled] = useState<boolean>(false);
   const [open, setOpen] = useState(false);
 
   const handleOpen = () => setOpen(true);
-
-  const googleSignIn = async (auth: Auth, provider: GoogleAuthProvider) => {
-    try {
-      const userCredential: UserCredential = await signInWithPopup(
-        auth,
-        provider
-      );
-      console.log(userCredential);
-      if (userCredential) {
-        const credential: OAuthCredential | null =
-          GoogleAuthProvider.credentialFromResult(userCredential);
-
-        console.log('credential: ', credential);
-        if (credential) {
-          //const token = credential.accessToken;
-          navigate('/');
-          // The signed-in user info.
-          //const user = userCredential.user;
-
-          //console.log(`token: ${token}`);
-          //console.dir(userCredential);
-        }
-      }
-    } catch (err: any) {
-      console.log(err.code);
-    }
-  };
-
-  const handleFormUpdate: React.ChangeEventHandler<HTMLInputElement> = (e) => {
-    if (errors && errors.length > 0) {
-      setErrors(null);
-    }
-
-    const inputField = e.target.id;
-    const value = e.target.value;
-
-    setFormData((prevFormData) => {
-      return {
-        ...prevFormData,
-        [inputField]: value,
-      };
-    });
-  };
 
   const handleFormSubmit = async (
     e: React.FormEvent<HTMLFormElement>,
     auth: Auth
   ) => {
     e.preventDefault();
+    if (!formData) return;
 
     if (!formData.email || !formData.password) {
-      setErrors(['All fields must be filled out.']);
+      addError('All fields must be filled out.');
       return;
     }
 
@@ -103,12 +51,9 @@ function LoginForm() {
         formData.email,
         formData.password
       );
-
-      const user = userCredential.user;
-      console.log(user);
-      //const token = await user.getIdToken();
-
-      setErrors(null);
+      // TO-DO store user data in context
+      console.log(userCredential);
+      clearErrors();
       navigate('/');
     } catch (err: any) {
       console.dir(err);
@@ -121,7 +66,9 @@ function LoginForm() {
         const authErrorSplit = errorBetweenParenthesis.split('/');
 
         if (authErrorSplit.length > 1) {
-          setErrors([authErrorSplit[1]]);
+          console.log('invalid');
+          const displayErrorMsg = authErrorSplit[1];
+          addError(displayErrorMsg);
         }
       }
     }
@@ -134,12 +81,6 @@ function LoginForm() {
       </ListItem>
     ));
   };
-
-  useEffect(() => {
-    const { email, password } = formData;
-    if (email && password) setSubmitEnabled(true);
-    else setSubmitEnabled(false);
-  }, [formData]);
 
   return !user ? (
     <Box
@@ -154,13 +95,7 @@ function LoginForm() {
     >
       {open && <ForgotPasswordModal open={open} setOpen={setOpen} />}
       <Typography variant='h6'>Login to your account</Typography>
-      <Button
-        onClick={() => googleSignIn(auth, provider)}
-        variant='outlined'
-        startIcon={<GoogleIcon />}
-      >
-        Login with Google
-      </Button>
+      <GoogleSignInButton />
       <Divider>OR</Divider>
       <Box
         onSubmit={(e) => handleFormSubmit(e, auth)}
@@ -201,7 +136,7 @@ function LoginForm() {
         </Box>
 
         <Button
-          disabled={!submitEnabled}
+          disabled={!isSubmitEnabled}
           id='login-form-submit'
           variant='contained'
           type='submit'

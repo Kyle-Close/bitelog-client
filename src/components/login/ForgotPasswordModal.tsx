@@ -101,10 +101,9 @@ export default function ForgotPasswordModal({
             <LockOpenIcon fontSize='large' />
           </Box>
           {emailSent ? (
-            <Typography fontSize='small' align='center'>
-              {/*               A recovery email has been sent to the email provided. Please check
-              your email and follow the instructions to reset your password. */}
-              testing
+            <Typography color='green' fontSize='small' align='center'>
+              A recovery email has been sent to the email provided. Please check
+              your email and follow the instructions to reset your password.
             </Typography>
           ) : (
             <Typography fontSize='small' align='center'>
