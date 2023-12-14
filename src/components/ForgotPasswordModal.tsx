@@ -35,14 +35,19 @@ export default function ForgotPasswordModal({
   setOpen,
 }: ForgotPasswordModalProps) {
   const [email, setEmail] = useState<string>('');
+  const [emailSent, setEmailSent] = useState<boolean>(false);
   const handleClose = () => setOpen(false);
   const auth = getAuth();
 
-  const sendResetPasswordEmail = async (auth: Auth) => {
+  const sendResetPasswordEmail = async (
+    auth: Auth,
+    e: React.FormEvent<HTMLFormElement>
+  ) => {
+    e.preventDefault();
     if (!email) return;
     try {
       await sendPasswordResetEmail(auth, email);
-      handleClose();
+      setEmailSent(true);
     } catch (err: any) {
       const errorMessage = err.message;
       console.log(errorMessage);
@@ -95,13 +100,22 @@ export default function ForgotPasswordModal({
           >
             <LockOpenIcon fontSize='large' />
           </Box>
-          <Typography fontSize='small' align='center'>
-            To reset your password, enter the email address associated with your
-            account
-          </Typography>
+          {emailSent ? (
+            <Typography fontSize='small' align='center'>
+              {/*               A recovery email has been sent to the email provided. Please check
+              your email and follow the instructions to reset your password. */}
+              testing
+            </Typography>
+          ) : (
+            <Typography fontSize='small' align='center'>
+              To reset your password, enter the email address associated with
+              your account.
+            </Typography>
+          )}
+
           <Box
             component='form'
-            onSubmit={() => sendResetPasswordEmail(auth)}
+            onSubmit={(e) => sendResetPasswordEmail(auth, e)}
             sx={{
               display: 'flex',
               pt: '1rem',
