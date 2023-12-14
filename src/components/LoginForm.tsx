@@ -28,8 +28,7 @@ interface LoginFormData {
 }
 
 function LoginForm() {
-  const test = useContext(UserContext);
-  console.log('Context: ', test);
+  const { user } = useContext(UserContext);
   const navigate = useNavigate();
   const auth = getAuth();
   const provider = new GoogleAuthProvider();
@@ -142,7 +141,7 @@ function LoginForm() {
     else setSubmitEnabled(false);
   }, [formData]);
 
-  return (
+  return !user ? (
     <Box
       sx={{
         flex: 1,
@@ -213,6 +212,12 @@ function LoginForm() {
           Don't have an account? <Link href='/register'>Create one now.</Link>
         </Typography>
       </Box>
+    </Box>
+  ) : (
+    <Box
+      sx={{ display: 'flex', justifyContent: 'center', pt: '2rem', flex: 1 }}
+    >
+      <Typography variant='h6'>You are already logged in.</Typography>
     </Box>
   );
 }

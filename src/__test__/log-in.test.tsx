@@ -3,6 +3,7 @@ import LoginForm from '../components/LoginForm';
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import { signInWithEmailAndPassword, signInWithPopup } from 'firebase/auth';
 import { BrowserRouter } from 'react-router-dom';
+import { UserContext } from '../contexts';
 
 jest.mock('firebase/auth');
 jest.mock('react-router-dom');
@@ -219,5 +220,18 @@ describe('log-in page', () => {
     expect(createAccountLink).toHaveAttribute('href', '/register');
   });
 
-  // if user is already logged in redirect to home
+  test('when user is already logged in, display already logged in message', () => {
+    const mockData = {
+      user: { username: 'kyle', email: 'test@gmail.com' },
+      setUser: jest.fn(),
+    };
+
+    render(
+      <UserContext.Provider value={mockData}>
+        <LoginForm />
+      </UserContext.Provider>
+    );
+
+    expect(screen.getByText('You are already logged in.')).toBeInTheDocument();
+  });
 });
