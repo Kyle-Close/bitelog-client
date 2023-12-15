@@ -2,8 +2,8 @@ import { Box, Typography, Button, Input, Link, ListItem } from '@mui/material';
 import { Auth, getAuth } from 'firebase/auth';
 
 interface ILoginFormContent {
-  handleFormSubmit: (e: React.FormEvent<HTMLFormElement>, auth: Auth) => void;
   handleFormUpdate: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  handleFormSubmit: (e: React.FormEvent<HTMLFormElement>, auth: Auth) => void;
   handleOpen: () => void;
   errors: string[] | null;
   isSubmitEnabled: boolean;

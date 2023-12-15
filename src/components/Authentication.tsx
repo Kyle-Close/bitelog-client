@@ -1,6 +1,6 @@
 import { Box, Container } from '@mui/material';
 import authImg from '../assets/auth.png';
-import LoginForm from './login/LoginForm';
+import LoginForm from './login';
 
 function Authentication() {
   return (

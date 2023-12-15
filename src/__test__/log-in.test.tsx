@@ -1,5 +1,5 @@
 import '@testing-library/jest-dom';
-import LoginForm from '../components/login/LoginForm';
+import LoginForm from '../components/login';
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import { signInWithEmailAndPassword, signInWithPopup } from 'firebase/auth';
 import { BrowserRouter } from 'react-router-dom';
