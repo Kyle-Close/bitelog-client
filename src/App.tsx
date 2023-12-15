@@ -1,6 +1,6 @@
 import { Box, CssBaseline, ThemeProvider } from '@mui/material';
 import { theme } from './theme';
-import ResponsiveAppBar from './components/ResponsiveAppBar';
+import ResponsiveAppBar from './components/header';
 import { ReactNode } from 'react';
 import { initializeApp } from 'firebase/app';
 import { firebaseConfig } from './firebaseConfig';
