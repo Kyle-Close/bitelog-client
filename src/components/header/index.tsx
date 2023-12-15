@@ -10,13 +10,17 @@ import Container from '@mui/material/Container';
 import Button from '@mui/material/Button';
 import MenuItem from '@mui/material/MenuItem';
 import SpaIcon from '@mui/icons-material/Spa';
+import { UserContext } from '../../contexts';
+import LoggedOutButtons from './LoggedOutButtons';
+import LoggedInButtons from './LoggedInButtons';
 
 const pages = ['Products', 'Pricing', 'Blog'];
 
-function ResponsiveAppBar() {
+export default function Header() {
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(
     null
   );
+  const { user } = React.useContext(UserContext);
 
   const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElNav(event.currentTarget);
@@ -24,6 +28,20 @@ function ResponsiveAppBar() {
 
   const handleCloseNavMenu = () => {
     setAnchorElNav(null);
+  };
+
+  const mapMenuItems = (pages: string[]) => {
+    return pages.map((page, key) => (
+      <MenuItem key={key}>
+        <Button
+          key={page}
+          onClick={handleCloseNavMenu}
+          sx={{ my: 2, color: 'white', display: 'block' }}
+        >
+          {page}
+        </Button>
+      </MenuItem>
+    ));
   };
 
   return (
@@ -36,24 +54,12 @@ function ResponsiveAppBar() {
             noWrap
             component='a'
             href='/'
-            sx={{
-              mr: 2,
-              display: { xs: 'none', md: 'flex' },
-              fontFamily: 'monospace',
-              fontWeight: 700,
-              color: 'inherit',
-              textDecoration: 'none',
-            }}
+            sx={biteLogTitleSX}
           >
             BiteLog
           </Typography>
 
-          <Box
-            sx={{
-              flexGrow: 1,
-              display: { xs: 'flex', md: 'none' },
-            }}
-          >
+          <Box sx={mobileMenuContainer}>
             <IconButton
               size='large'
               aria-label='account of current user'
@@ -82,11 +88,7 @@ function ResponsiveAppBar() {
                 display: { xs: 'block', md: 'none' },
               }}
             >
-              {pages.map((page) => (
-                <MenuItem key={page} onClick={handleCloseNavMenu}>
-                  <Typography textAlign='center'>{page}</Typography>
-                </MenuItem>
-              ))}
+              {mapMenuItems(pages)}
             </Menu>
           </Box>
           <SpaIcon sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }} />
@@ -96,15 +98,7 @@ function ResponsiveAppBar() {
             component='a'
             href='/'
             fontSize='large'
-            sx={{
-              mr: 2,
-              display: { xs: 'flex', md: 'none' },
-              flexGrow: 1,
-              fontFamily: 'monospace',
-              fontWeight: 700,
-              color: 'inherit',
-              textDecoration: 'none',
-            }}
+            sx={mobileBiteLogTitleSX}
           >
             BiteLog
           </Typography>
@@ -126,16 +120,34 @@ function ResponsiveAppBar() {
             ))}
           </Box>
           <Box sx={{ display: 'flex', gap: 2, alignItems: 'center' }}>
-            <Button href='/login' size='small' variant='outlined'>
-              Login
-            </Button>
-            <Button href='/register' size='small' variant='contained'>
-              Register
-            </Button>
+            {user === null ? <LoggedOutButtons /> : <LoggedInButtons />}
           </Box>
         </Toolbar>
       </Container>
     </AppBar>
   );
 }
-export default ResponsiveAppBar;
+
+const biteLogTitleSX = {
+  mr: 2,
+  display: { xs: 'none', md: 'flex' },
+  fontFamily: 'monospace',
+  fontWeight: 700,
+  color: 'inherit',
+  textDecoration: 'none',
+};
+
+const mobileBiteLogTitleSX = {
+  mr: 2,
+  display: { xs: 'flex', md: 'none' },
+  flexGrow: 1,
+  fontFamily: 'monospace',
+  fontWeight: 700,
+  color: 'inherit',
+  textDecoration: 'none',
+};
+
+const mobileMenuContainer = {
+  flexGrow: 1,
+  display: { xs: 'flex', md: 'none' },
+};
