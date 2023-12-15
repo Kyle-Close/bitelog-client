@@ -8,7 +8,6 @@ function LoggedInButtons() {
     <>
       <Button
         onClick={() => signOut(auth)}
-        href='/login'
         size='small'
         variant='outlined'
         color='error'

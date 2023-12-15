@@ -146,9 +146,16 @@ describe('log-in page', () => {
 
   test('successful login through form redirects user to homepage', async () => {
     render(
-      <BrowserRouter>
-        <LoginForm />
-      </BrowserRouter>
+      <UserContext.Provider
+        value={{
+          user: { email: 'new@gmail.com', username: 'afasfd' },
+          setUser: jest.fn(),
+        }}
+      >
+        <BrowserRouter>
+          <LoginForm />
+        </BrowserRouter>
+      </UserContext.Provider>
     );
 
     const emailInput: HTMLInputElement =
