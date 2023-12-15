@@ -1,7 +1,8 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Auth, signInWithEmailAndPassword } from 'firebase/auth';
 import { isLoginFormPopulated } from '../helpers/utility';
+import { UserContext } from '../contexts';
 
 export interface LoginFormData {
   email: string;
@@ -28,6 +29,7 @@ function useAuthForm(): IUseAuthFormExports {
   const [errors, setErrors] = useState<string[] | null>(null);
   const [isSubmitEnabled, setIsSubmitEnabled] = useState<boolean>(false);
   const navigate = useNavigate();
+  const { setUser } = useContext(UserContext);
 
   const addError = (err: string) => {
     if (errors && errors.length > 0) {
@@ -76,8 +78,12 @@ function useAuthForm(): IUseAuthFormExports {
         formData.email,
         formData.password
       );
-      // TO-DO store user data in context
-      console.log(userCredential);
+      const { email, displayName } = userCredential.user;
+      if (!email || !displayName) {
+        addError('Could not find account username or email.');
+        return;
+      }
+      setUser({ email: email, username: displayName });
       clearErrors();
       navigate('/');
     } catch (err: any) {

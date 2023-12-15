@@ -1,4 +1,4 @@
-import { FC, createContext, useState, ReactNode } from 'react';
+import { FC, createContext, useState, ReactNode, useEffect } from 'react';
 
 export interface ProviderProps {
   children: ReactNode;
@@ -23,8 +23,6 @@ export const UserContext = createContext<IUserContext>(initialUserContext);
 
 export const UserProvider: FC<ProviderProps> = ({ children }) => {
   const [user, setUser] = useState<User | null>(null);
-  // TO-DO
-  // Create function that sets all the fields on user
 
   return (
     <UserContext.Provider value={{ user, setUser }}>

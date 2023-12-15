@@ -8,12 +8,15 @@ import {
   OAuthCredential,
   UserCredential,
 } from 'firebase/auth';
+import { useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { UserContext } from '../../contexts';
 
 function GoogleSignInButton() {
   const navigate = useNavigate();
   const auth = getAuth();
   const provider = new GoogleAuthProvider();
+  const { setUser } = useContext(UserContext);
 
   const googleSignIn = async (auth: Auth, provider: GoogleAuthProvider) => {
     try {
@@ -23,14 +26,11 @@ function GoogleSignInButton() {
       );
 
       if (userCredential) {
-        const credential: OAuthCredential | null =
-          GoogleAuthProvider.credentialFromResult(userCredential);
+        const { email, displayName } = userCredential.user;
+        if (!email || !displayName) return;
 
-        if (credential) {
-          // TO-DO Store user info into context
-
-          navigate('/');
-        }
+        setUser({ email, username: displayName });
+        navigate('/');
       }
     } catch (err: any) {
       console.log(err.code);
