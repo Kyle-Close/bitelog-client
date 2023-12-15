@@ -23,6 +23,7 @@ export const UserContext = createContext<IUserContext>(initialUserContext);
 
 export const UserProvider: FC<ProviderProps> = ({ children }) => {
   const [user, setUser] = useState<User | null>(null);
+  console.log('initial user state: ', user);
 
   // TO-DO
   // Create function that sets all the fields on user

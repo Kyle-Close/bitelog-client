@@ -1,13 +1,5 @@
-import {
-  Box,
-  Typography,
-  Button,
-  Divider,
-  Input,
-  Link,
-  ListItem,
-} from '@mui/material';
-import { getAuth, Auth } from 'firebase/auth';
+import { Box, Typography, Divider } from '@mui/material';
+import { Auth } from 'firebase/auth';
 import { useState, useContext } from 'react';
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import { useNavigate } from 'react-router-dom';
@@ -15,6 +7,7 @@ import { UserContext } from '../../contexts';
 import GoogleSignInButton from './GoogleSignInButton';
 import ForgotPasswordModal from './ForgotPasswordModal';
 import useAuthForm from '../../hooks/useAuthForm';
+import LoginFormContent from './LoginFormContent';
 
 function LoginForm() {
   const [
@@ -25,9 +18,9 @@ function LoginForm() {
     clearErrors,
     isSubmitEnabled,
   ] = useAuthForm();
+
   const { user } = useContext(UserContext);
   const navigate = useNavigate();
-  const auth = getAuth();
 
   const [open, setOpen] = useState(false);
 
@@ -56,7 +49,6 @@ function LoginForm() {
       clearErrors();
       navigate('/');
     } catch (err: any) {
-      console.dir(err);
       const errorMessage = err.message;
       const regex: RegExp = /(?<=\()(.*)(?=\))/;
       const match: RegExpExecArray | null = regex.exec(errorMessage);
@@ -66,7 +58,6 @@ function LoginForm() {
         const authErrorSplit = errorBetweenParenthesis.split('/');
 
         if (authErrorSplit.length > 1) {
-          console.log('invalid');
           const displayErrorMsg = authErrorSplit[1];
           addError(displayErrorMsg);
         }
@@ -74,87 +65,41 @@ function LoginForm() {
     }
   };
 
-  const displayErrorMessages = (errors: string[]) => {
-    return errors.map((errorMsg, key) => (
-      <ListItem key={key} sx={{ padding: 0, fontSize: '0.8rem', color: 'red' }}>
-        {errorMsg}
-      </ListItem>
-    ));
-  };
-
-  return !user ? (
-    <Box
-      sx={{
-        flex: 1,
-        display: 'flex',
-        flexDirection: 'column',
-        gap: '1rem',
-        padding: '4rem',
-        alignSelf: 'center',
-      }}
-    >
+  return user === null ? (
+    <Box sx={loggedOutFormWrapper}>
       {open && <ForgotPasswordModal open={open} setOpen={setOpen} />}
       <Typography variant='h6'>Login to your account</Typography>
       <GoogleSignInButton />
       <Divider>OR</Divider>
-      <Box
-        onSubmit={(e) => handleFormSubmit(e, auth)}
-        component='form'
-        id='login-form'
-        sx={{ display: 'flex', gap: '1rem', flexDirection: 'column' }}
-      >
-        <Input
-          type='text'
-          name='email'
-          aria-label='account email'
-          onChange={handleFormUpdate}
-          placeholder='Email Address'
-          id='email'
-        />
-        <Input
-          name='password'
-          onChange={handleFormUpdate}
-          placeholder='Password'
-          id='password'
-          type='password'
-          required
-        />
-        {errors && (
-          <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-            {displayErrorMessages(errors)}
-          </Box>
-        )}
-        <Box sx={{ display: 'flex', justifyContent: 'end' }}>
-          <Button
-            id='forgot-password-button'
-            onClick={handleOpen}
-            size='small'
-            sx={{ fontSize: '0.7rem' }}
-          >
-            Forgot Password?
-          </Button>
-        </Box>
-
-        <Button
-          disabled={!isSubmitEnabled}
-          id='login-form-submit'
-          variant='contained'
-          type='submit'
-        >
-          Login
-        </Button>
-        <Typography paragraph fontSize='small'>
-          Don't have an account? <Link href='/register'>Create one now.</Link>
-        </Typography>
-      </Box>
+      <LoginFormContent
+        handleFormSubmit={handleFormSubmit}
+        handleFormUpdate={handleFormUpdate}
+        errors={errors}
+        handleOpen={handleOpen}
+        isSubmitEnabled={isSubmitEnabled}
+      />
     </Box>
   ) : (
-    <Box
-      sx={{ display: 'flex', justifyContent: 'center', pt: '2rem', flex: 1 }}
-    >
+    <Box sx={loggedInFormWrapper}>
       <Typography variant='h6'>You are already logged in.</Typography>
     </Box>
   );
 }
+
+const loggedOutFormWrapper = {
+  flex: 1,
+  display: 'flex',
+  flexDirection: 'column',
+  gap: '1rem',
+  padding: '4rem',
+  alignSelf: 'center',
+};
+
+const loggedInFormWrapper = {
+  display: 'flex',
+  justifyContent: 'center',
+  pt: '2rem',
+  flex: 1,
+};
 
 export default LoginForm;
