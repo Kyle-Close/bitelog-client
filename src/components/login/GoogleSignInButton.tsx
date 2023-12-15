@@ -5,7 +5,6 @@ import {
   getAuth,
   signInWithPopup,
   Auth,
-  OAuthCredential,
   UserCredential,
 } from 'firebase/auth';
 import { useContext } from 'react';
