@@ -3,7 +3,6 @@ import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
 import IconButton from '@mui/material/IconButton';
-import Typography from '@mui/material/Typography';
 import Menu from '@mui/material/Menu';
 import MenuIcon from '@mui/icons-material/Menu';
 import Container from '@mui/material/Container';
@@ -52,12 +51,16 @@ export default function Header() {
         <Toolbar disableGutters>
           <SpaIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} />
           <Button
-            sx={{ display: { xs: 'none', md: 'block' } }}
+            sx={{
+              display: { xs: 'none', md: 'block' },
+              '&:hover': {
+                background: 'none',
+              },
+              fontSize: { md: '1.1rem', lg: '1.3rem', xl: '1.4rem' },
+            }}
             onClick={() => navigate('/')}
           >
-            <Typography variant='h6' noWrap component='a' sx={biteLogTitleSX}>
-              BiteLog
-            </Typography>
+            BiteLog
           </Button>
 
           <Box sx={mobileMenuContainer}>
@@ -95,18 +98,20 @@ export default function Header() {
           <Box sx={{ display: 'flex' }}>
             <Button
               aria-label='bitelog home page title button'
-              sx={{ display: { xs: 'flex', md: 'none' } }}
+              sx={{
+                fontSize: { sm: '1.1rem' },
+                display: {
+                  xs: 'flex',
+                  md: 'none',
+                  '&:hover': {
+                    background: 'none',
+                  },
+                },
+              }}
               onClick={() => navigate('/')}
+              variant='text'
             >
-              <Typography
-                variant='h5'
-                noWrap
-                component='a'
-                fontSize='large'
-                sx={mobileBiteLogTitleSX}
-              >
-                BiteLog
-              </Typography>
+              BiteLog
             </Button>
           </Box>
           <SpaIcon sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }} />
@@ -144,25 +149,6 @@ export default function Header() {
     </AppBar>
   );
 }
-
-const biteLogTitleSX = {
-  mr: 2,
-  display: { xs: 'none', md: 'flex' },
-  fontFamily: 'monospace',
-  fontWeight: 700,
-  color: 'inherit',
-  textDecoration: 'none',
-};
-
-const mobileBiteLogTitleSX = {
-  mr: 2,
-  display: { xs: 'flex', md: 'none' },
-  flexGrow: 1,
-  fontFamily: 'monospace',
-  fontWeight: 700,
-  color: 'inherit',
-  textDecoration: 'none',
-};
 
 const mobileMenuContainer = {
   display: { xs: 'flex', md: 'none' },
