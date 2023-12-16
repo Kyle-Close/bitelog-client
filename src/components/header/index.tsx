@@ -13,6 +13,7 @@ import SpaIcon from '@mui/icons-material/Spa';
 import { UserContext } from '../../contexts';
 import LoggedOutButtons from './LoggedOutButtons';
 import LoggedInButtons from './LoggedInButtons';
+import { useNavigate } from 'react-router-dom';
 
 const pages = ['Products', 'Pricing', 'Blog'];
 
@@ -21,6 +22,7 @@ export default function Header() {
     null
   );
   const { user } = React.useContext(UserContext);
+  const navigate = useNavigate();
 
   const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElNav(event.currentTarget);
@@ -49,20 +51,25 @@ export default function Header() {
       <Container maxWidth='xl'>
         <Toolbar disableGutters>
           <SpaIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} />
-          <Typography
-            variant='h6'
-            noWrap
-            component='a'
-            href='/'
-            sx={biteLogTitleSX}
+          <Button
+            sx={{ display: { xs: 'none', md: 'flex' } }}
+            onClick={() => navigate('/')}
           >
-            BiteLog
-          </Typography>
+            <Typography
+              variant='h6'
+              noWrap
+              component='a'
+              href='/'
+              sx={biteLogTitleSX}
+            >
+              BiteLog
+            </Typography>
+          </Button>
 
           <Box sx={mobileMenuContainer}>
             <IconButton
               size='large'
-              aria-label='account of current user'
+              aria-label='menu icon'
               aria-controls='menu-appbar'
               aria-haspopup='true'
               onClick={handleOpenNavMenu}
@@ -92,16 +99,22 @@ export default function Header() {
             </Menu>
           </Box>
           <SpaIcon sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }} />
-          <Typography
-            variant='h5'
-            noWrap
-            component='a'
-            href='/'
-            fontSize='large'
-            sx={mobileBiteLogTitleSX}
+          <Button
+            aria-label='bitelog home page title button'
+            sx={{ display: { xs: 'flex', md: 'none' } }}
+            onClick={() => navigate('/')}
           >
-            BiteLog
-          </Typography>
+            <Typography
+              variant='h5'
+              noWrap
+              component='a'
+              fontSize='large'
+              sx={mobileBiteLogTitleSX}
+            >
+              BiteLog
+            </Typography>
+          </Button>
+
           <Box
             sx={{
               flexGrow: 1,
