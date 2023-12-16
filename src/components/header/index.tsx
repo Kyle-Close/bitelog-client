@@ -52,16 +52,10 @@ export default function Header() {
         <Toolbar disableGutters>
           <SpaIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} />
           <Button
-            sx={{ display: { xs: 'none', md: 'flex' } }}
+            sx={{ display: { xs: 'none', md: 'block' } }}
             onClick={() => navigate('/')}
           >
-            <Typography
-              variant='h6'
-              noWrap
-              component='a'
-              href='/'
-              sx={biteLogTitleSX}
-            >
+            <Typography variant='h6' noWrap component='a' sx={biteLogTitleSX}>
               BiteLog
             </Typography>
           </Button>
@@ -98,26 +92,28 @@ export default function Header() {
               {mapMenuItems(pages)}
             </Menu>
           </Box>
-          <SpaIcon sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }} />
-          <Button
-            aria-label='bitelog home page title button'
-            sx={{ display: { xs: 'flex', md: 'none' } }}
-            onClick={() => navigate('/')}
-          >
-            <Typography
-              variant='h5'
-              noWrap
-              component='a'
-              fontSize='large'
-              sx={mobileBiteLogTitleSX}
+          <Box sx={{ display: 'flex' }}>
+            <Button
+              aria-label='bitelog home page title button'
+              sx={{ display: { xs: 'flex', md: 'none' } }}
+              onClick={() => navigate('/')}
             >
-              BiteLog
-            </Typography>
-          </Button>
+              <Typography
+                variant='h5'
+                noWrap
+                component='a'
+                fontSize='large'
+                sx={mobileBiteLogTitleSX}
+              >
+                BiteLog
+              </Typography>
+            </Button>
+          </Box>
+          <SpaIcon sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }} />
 
           <Box
             sx={{
-              flexGrow: 1,
+              flex: 1,
               display: { xs: 'none', md: 'flex' },
               marginLeft: 4,
             }}
@@ -132,7 +128,15 @@ export default function Header() {
               </Button>
             ))}
           </Box>
-          <Box sx={{ display: 'flex', gap: 2, alignItems: 'center' }}>
+          <Box
+            sx={{
+              display: 'flex',
+              flex: 1,
+              gap: 2,
+              alignItems: 'center',
+              justifyContent: 'end',
+            }}
+          >
             {user === null ? <LoggedOutButtons /> : <LoggedInButtons />}
           </Box>
         </Toolbar>
@@ -161,6 +165,5 @@ const mobileBiteLogTitleSX = {
 };
 
 const mobileMenuContainer = {
-  flexGrow: 1,
   display: { xs: 'flex', md: 'none' },
 };
