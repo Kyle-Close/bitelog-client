@@ -10,8 +10,11 @@ import {
 import { useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { UserContext } from '../../contexts';
+interface IGoogleAuthButton {
+  isLogin: boolean;
+}
 
-function GoogleSignInButton() {
+function GoogleAuthButton({ isLogin }: IGoogleAuthButton) {
   const navigate = useNavigate();
   const auth = getAuth();
   const provider = new GoogleAuthProvider();
@@ -41,9 +44,9 @@ function GoogleSignInButton() {
       variant='outlined'
       startIcon={<GoogleIcon />}
     >
-      Login with Google
+      {isLogin ? 'Login with Google' : 'Register with Google'}
     </Button>
   );
 }
 
-export default GoogleSignInButton;
+export default GoogleAuthButton;

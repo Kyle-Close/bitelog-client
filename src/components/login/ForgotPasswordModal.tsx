@@ -15,6 +15,7 @@ const style = {
   left: '50%',
   transform: 'translate(-50%, -50%)',
   width: '90%',
+  maxWidth: 'sm',
   bgcolor: 'background.paper',
   border: '2px solid #000',
   boxShadow: 24,
@@ -60,7 +61,10 @@ export default function ForgotPasswordModal({
   };
 
   return (
-    <div id='forgot-password-modal'>
+    <Box
+      sx={{ display: 'flex', justifyContent: 'center' }}
+      id='forgot-password-modal'
+    >
       <Modal
         open={open}
         onClose={handleClose}
@@ -137,6 +141,6 @@ export default function ForgotPasswordModal({
           </Box>
         </Box>
       </Modal>
-    </div>
+    </Box>
   );
 }

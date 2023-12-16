@@ -1,7 +1,7 @@
 import { Box, Typography, Divider } from '@mui/material';
 import { useState, useContext } from 'react';
 import { UserContext } from '../../contexts';
-import GoogleSignInButton from './GoogleSignInButton';
+import GoogleAuthButton from './GoogleSignInButton';
 import ForgotPasswordModal from './ForgotPasswordModal';
 import useAuthForm from '../../hooks/useAuthForm';
 import LoginFormContent from './LoginFormContent';
@@ -19,7 +19,7 @@ export default function LoginForm() {
     <Box sx={loggedOutFormWrapper}>
       {open && <ForgotPasswordModal open={open} setOpen={setOpen} />}
       <Typography variant='h6'>Login to your account</Typography>
-      <GoogleSignInButton />
+      <GoogleAuthButton isLogin={true} />
       <Divider>OR</Divider>
       <LoginFormContent
         handleFormSubmit={handleLoginSubmit}

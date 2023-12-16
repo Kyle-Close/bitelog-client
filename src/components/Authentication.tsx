@@ -1,8 +1,13 @@
 import { Box, Container } from '@mui/material';
 import authImg from '../assets/auth.png';
 import LoginForm from './login';
+import Register from './register';
 
-function Authentication() {
+interface IAuthentication {
+  isLogin: boolean;
+}
+
+function Authentication({ isLogin }: IAuthentication) {
   return (
     <Box
       sx={{
@@ -24,7 +29,7 @@ function Authentication() {
         }}
       ></Box>
       <Container maxWidth='md' sx={{ display: 'flex' }}>
-        <LoginForm />
+        {isLogin ? <LoginForm /> : <Register />}
       </Container>
     </Box>
   );

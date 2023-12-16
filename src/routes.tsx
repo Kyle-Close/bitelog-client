@@ -16,7 +16,15 @@ export const router = createBrowserRouter([
     path: '/login',
     element: (
       <App>
-        <Authentication />
+        <Authentication isLogin={true} />
+      </App>
+    ),
+  },
+  {
+    path: '/register',
+    element: (
+      <App>
+        <Authentication isLogin={false} />
       </App>
     ),
   },
