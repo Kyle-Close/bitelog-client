@@ -145,10 +145,14 @@ describe('log-in page', () => {
   });
 
   test('successful login through form redirects user to homepage', async () => {
+    mockSignInWithEmailAndPassword.mockResolvedValue({
+      user: { email: 'test@gmail.com', displayName: 'test' },
+    });
+
     render(
       <UserContext.Provider
         value={{
-          user: { email: 'new@gmail.com', username: 'afasfd' },
+          user: null,
           setUser: jest.fn(),
         }}
       >
@@ -168,6 +172,10 @@ describe('log-in page', () => {
     });
     await fireEvent.change(passInput, { target: { value: '123456' } });
     await fireEvent.click(submitButton);
+
+    expect(emailInput).toBeInTheDocument();
+    expect(passInput).toBeInTheDocument();
+    expect(submitButton).toBeInTheDocument();
 
     await waitFor(() => {
       expect(mockedUsedNavigate).toHaveBeenCalledWith('/');
@@ -202,10 +210,18 @@ describe('log-in page', () => {
     (signInWithPopup as jest.Mock).mockResolvedValue(res);
 
     render(
-      <BrowserRouter>
-        <LoginForm />
-      </BrowserRouter>
+      <UserContext.Provider
+        value={{
+          user: null,
+          setUser: jest.fn(),
+        }}
+      >
+        <BrowserRouter>
+          <LoginForm />
+        </BrowserRouter>
+      </UserContext.Provider>
     );
+
     const googleSignInBtn = screen.getByRole('button', {
       name: /login with google/i,
     });
