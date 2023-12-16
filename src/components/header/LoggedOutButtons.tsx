@@ -1,12 +1,22 @@
 import { Button } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
 
 function LoggedOutButtons() {
+  const navigate = useNavigate();
   return (
     <>
-      <Button href='/login' size='small' variant='outlined'>
+      <Button
+        onClick={() => navigate('/login')}
+        size='small'
+        variant='outlined'
+      >
         Login
       </Button>
-      <Button href='/register' size='small' variant='contained'>
+      <Button
+        onClick={() => navigate('/register')}
+        size='small'
+        variant='contained'
+      >
         Register
       </Button>
     </>

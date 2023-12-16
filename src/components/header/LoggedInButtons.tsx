@@ -2,7 +2,7 @@ import { Button } from '@mui/material';
 
 import { getAuth, signOut } from 'firebase/auth';
 
-function LoggedInButtons() {
+export function LoggedInButtons() {
   const auth = getAuth();
   return (
     <>
