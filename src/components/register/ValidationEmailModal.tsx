@@ -1,5 +1,6 @@
-import { Modal, Box, Typography } from '@mui/material';
-
+import { Modal, Box, Typography, Button } from '@mui/material';
+import DoneIcon from '@mui/icons-material/Done';
+import CancelIcon from '@mui/icons-material/Cancel';
 interface IValidationEmailModal {
   isOpen: boolean;
   handleClose: () => void;
@@ -32,9 +33,24 @@ function ValidationEmailModal({ isOpen, handleClose }: IValidationEmailModal) {
       aria-describedby='modal-modal-description'
     >
       <Box sx={style}>
-        <Typography id='modal-modal-title' variant='h6' component='h2'>
-          Account Successfully Created!
-        </Typography>
+        <Box
+          sx={{
+            display: 'flex',
+            flex: 1,
+            position: 'relative',
+            width: '100%',
+            justifyContent: 'center',
+          }}
+        >
+          <Typography id='modal-modal-title' variant='h6' component='h2'>
+            Account Successfully Created!
+          </Typography>
+          <Button onClick={handleClose}>
+            <CancelIcon sx={{ position: 'absolute', right: 0 }} />
+          </Button>
+        </Box>
+
+        <DoneIcon />
         <Typography align='center' id='modal-modal-description'>
           Please check your email inbox for a verification link to activate your
           account. If you don't see our email, be sure to check your spam or
