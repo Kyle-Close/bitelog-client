@@ -8,6 +8,7 @@ import {
 } from 'firebase/auth';
 import { isRegisterFormPopulated } from '../helpers/utility';
 import { UserContext } from '../contexts';
+import { passwordsMatch } from '../helpers/utility';
 
 export interface RegisterFormData {
   username: string;
@@ -36,7 +37,7 @@ const initFormData: RegisterFormData = {
   confirmPassword: '',
 };
 
-function useRegisterForm(): IUseRegisterFormExports {
+function useRegisterForm(handleOpen: () => void): IUseRegisterFormExports {
   const [formData, setFormData] = useState<RegisterFormData>(initFormData);
   const [errors, setErrors] = useState<string[] | null>(null);
   const [isSubmitEnabled, setIsSubmitEnabled] = useState<boolean>(false);
@@ -79,13 +80,15 @@ function useRegisterForm(): IUseRegisterFormExports {
     e.preventDefault();
     if (!formData) return;
 
-    if (
-      !formData.username ||
-      !formData.email ||
-      !formData.password ||
-      !formData.confirmPassword
-    ) {
+    // Check if all form fields are populated
+    if (!isRegisterFormPopulated(formData)) {
       addError('All fields must be filled out.');
+      return;
+    }
+
+    // Check if passwords match
+    if (!passwordsMatch(formData.password, formData.confirmPassword)) {
+      addError('Passwords must match');
       return;
     }
 
@@ -114,9 +117,10 @@ function useRegisterForm(): IUseRegisterFormExports {
         return;
       }
 
-      LoginUser(auth, { email: email, username: displayName });
+      handleOpen();
+      //LoginUser(auth, { email: email, username: displayName });
       clearErrors();
-      navigate('/');
+      //navigate('/');
     } catch (err: any) {
       const errorMessage = err.message;
       const regex: RegExp = /(?<=\()(.*)(?=\))/;

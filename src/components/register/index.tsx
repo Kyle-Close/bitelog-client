@@ -1,17 +1,24 @@
 import { Box, Divider, Typography } from '@mui/material';
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
 import { UserContext } from '../../contexts';
 import GoogleAuthButton from '../login/GoogleSignInButton';
 import RegisterFormContent from './RegisterFormContents';
 import useRegisterForm from '../../hooks/useRegisterForm';
+import ValidationEmailModal from './ValidationEmailModal';
 
 function Register() {
   const { user } = useContext(UserContext);
+  const [isOpen, setIsOpen] = useState<boolean>(false);
+
+  const handleOpen = () => setIsOpen(true);
+  const handleClose = () => setIsOpen(false);
+
   const { handleRegisterSubmit, handleUpdate, errors, isSubmitEnabled } =
-    useRegisterForm();
+    useRegisterForm(handleOpen);
 
   return user === null ? (
     <Box sx={loggedOutFormWrapper}>
+      <ValidationEmailModal isOpen={isOpen} handleClose={handleClose} />
       <Box sx={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
         <Typography variant='h6'>Register a new account</Typography>
         <GoogleAuthButton isLogin={false} />

@@ -16,3 +16,8 @@ export function isRegisterFormPopulated(formData: RegisterFormData) {
     return true;
   else return false;
 }
+
+export function passwordsMatch(pass1: string, pass2: string): boolean {
+  if (pass1 === pass2) return true;
+  else return false;
+}
