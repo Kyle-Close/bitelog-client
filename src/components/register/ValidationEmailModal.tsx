@@ -1,5 +1,4 @@
 import { Modal, Box, Typography, Button, Divider } from '@mui/material';
-import DoneIcon from '@mui/icons-material/Done';
 import CancelIcon from '@mui/icons-material/Cancel';
 interface IValidationEmailModal {
   isOpen: boolean;

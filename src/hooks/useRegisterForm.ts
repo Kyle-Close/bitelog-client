@@ -1,5 +1,4 @@
-import { useState, useEffect, useContext } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useState, useEffect } from 'react';
 import {
   Auth,
   sendEmailVerification,
@@ -7,7 +6,6 @@ import {
   updateProfile,
 } from 'firebase/auth';
 import { isRegisterFormPopulated } from '../helpers/utility';
-import { UserContext } from '../contexts';
 import { passwordsMatch } from '../helpers/utility';
 
 export interface RegisterFormData {
