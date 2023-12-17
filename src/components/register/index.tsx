@@ -3,12 +3,12 @@ import { useContext } from 'react';
 import { UserContext } from '../../contexts';
 import GoogleAuthButton from '../login/GoogleSignInButton';
 import RegisterFormContent from './RegisterFormContents';
-import useAuthForm from '../../hooks/useAuthForm';
+import useRegisterForm from '../../hooks/useRegisterForm';
 
 function Register() {
   const { user } = useContext(UserContext);
   const { handleRegisterSubmit, handleUpdate, errors, isSubmitEnabled } =
-    useAuthForm();
+    useRegisterForm();
 
   return user === null ? (
     <Box sx={loggedOutFormWrapper}>

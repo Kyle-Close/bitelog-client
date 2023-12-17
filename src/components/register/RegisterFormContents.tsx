@@ -70,10 +70,10 @@ function RegisterFormContent({
       />
       <TextField
         label='Confirm Password'
-        name='password-confirm'
+        name='confirmPassword'
         onChange={handleFormUpdate}
         placeholder='Confirm Password'
-        id='password-confirm'
+        id='confirmPassword'
         type='password'
         variant='standard'
         required

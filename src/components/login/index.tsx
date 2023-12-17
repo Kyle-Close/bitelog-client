@@ -3,12 +3,12 @@ import { useState, useContext } from 'react';
 import { UserContext } from '../../contexts';
 import GoogleAuthButton from './GoogleSignInButton';
 import ForgotPasswordModal from './ForgotPasswordModal';
-import useAuthForm from '../../hooks/useAuthForm';
 import LoginFormContent from './LoginFormContent';
+import useLoginForm from '../../hooks/useLoginForm';
 
 export default function LoginForm() {
   const { handleUpdate, handleLoginSubmit, errors, isSubmitEnabled } =
-    useAuthForm();
+    useLoginForm();
 
   const { user } = useContext(UserContext);
   const [open, setOpen] = useState(false);

@@ -3,23 +3,22 @@ import { useNavigate } from 'react-router-dom';
 import {
   Auth,
   sendEmailVerification,
-  signInWithEmailAndPassword,
   createUserWithEmailAndPassword,
   updateProfile,
 } from 'firebase/auth';
-import { isLoginFormPopulated } from '../helpers/utility';
+import { isRegisterFormPopulated } from '../helpers/utility';
 import { UserContext } from '../contexts';
 
-export interface FormData {
-  username?: string;
+export interface RegisterFormData {
+  username: string;
   email: string;
   password: string;
+  confirmPassword: string;
 }
 
-interface IUseAuthFormExports {
-  formData: FormData;
+interface IUseRegisterFormExports {
+  formData: RegisterFormData;
   handleUpdate: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  handleLoginSubmit: (e: React.FormEvent<HTMLFormElement>, auth: Auth) => void;
   handleRegisterSubmit: (
     e: React.FormEvent<HTMLFormElement>,
     auth: Auth
@@ -30,13 +29,15 @@ interface IUseAuthFormExports {
   isSubmitEnabled: boolean;
 }
 
-const initFormData = {
+const initFormData: RegisterFormData = {
+  username: '',
   email: '',
   password: '',
+  confirmPassword: '',
 };
 
-function useAuthForm(): IUseAuthFormExports {
-  const [formData, setFormData] = useState<FormData>(initFormData);
+function useRegisterForm(): IUseRegisterFormExports {
+  const [formData, setFormData] = useState<RegisterFormData>(initFormData);
   const [errors, setErrors] = useState<string[] | null>(null);
   const [isSubmitEnabled, setIsSubmitEnabled] = useState<boolean>(false);
   const navigate = useNavigate();
@@ -71,49 +72,6 @@ function useAuthForm(): IUseAuthFormExports {
     });
   };
 
-  const handleLoginSubmit = async (
-    e: React.FormEvent<HTMLFormElement>,
-    auth: Auth
-  ) => {
-    e.preventDefault();
-    if (!formData) return;
-
-    if (!formData.email || !formData.password) {
-      addError('All fields must be filled out.');
-      return;
-    }
-
-    try {
-      const userCredential = await signInWithEmailAndPassword(
-        auth,
-        formData.email,
-        formData.password
-      );
-      const { email, displayName } = userCredential.user;
-      if (!email || !displayName) {
-        addError('Could not find account username or email.');
-        return;
-      }
-      LoginUser(auth, { email: email, username: displayName });
-      clearErrors();
-      navigate('/');
-    } catch (err: any) {
-      const errorMessage = err.message;
-      const regex: RegExp = /(?<=\()(.*)(?=\))/;
-      const match: RegExpExecArray | null = regex.exec(errorMessage);
-
-      if (match) {
-        const errorBetweenParenthesis = match[0];
-        const authErrorSplit = errorBetweenParenthesis.split('/');
-
-        if (authErrorSplit.length > 1) {
-          const displayErrorMsg = authErrorSplit[1];
-          addError(displayErrorMsg);
-        }
-      }
-    }
-  };
-
   const handleRegisterSubmit = async (
     e: React.FormEvent<HTMLFormElement>,
     auth: Auth
@@ -121,7 +79,12 @@ function useAuthForm(): IUseAuthFormExports {
     e.preventDefault();
     if (!formData) return;
 
-    if (!formData.username || !formData.email || !formData.password) {
+    if (
+      !formData.username ||
+      !formData.email ||
+      !formData.password ||
+      !formData.confirmPassword
+    ) {
       addError('All fields must be filled out.');
       return;
     }
@@ -172,14 +135,13 @@ function useAuthForm(): IUseAuthFormExports {
   };
 
   useEffect(() => {
-    if (isLoginFormPopulated(formData)) setIsSubmitEnabled(true);
+    if (isRegisterFormPopulated(formData)) setIsSubmitEnabled(true);
     else setIsSubmitEnabled(false);
   }, [formData]);
 
   return {
     formData,
     handleUpdate,
-    handleLoginSubmit,
     handleRegisterSubmit,
     errors,
     addError,
@@ -188,4 +150,4 @@ function useAuthForm(): IUseAuthFormExports {
   };
 }
 
-export default useAuthForm;
+export default useRegisterForm;
