@@ -12,11 +12,12 @@ function Register() {
 
   return user === null ? (
     <Box sx={loggedOutFormWrapper}>
-      <Typography variant='h6' fontSize='medium'>
-        Register a new account
-      </Typography>
-      <GoogleAuthButton isLogin={false} />
-      <Divider>OR</Divider>
+      <Box sx={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+        <Typography variant='h6'>Register a new account</Typography>
+        <GoogleAuthButton isLogin={false} />
+        <Divider>OR</Divider>
+      </Box>
+
       <RegisterFormContent
         handleFormSubmit={handleRegisterSubmit}
         handleFormUpdate={handleUpdate}
@@ -37,8 +38,7 @@ const loggedOutFormWrapper = {
   flex: 1,
   display: 'flex',
   flexDirection: 'column',
-  gap: '1rem',
-  padding: '4rem',
+  px: '4rem',
   alignSelf: 'center',
 };
 

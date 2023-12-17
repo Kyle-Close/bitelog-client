@@ -41,7 +41,7 @@ const loggedOutFormWrapper = {
   display: 'flex',
   flexDirection: 'column',
   gap: '1rem',
-  padding: '4rem',
+  px: '4rem',
   alignSelf: 'center',
 };
 
