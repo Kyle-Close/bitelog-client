@@ -2,28 +2,25 @@ import {
   Box,
   Typography,
   Button,
-  Input,
   Link,
   ListItem,
   TextField,
 } from '@mui/material';
 import { Auth, getAuth } from 'firebase/auth';
 
-interface ILoginFormContent {
+interface IRegisterFormContent {
   handleFormUpdate: (e: React.ChangeEvent<HTMLInputElement>) => void;
   handleFormSubmit: (e: React.FormEvent<HTMLFormElement>, auth: Auth) => void;
-  handleOpen: () => void;
   errors: string[] | null;
   isSubmitEnabled: boolean;
 }
 
-function LoginFormContent({
+function RegisterFormContent({
   handleFormSubmit,
   handleFormUpdate,
   errors,
-  handleOpen,
   isSubmitEnabled,
-}: ILoginFormContent) {
+}: IRegisterFormContent) {
   const auth = getAuth();
 
   const displayErrorMessages = (errors: string[]) => {
@@ -38,9 +35,19 @@ function LoginFormContent({
     <Box
       onSubmit={(e) => handleFormSubmit(e, auth)}
       component='form'
-      id='login-form'
+      id='register-form'
       sx={{ display: 'flex', gap: '0.5rem', flexDirection: 'column' }}
     >
+      <TextField
+        label='Username'
+        type='text'
+        name='username'
+        aria-label='account username'
+        onChange={handleFormUpdate}
+        placeholder='Username'
+        id='username'
+        variant='standard'
+      />
       <TextField
         label='Email Address'
         type='text'
@@ -61,35 +68,35 @@ function LoginFormContent({
         variant='standard'
         required
       />
+      <TextField
+        label='Confirm Password'
+        name='password-confirm'
+        onChange={handleFormUpdate}
+        placeholder='Confirm Password'
+        id='password-confirm'
+        type='password'
+        variant='standard'
+        required
+      />
       {errors && (
         <Box sx={{ display: 'flex', flexDirection: 'column' }}>
           {displayErrorMessages(errors)}
         </Box>
       )}
-      <Box sx={{ display: 'flex', justifyContent: 'end' }}>
-        <Button
-          id='forgot-password-button'
-          onClick={handleOpen}
-          size='small'
-          sx={{ fontSize: '0.7rem' }}
-        >
-          Forgot Password?
-        </Button>
-      </Box>
-
       <Button
+        sx={{ mt: '1rem' }}
         disabled={!isSubmitEnabled}
         id='login-form-submit'
         variant='contained'
         type='submit'
       >
-        Login
+        Register
       </Button>
       <Typography paragraph fontSize='small'>
-        Don't have an account? <Link href='/register'>Create one now.</Link>
+        Already have an account? <Link href='/login'>Login now.</Link>
       </Typography>
     </Box>
   );
 }
 
-export default LoginFormContent;
+export default RegisterFormContent;

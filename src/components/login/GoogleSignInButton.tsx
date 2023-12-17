@@ -18,7 +18,7 @@ function GoogleAuthButton({ isLogin }: IGoogleAuthButton) {
   const navigate = useNavigate();
   const auth = getAuth();
   const provider = new GoogleAuthProvider();
-  const { setUser } = useContext(UserContext);
+  const { LoginUser } = useContext(UserContext);
 
   const googleSignIn = async (auth: Auth, provider: GoogleAuthProvider) => {
     try {
@@ -31,7 +31,7 @@ function GoogleAuthButton({ isLogin }: IGoogleAuthButton) {
         const { email, displayName } = userCredential.user;
         if (!email || !displayName) return;
 
-        setUser({ email, username: displayName });
+        LoginUser(auth, { email, username: displayName });
         navigate('/');
       }
     } catch (err: any) {
@@ -43,6 +43,7 @@ function GoogleAuthButton({ isLogin }: IGoogleAuthButton) {
       onClick={() => googleSignIn(auth, provider)}
       variant='outlined'
       startIcon={<GoogleIcon />}
+      size='small'
     >
       {isLogin ? 'Login with Google' : 'Register with Google'}
     </Button>

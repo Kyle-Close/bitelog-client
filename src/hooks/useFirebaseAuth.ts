@@ -3,7 +3,7 @@ import { UserContext } from '../contexts';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
 
 function useFirebaseAuth() {
-  const { setUser } = useContext(UserContext);
+  const { ClearUserContext, LoginUser } = useContext(UserContext);
 
   useEffect(() => {
     const auth = getAuth();
@@ -13,13 +13,13 @@ function useFirebaseAuth() {
         const { email, displayName } = user;
 
         if (!email || !displayName) {
-          setUser(null);
+          ClearUserContext();
           return;
         }
 
-        setUser({ email, username: displayName });
+        LoginUser(auth, { email, username: displayName });
       } else {
-        setUser(null);
+        ClearUserContext();
       }
     });
 
