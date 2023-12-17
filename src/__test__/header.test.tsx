@@ -28,7 +28,13 @@ function setup(isLoggedIn: boolean) {
     : null;
 
   return render(
-    <UserContext.Provider value={{ user, setUser: jest.fn() }}>
+    <UserContext.Provider
+      value={{
+        user,
+        LoginUser: jest.fn(),
+        ClearUserContext: jest.fn(),
+      }}
+    >
       <Header />
     </UserContext.Provider>
   );
@@ -40,7 +46,13 @@ function setupWithBrowserRouter(isLoggedIn: boolean) {
     : null;
 
   return render(
-    <UserContext.Provider value={{ user, setUser: jest.fn() }}>
+    <UserContext.Provider
+      value={{
+        user,
+        LoginUser: jest.fn(),
+        ClearUserContext: jest.fn(),
+      }}
+    >
       <BrowserRouter>
         <Header />
       </BrowserRouter>

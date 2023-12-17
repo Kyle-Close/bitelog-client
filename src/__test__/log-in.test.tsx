@@ -153,7 +153,8 @@ describe('log-in page', () => {
       <UserContext.Provider
         value={{
           user: null,
-          setUser: jest.fn(),
+          LoginUser: jest.fn(),
+          ClearUserContext: jest.fn(),
         }}
       >
         <BrowserRouter>
@@ -213,7 +214,8 @@ describe('log-in page', () => {
       <UserContext.Provider
         value={{
           user: null,
-          setUser: jest.fn(),
+          LoginUser: jest.fn(),
+          ClearUserContext: jest.fn(),
         }}
       >
         <BrowserRouter>
@@ -244,13 +246,14 @@ describe('log-in page', () => {
   });
 
   test('when user is already logged in, display already logged in message', () => {
-    const mockData = {
-      user: { username: 'kyle', email: 'test@gmail.com' },
-      setUser: jest.fn(),
-    };
-
     render(
-      <UserContext.Provider value={mockData}>
+      <UserContext.Provider
+        value={{
+          user: { username: 'test', email: 'test@gmail.com' },
+          LoginUser: jest.fn(),
+          ClearUserContext: jest.fn(),
+        }}
+      >
         <LoginForm />
       </UserContext.Provider>
     );

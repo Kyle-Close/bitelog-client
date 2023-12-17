@@ -20,7 +20,9 @@ jest.mock('firebase/auth', () => ({
 
 const setup = () => {
   return render(
-    <UserContext.Provider value={{ user: null, setUser: jest.fn() }}>
+    <UserContext.Provider
+      value={{ user: null, LoginUser: jest.fn(), ClearUserContext: jest.fn() }}
+    >
       <BrowserRouter>
         <App />
       </BrowserRouter>

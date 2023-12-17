@@ -41,8 +41,6 @@ function useRegisterForm(handleOpen: () => void): IUseRegisterFormExports {
   const [formData, setFormData] = useState<RegisterFormData>(initFormData);
   const [errors, setErrors] = useState<string[] | null>(null);
   const [isSubmitEnabled, setIsSubmitEnabled] = useState<boolean>(false);
-  const navigate = useNavigate();
-  const { LoginUser } = useContext(UserContext);
 
   const addError = (err: string) => {
     if (errors && errors.length > 0) {
