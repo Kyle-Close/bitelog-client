@@ -41,6 +41,10 @@ function useRegisterForm(handleOpen: () => void): IUseRegisterFormExports {
   const [isSubmitEnabled, setIsSubmitEnabled] = useState<boolean>(false);
 
   const addError = (err: string) => {
+    // If error already exists then don't display it again
+    const exists = errors?.find((error) => error === err);
+    if (exists) return;
+
     if (errors && errors.length > 0) {
       setErrors((prevErrors) => {
         if (prevErrors && prevErrors.length > 0) return [...prevErrors, err];
