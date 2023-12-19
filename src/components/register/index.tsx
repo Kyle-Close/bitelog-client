@@ -10,7 +10,10 @@ function Register() {
   const { user } = useContext(UserContext);
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
-  const handleOpen = () => setIsOpen(true);
+  const handleOpen = () => {
+    debugger;
+    setIsOpen(true);
+  };
   const handleClose = () => setIsOpen(false);
 
   const { handleRegisterSubmit, handleUpdate, errors, isSubmitEnabled } =
