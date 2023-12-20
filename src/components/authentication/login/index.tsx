@@ -1,10 +1,10 @@
 import { Box, Typography, Divider } from '@mui/material';
 import { useState, useContext } from 'react';
-import { UserContext } from '../../contexts';
-import GoogleAuthButton from './GoogleSignInButton';
+import { UserContext } from '../../../contexts';
+import GoogleAuthButton from '../GoogleAuthButton';
 import ForgotPasswordModal from './ForgotPasswordModal';
 import LoginFormContent from './LoginFormContent';
-import useLoginForm from '../../hooks/useLoginForm';
+import useLoginForm from '../../../hooks/useLoginForm';
 
 export default function LoginForm() {
   const { handleUpdate, handleLoginSubmit, errors, isSubmitEnabled } =

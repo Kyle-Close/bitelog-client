@@ -1,7 +1,7 @@
 import { Box, Container } from '@mui/material';
 import authImg from '../assets/auth.png';
-import LoginForm from './login';
-import Register from './register';
+import LoginForm from './authentication/login';
+import Register from './authentication/register';
 
 interface IAuthentication {
   isLogin: boolean;

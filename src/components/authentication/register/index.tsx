@@ -1,9 +1,9 @@
 import { Box, Divider, Typography } from '@mui/material';
 import { useContext, useState } from 'react';
-import { UserContext } from '../../contexts';
-import GoogleAuthButton from '../login/GoogleSignInButton';
+import { UserContext } from '../../../contexts';
+import GoogleAuthButton from '../GoogleAuthButton';
 import RegisterFormContent from './RegisterFormContents';
-import useRegisterForm from '../../hooks/useRegisterForm';
+import useRegisterForm from '../../../hooks/useRegisterForm';
 import ValidationEmailModal from './ValidationEmailModal';
 
 function Register() {
