@@ -1,5 +1,3 @@
-const mockedNavigate = jest.fn();
-
 import { useNavigate } from 'react-router-dom';
 import { render, screen, waitFor } from '../../../test-utils';
 import GoogleAuthButton from '../GoogleAuthButton';
@@ -7,9 +5,12 @@ import userEvent from '@testing-library/user-event';
 import { signInWithPopup } from 'firebase/auth';
 import { useContext } from 'react';
 
+const mockedUsedNavigate = jest.fn();
 jest.mock('react-router-dom', () => ({
-  useNavigate: mockedNavigate,
+  ...(jest.requireActual('react-router-dom') as any),
+  useNavigate: () => mockedUsedNavigate,
 }));
+
 jest.mock('firebase/auth');
 jest.mock('react');
 
