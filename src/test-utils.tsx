@@ -1,5 +1,4 @@
-import { ThemeProvider } from '@mui/material';
-import { theme } from './theme';
+import { UserProvider } from './contexts';
 import { BrowserRouter } from 'react-router-dom';
 import { render } from '@testing-library/react';
 
@@ -9,9 +8,9 @@ interface IAllTheProviders {
 
 function AllTheProviders({ children }: IAllTheProviders) {
   return (
-    <ThemeProvider theme={theme}>
+    <UserProvider>
       <BrowserRouter>{children}</BrowserRouter>
-    </ThemeProvider>
+    </UserProvider>
   );
 }
 
