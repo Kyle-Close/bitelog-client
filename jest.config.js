@@ -1,11 +1,6 @@
 export default {
   transform: {
-    '^.+\\.tsx?$': [
-      'ts-jest',
-      {
-        // ts-jest configuration goes here
-      },
-    ],
+    '^.+\\.tsx?$': 'ts-jest',
   },
   testEnvironment: 'jsdom',
   watchPlugins: [
