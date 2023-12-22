@@ -1,10 +1,5 @@
+/** @type {import('ts-jest').JestConfigWithTsJest} */
 export default {
-  transform: {
-    '^.+\\.tsx?$': 'ts-jest',
-  },
-  testEnvironment: 'jsdom',
-  watchPlugins: [
-    'jest-watch-typeahead/filename',
-    'jest-watch-typeahead/testname',
-  ],
+  preset: 'ts-jest',
+  testEnvironment: 'node',
 };
