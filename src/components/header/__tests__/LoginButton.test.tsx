@@ -2,19 +2,14 @@ import '@testing-library/jest-dom';
 import { getAuth } from 'firebase/auth';
 import LoggedOutButtons from '../LoggedOutButtons';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
-import { BrowserRouter } from 'react-router-dom';
-
-const mockedUsedNavigate = jest.fn();
-jest.mock('react-router-dom', () => ({
-  ...jest.requireActual('react-router-dom'),
-  useNavigate: () => mockedUsedNavigate,
-}));
+import { BrowserRouter, useNavigate } from 'react-router-dom';
 
 jest.mock('firebase/auth');
 
 describe('Header login button', () => {
   (getAuth as jest.Mock).mockResolvedValueOnce(true);
-  (mockedUsedNavigate as jest.Mock).mockImplementation(() => jest.fn());
+  //(useNavigate as jest.Mock).mockImplementation(() => jest.fn());
+  const mockedUsedNavigate = useNavigate();
 
   it('Button navigates to login page when clicked', async () => {
     render(<LoggedOutButtons />, { wrapper: BrowserRouter });
@@ -23,7 +18,7 @@ describe('Header login button', () => {
 
     await fireEvent.click(loginBtn); // when the click happens the error is thrown
     await waitFor(() => {
-      expect(mockedUsedNavigate).toHaveBeenCalledWith('/loginn');
+      expect(mockedUsedNavigate).toHaveBeenCalledWith('/login');
     });
   });
 });
