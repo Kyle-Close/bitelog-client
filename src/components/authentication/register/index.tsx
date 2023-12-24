@@ -11,7 +11,6 @@ function Register() {
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
   const handleOpen = () => {
-    debugger;
     setIsOpen(true);
   };
   const handleClose = () => setIsOpen(false);

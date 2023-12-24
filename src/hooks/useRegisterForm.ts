@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import {
-  Auth,
+  getAuth,
   sendEmailVerification,
   createUserWithEmailAndPassword,
   updateProfile,
@@ -18,10 +18,7 @@ export interface RegisterFormData {
 interface IUseRegisterFormExports {
   formData: RegisterFormData;
   handleUpdate: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  handleRegisterSubmit: (
-    e: React.FormEvent<HTMLFormElement>,
-    auth: Auth
-  ) => void;
+  handleRegisterSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
   errors: string[] | null;
   addError: (err: string) => void;
   clearErrors: () => void;
@@ -73,11 +70,9 @@ function useRegisterForm(handleOpen: () => void): IUseRegisterFormExports {
     });
   };
 
-  const handleRegisterSubmit = async (
-    e: React.FormEvent<HTMLFormElement>,
-    auth: Auth
-  ) => {
+  const handleRegisterSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    const auth = getAuth();
     if (!formData) return;
 
     // Check if all form fields are populated
