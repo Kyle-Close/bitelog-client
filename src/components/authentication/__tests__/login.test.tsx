@@ -1,7 +1,7 @@
 import '@testing-library/jest-dom';
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import { signInWithEmailAndPassword, signInWithPopup } from 'firebase/auth';
-import { BrowserRouter } from 'react-router-dom';
+import { BrowserRouter, useNavigate } from 'react-router-dom';
 import { UserContext } from '../../../contexts';
 import LoginForm from '../login';
 
@@ -20,7 +20,7 @@ const mockSignInWithEmailAndPassword = jest
   mockSignInWithEmailAndPassword
 );
 
-const mockedUsedNavigate = jest.fn();
+const mockedUsedNavigate = useNavigate();
 
 describe('<LoginForm />', () => {
   test('sign-in form is rendered', () => {
