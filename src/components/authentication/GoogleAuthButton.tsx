@@ -21,7 +21,6 @@ function GoogleAuthButton({ isLogin }: IGoogleAuthButton) {
   const { LoginUser } = useContext(UserContext);
 
   const googleSignIn = async (auth: Auth, provider: GoogleAuthProvider) => {
-    debugger;
     try {
       const userCredential: UserCredential = await signInWithPopup(
         auth,
