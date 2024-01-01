@@ -1,8 +1,9 @@
 export const firebaseConfig = {
-  apiKey: 'AIzaSyA1-_ryNYOdqZxIL7T3VZMABVF200PFXvs',
-  authDomain: 'auth-blog-practice.firebaseapp.com',
-  projectId: 'auth-blog-practice',
-  storageBucket: 'auth-blog-practice.appspot.com',
-  messagingSenderId: '595001719173',
-  appId: '1:595001719173:web:719f6ff4a9e182ed57acec',
+  apiKey: 'AIzaSyD3Smk1YfAxCq02gQMpynW1lPgdWvXCuXo',
+  authDomain: 'bitelog-cfdaa.firebaseapp.com',
+  projectId: 'bitelog-cfdaa',
+  storageBucket: 'bitelog-cfdaa.appspot.com',
+  messagingSenderId: '308992738848',
+  appId: '1:308992738848:web:509a28714ae3c8e1ffde45',
+  measurementId: 'G-BVT93795SZ',
 };
