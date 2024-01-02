@@ -2,6 +2,7 @@ import { Box, Typography } from '@mui/material';
 import { useContext, useEffect, useState } from 'react';
 import { UserContext } from '../contexts';
 import { getAuth } from 'firebase/auth';
+import axios from 'axios';
 
 function LandingPage() {
   const user = useContext(UserContext);
@@ -13,6 +14,10 @@ function LandingPage() {
       if (authUser) {
         const token = await authUser.getIdToken();
         setJwtToken(token);
+        if (token) {
+          const res = await axios.get('http://localhost:8000');
+          console.log(res);
+        }
       }
     };
 
