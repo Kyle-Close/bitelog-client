@@ -1,9 +1,9 @@
 import { Box, CssBaseline, ThemeProvider } from '@mui/material';
-import { theme } from './theme';
+import { theme } from './config/theme';
 import ResponsiveAppBar from './components/header';
 import { ReactNode } from 'react';
 import { initializeApp } from 'firebase/app';
-import { firebaseConfig } from './firebaseConfig';
+import { firebaseConfig } from './config/firebaseConfig';
 import useFirebaseAuth from './hooks/useFirebaseAuth';
 
 interface AppProps {
