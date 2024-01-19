@@ -5,7 +5,7 @@ export interface ProviderProps {
   children: ReactNode;
 }
 
-interface User {
+export interface User {
   username: string;
   email: string;
 }
