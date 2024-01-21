@@ -14,12 +14,9 @@ import { useNavigate } from 'react-router-dom';
 import { Drawer } from '@mui/material';
 import { User } from '../../contexts';
 
-const pages = ['Products', 'Pricing', 'Blog'];
-
 export default function Header() {
   const { user } = React.useContext(UserContext);
   const [openDrawer, setOpenDrawer] = React.useState(false);
-  const navigate = useNavigate();
 
   const handleOpenDrawer = () => {
     setOpenDrawer(true);
