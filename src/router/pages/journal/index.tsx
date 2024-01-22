@@ -1,11 +1,11 @@
 import App from '../../../App';
-import Authentication from '../../../components/authentication';
+import Journal from '../../../components/journal';
 
 export default {
   path: '/user/:userId/journal',
   element: (
     <App>
-      <div />
+      <Journal />
     </App>
   ),
 };
