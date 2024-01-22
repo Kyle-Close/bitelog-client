@@ -25,13 +25,13 @@ export function MobileMenu({
     <Box sx={mobileMenuContainer}>
       <SmallScreenMenuBtn handleOpenDrawer={handleOpenDrawer} />
       <Drawer onClose={handleCloseDrawer} open={openDrawer} anchor='left'>
-        <MenuContent />
+        <MenuContent handleCloseDrawer={handleCloseDrawer} />
       </Drawer>
     </Box>
   );
 }
 
-function MenuContent() {
+function MenuContent({ handleCloseDrawer }: { handleCloseDrawer: () => void }) {
   const theme = useTheme();
   return (
     <Box
@@ -55,7 +55,7 @@ function MenuContent() {
           px: '1rem',
         }}
       >
-        {createMenuItems()}
+        {createMenuItems(handleCloseDrawer)}
       </Box>
     </Box>
   );
@@ -84,7 +84,7 @@ const mobileMenuContainer = {
   display: { xs: 'flex', md: 'none' },
 };
 
-const createMenuItems = () => {
+const createMenuItems = (handleCloseDrawer: () => void) => {
   const menuList = menuObjectList;
 
   return menuList.map((item) => {
@@ -92,7 +92,9 @@ const createMenuItems = () => {
       <>
         <Box sx={{ display: 'flex', alignItems: 'center', gap: '.5rem' }}>
           {item.icon}
-          <Link to={item.to}>{item.name}</Link>
+          <Link onClick={handleCloseDrawer} to={item.to}>
+            {item.name}
+          </Link>
         </Box>
         <Divider sx={{ pt: '0.5rem' }} />
       </>
