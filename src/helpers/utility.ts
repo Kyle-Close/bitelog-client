@@ -53,3 +53,43 @@ export async function fetchDataFromBackend(url: string) {
     console.error('Error fetching data:', error);
   }
 }
+
+export function convertToLocalDate(isoDateString: string) {
+  const date = new Date(isoDateString);
+  const year = date.getFullYear();
+  const month = (date.getMonth() + 1).toString().padStart(2, '0');
+  const day = date.getDate().toString().padStart(2, '0');
+
+  return `${year}-${month}-${day}`;
+}
+
+export async function deleteDataFromBackend(url: string) {
+  try {
+    const auth = getAuth();
+    const user = auth.currentUser;
+
+    if (!user) {
+      throw new Error('User is not logged in');
+    }
+
+    // Get the user's ID token
+    const idToken = await user.getIdToken();
+
+    // Make the delete request to the backend
+    const response = await fetch(url, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${idToken}`,
+      },
+    });
+
+    if (!response.ok) {
+      throw new Error('Network response was not ok');
+    }
+
+    return response.json();
+  } catch (error) {
+    console.error('Error deleting data:', error);
+  }
+}

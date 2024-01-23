@@ -28,7 +28,8 @@ export const UserContext = createContext<IUserContext>(initialUserContext);
 export const UserProvider: FC<ProviderProps> = ({ children }) => {
   const [user, setUser] = useState<User | null>(null);
 
-  const LoginUser = (auth: Auth, user: User) => {
+  const LoginUser = async (auth: Auth, user: User) => {
+    console.log('Token:', await auth.currentUser?.getIdToken());
     // Check that the user has validated their email through firebase
     const isEmailVerified = auth.currentUser?.emailVerified;
     if (isEmailVerified) {
