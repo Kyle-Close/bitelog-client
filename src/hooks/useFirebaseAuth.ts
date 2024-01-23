@@ -10,14 +10,14 @@ function useFirebaseAuth() {
 
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
-        const { email, displayName } = user;
+        const { email, displayName, uid } = user;
 
         if (!email || !displayName) {
           ClearUserContext();
           return;
         }
 
-        LoginUser(auth, { email, username: displayName });
+        LoginUser(auth, { email, username: displayName, uid });
       } else {
         ClearUserContext();
       }

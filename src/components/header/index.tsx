@@ -127,9 +127,12 @@ function AuthButtons({ user }: { user: User | null }) {
 }
 
 const createLargeScreenLinks = () => {
-  return menuObjectList.map((item) => {
+  return menuObjectList.map((item, key) => {
     return (
-      <Box sx={{ display: 'flex', alignItems: 'center', gap: '.5rem' }}>
+      <Box
+        key={key}
+        sx={{ display: 'flex', alignItems: 'center', gap: '.5rem' }}
+      >
         {item.icon}
         <Link to={item.to}>{item.name}</Link>
       </Box>

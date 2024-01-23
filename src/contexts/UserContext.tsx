@@ -8,6 +8,7 @@ export interface ProviderProps {
 export interface User {
   username: string;
   email: string;
+  uid: string;
 }
 
 interface IUserContext {

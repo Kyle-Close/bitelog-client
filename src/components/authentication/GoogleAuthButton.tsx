@@ -28,10 +28,10 @@ function GoogleAuthButton({ isLogin }: IGoogleAuthButton) {
       );
 
       if (userCredential) {
-        const { email, displayName } = userCredential.user;
+        const { email, displayName, uid } = userCredential.user;
         if (!email || !displayName) return;
 
-        LoginUser(auth, { email, username: displayName });
+        LoginUser(auth, { email, username: displayName, uid });
         navigate('/');
       }
     } catch (err: any) {

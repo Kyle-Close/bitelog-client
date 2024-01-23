@@ -1,20 +1,46 @@
-import {
-  Box,
-  Divider,
-  Paper,
-  Typography,
-  Button,
-  TextField,
-} from '@mui/material';
+import { Box, Divider, Paper, Typography, Button } from '@mui/material';
 import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
 import FastfoodIcon from '@mui/icons-material/Fastfood';
 import EggIcon from '@mui/icons-material/Egg';
 import SettingsIcon from '@mui/icons-material/Settings';
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import SettingsForm from './Settings';
+import IngredientsPage from './Ingredients';
+import { useQuery } from '@tanstack/react-query';
+import { UserContext } from '../../contexts';
+import { BASE_URL } from '../../config/axiosConfig';
+import { fetchDataFromBackend } from '../../helpers/utility';
+
+enum Pages {
+  DEFAULT = 'DEFAULT',
+  SETTINGS = 'SETTINGS',
+  INGREDIENTS = 'INGREDIENTS',
+  FOODS = 'FOODS',
+  HOURLY_TRACKING = 'HOURLY TRACKING',
+}
 
 function Journal() {
-  const [showSettings, setShowSettings] = useState<boolean>(false);
+  const { user } = useContext(UserContext);
+  const [showing, setShowing] = useState<Pages>(Pages.DEFAULT);
+  const { data, error, isLoading } = useQuery({
+    queryKey: ['journal', user?.uid],
+    queryFn: () =>
+      fetchDataFromBackend(BASE_URL + `/user/${user?.uid}/journal`),
+    enabled: !!user,
+  });
+
+  if (isLoading) {
+    return <Typography>Loading journal...</Typography>;
+  }
+
+  if (error) {
+    return <Typography>Error fetching user journal.</Typography>;
+  }
+
+  if (!data) return;
+
+  const userJournal = data.journals[0];
 
   const buttonItems = [
     {
@@ -28,11 +54,12 @@ function Journal() {
     {
       name: 'My Ingredients',
       icon: <EggIcon />,
+      onClick: () => setShowing(Pages.INGREDIENTS),
     },
     {
       name: 'Journal Settings',
       icon: <SettingsIcon />,
-      onClick: () => setShowSettings(true),
+      onClick: () => setShowing(Pages.SETTINGS),
     },
   ];
 
@@ -40,7 +67,25 @@ function Journal() {
     display: 'flex',
     flexDirection: 'column',
     my: '1rem',
-    flexGrow: showSettings ? 1 : 0,
+    flexGrow: showing === Pages.SETTINGS ? 1 : 0,
+  };
+
+  const currentPage = () => {
+    if (showing === Pages.DEFAULT) return createButtons(buttonItems);
+    else if (showing === Pages.SETTINGS)
+      return (
+        <>
+          <GoToDefaultPageBtn setShowing={setShowing} />
+          <SettingsForm />
+        </>
+      );
+    else if (showing === Pages.INGREDIENTS)
+      return (
+        <>
+          <GoToDefaultPageBtn setShowing={setShowing} />
+          <IngredientsPage />
+        </>
+      );
   };
 
   return (
@@ -50,28 +95,10 @@ function Journal() {
         sx={{ minWidth: '100%', pb: '0.5rem' }}
         variant='h6'
       >
-        Close55's Journal
+        {userJournal.name}
       </Typography>
       <Divider />
-      <Box sx={contentContainerClasses}>
-        {showSettings ? (
-          <>
-            <Button
-              color='secondary'
-              startIcon={<ArrowBackIcon />}
-              onClick={() => setShowSettings(false)}
-              variant='contained'
-              sx={{ display: 'flex', gap: '0.5rem' }}
-              aria-label='back'
-            >
-              <Typography fontSize='.85rem'>Back to Journal</Typography>
-            </Button>
-            <SettingsForm />
-          </>
-        ) : (
-          createButtons(buttonItems)
-        )}
-      </Box>
+      <Box sx={contentContainerClasses}>{currentPage()}</Box>
     </Paper>
   );
 }
@@ -83,9 +110,13 @@ const createButtons = (
     onClick?: () => void;
   }[]
 ) => {
-  return buttonItems.map((item) => {
+  return buttonItems.map((item, key) => {
     return (
-      <Button onClick={item.onClick} sx={{ display: 'flex', flexGrow: 1 }}>
+      <Button
+        key={key}
+        onClick={item.onClick}
+        sx={{ display: 'flex', flexGrow: 1 }}
+      >
         <Paper
           sx={{ display: 'flex', flexGrow: 1, p: '1rem', gap: '1.5rem' }}
           elevation={1}
@@ -112,27 +143,24 @@ const bgPaperClasses = {
   p: '1rem',
 };
 
-function SettingsForm() {
+function GoToDefaultPageBtn({
+  setShowing,
+}: {
+  setShowing: (page: Pages) => void;
+}) {
   return (
-    <Box
-      component='form'
-      sx={{
-        display: 'flex',
-        flexDirection: 'column',
-        mt: '2rem',
-        flexGrow: 1,
-        m: '1rem',
-      }}
-    >
-      <TextField
-        sx={{ display: 'flex' }}
-        variant='standard'
-        label='Journal Name'
-      />
-      <Button sx={{ mt: 'auto' }} variant='contained' type='submit'>
-        Update Settings
+    <>
+      <Button
+        color='secondary'
+        startIcon={<ArrowBackIcon />}
+        onClick={() => setShowing(Pages.DEFAULT)}
+        variant='contained'
+        sx={{ display: 'flex', gap: '0.5rem' }}
+        aria-label='back'
+      >
+        <Typography fontSize='.85rem'>Back to Journal</Typography>
       </Button>
-    </Box>
+    </>
   );
 }
 
