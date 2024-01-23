@@ -25,22 +25,16 @@ function IngredientsPage() {
   const queryClient = useQueryClient();
 
   const { data, error, isLoading } = useQuery({
-    queryKey: ['ingredients', { userId: user?.uid }],
+    queryKey: ['ingredients', user?.uid],
     queryFn: () =>
       fetchDataFromBackend(BASE_URL + `/user/${user?.uid}/ingredients`),
     enabled: !!user,
   });
 
-  const { mutate } = useMutation({
+  const deleteMutation = useMutation({
     mutationFn: deleteDataFromBackend,
-    onSuccess: async () => {
-      console.log('success');
-      if (user?.uid)
-        await queryClient.invalidateQueries({
-          queryKey: ['ingredients', { userId: user.uid }],
-          exact: true,
-          refetchType: 'all',
-        });
+    onSettled: () => {
+      queryClient.invalidateQueries({ queryKey: ['ingredients', user?.uid] });
     },
   });
 
@@ -52,11 +46,19 @@ function IngredientsPage() {
     return <Typography>Error fetching user ingredients</Typography>;
   }
 
+  if (deleteMutation.isError) {
+    return <Typography>Error deleting ingredient</Typography>;
+  }
+
+  if (deleteMutation.isPending) {
+    return <Typography>Mutation pending...</Typography>;
+  }
+
   const handleDelete = (id: number) => {
     if (!user) return;
 
     const url = BASE_URL + `/user/${user.uid}/ingredients/${id}`;
-    mutate(url);
+    deleteMutation.mutate(url);
   };
 
   const mapRows = () => {
