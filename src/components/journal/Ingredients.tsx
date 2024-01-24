@@ -9,9 +9,10 @@ import {
   Typography,
   Button,
   Box,
+  Modal,
 } from '@mui/material';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { useContext, useEffect } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { UserContext } from '../../contexts';
 import {
   convertToLocalDate,
@@ -21,9 +22,11 @@ import {
 import { BASE_URL } from '../../config/axiosConfig';
 import DeleteIcon from '@mui/icons-material/Delete';
 import GoToHome from './GoToHome';
+import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 
 function IngredientsPage() {
   const { user } = useContext(UserContext);
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const queryClient = useQueryClient();
 
   const { data, error, isLoading } = useQuery({
@@ -81,8 +84,19 @@ function IngredientsPage() {
     );
   };
 
+  const handleBtnClick = () => {
+    setIsModalOpen(true);
+  };
+
+  const handleClose = () => {
+    setIsModalOpen(false);
+  };
+
   return (
     <>
+      <Modal open={isModalOpen} onClose={handleClose}>
+        <Typography>Modal Content</Typography>
+      </Modal>
       <Box sx={{ display: 'flex', gap: '3rem' }}>
         <GoToHome url={`/user/${user?.uid}/journal/${user?.journalId}`} />
         <Typography variant='h5'>Ingredients</Typography>
@@ -97,6 +111,16 @@ function IngredientsPage() {
               <TableCell align='center'>Delete</TableCell>
             </TableRow>
           </TableHead>
+          <TableRow sx={{ backgroundColor: 'rgba(39, 245, 82, 0.40)' }}>
+            <TableCell align='center' colSpan={3}>
+              <Button
+                onClick={handleBtnClick}
+                sx={{ display: 'flex', flexGrow: 1, minWidth: '100%' }}
+              >
+                <AddCircleOutlineIcon />
+              </Button>
+            </TableCell>
+          </TableRow>
           <TableBody>{mapRows()}</TableBody>
         </Table>
       </TableContainer>
