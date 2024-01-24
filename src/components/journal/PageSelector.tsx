@@ -45,7 +45,10 @@ function PageSelector() {
           onClick={() =>
             navigate(`/user/${user?.uid}/journal/${userJournal.id}/${item.url}`)
           }
-          sx={{ display: 'flex', flexGrow: 1 }}
+          sx={{
+            display: 'flex',
+            mt: item.url === 'settings' ? 'auto' : null,
+          }}
         >
           <Paper
             sx={{ display: 'flex', flexGrow: 1, p: '1rem', gap: '1.5rem' }}
@@ -85,6 +88,7 @@ export default PageSelector;
 const contentContainerClasses = {
   display: 'flex',
   flexDirection: 'column',
+  flexGrow: 1,
   my: '1rem',
 };
 

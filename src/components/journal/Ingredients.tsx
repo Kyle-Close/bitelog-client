@@ -8,6 +8,7 @@ import {
   Paper,
   Typography,
   Button,
+  Box,
 } from '@mui/material';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { useContext, useEffect } from 'react';
@@ -19,6 +20,7 @@ import {
 } from '../../helpers/utility';
 import { BASE_URL } from '../../config/axiosConfig';
 import DeleteIcon from '@mui/icons-material/Delete';
+import GoToHome from './GoToHome';
 
 function IngredientsPage() {
   const { user } = useContext(UserContext);
@@ -80,18 +82,25 @@ function IngredientsPage() {
   };
 
   return (
-    <TableContainer sx={{ mt: '1rem' }} component={Paper}>
-      <Table size='small'>
-        <TableHead>
-          <TableRow>
-            <TableCell align='center'>Ingredient</TableCell>
-            <TableCell align='center'>Date Added</TableCell>
-            <TableCell align='center'>Delete</TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>{mapRows()}</TableBody>
-      </Table>
-    </TableContainer>
+    <>
+      <Box sx={{ display: 'flex', gap: '3rem' }}>
+        <GoToHome url={`/user/${user?.uid}/journal/${user?.journalId}`} />
+        <Typography variant='h5'>Ingredients</Typography>
+      </Box>
+
+      <TableContainer sx={{ mt: '1rem' }} component={Paper}>
+        <Table size='small'>
+          <TableHead>
+            <TableRow>
+              <TableCell align='center'>Ingredient</TableCell>
+              <TableCell align='center'>Date Added</TableCell>
+              <TableCell align='center'>Delete</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>{mapRows()}</TableBody>
+        </Table>
+      </TableContainer>
+    </>
   );
 }
 
