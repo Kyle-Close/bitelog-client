@@ -25,7 +25,8 @@ function PageSelector() {
     return <Typography>Error fetching user journal.</Typography>;
   }
 
-  if (isLoading || !data) {
+  // Show loading only on initial load when there's no data
+  if (isLoading && !data) {
     return <Typography>Loading journal...</Typography>;
   }
 

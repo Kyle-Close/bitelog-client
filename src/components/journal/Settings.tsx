@@ -1,20 +1,37 @@
 import { Box, TextField, Button } from '@mui/material';
-import { useQuery } from '@tanstack/react-query';
-import { useContext } from 'react';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { useContext, useState } from 'react';
 import { UserContext } from '../../contexts';
-import { fetchDataFromBackend } from '../../helpers/utility';
+import {
+  fetchDataFromBackend,
+  updateDataFromBackend,
+} from '../../helpers/utility';
 import { BASE_URL } from '../../config/axiosConfig';
 import { Typography } from '@mui/material';
 import GoToHome from './GoToHome';
+import { useNavigate } from 'react-router-dom';
 
 function SettingsForm() {
+  const navigate = useNavigate();
+  const queryClient = useQueryClient();
   const { user } = useContext(UserContext);
-
+  const [name, setName] = useState<string>(``);
   const { data, error, isLoading } = useQuery({
     queryKey: ['journal', user?.uid],
     queryFn: () =>
       fetchDataFromBackend(BASE_URL + `/user/${user?.uid}/journal`),
     enabled: !!user,
+  });
+
+  const journalMutation = useMutation({
+    mutationFn: (name: string) =>
+      updateDataFromBackend(
+        BASE_URL + `/user/${user?.uid}/journal/${user?.journalId}`,
+        name
+      ),
+    onSettled: () => {
+      queryClient.invalidateQueries({ queryKey: ['journal', user?.uid] });
+    },
   });
 
   if (error) {
@@ -27,6 +44,17 @@ function SettingsForm() {
 
   const userJournal = data.journals[0];
   const homeURL = `/user/${user?.uid}/journal/${user?.journalId}`;
+
+  const handleSubmit = async () => {
+    if (name === '') return;
+    journalMutation.mutate(name);
+    navigate(`/user/${user?.uid}/journal/${user?.journalId}`);
+  };
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { value } = e.target;
+    setName(value);
+  };
 
   return (
     <Box
@@ -58,11 +86,12 @@ function SettingsForm() {
           variant='filled'
           label='Journal Name'
           size='small'
+          onChange={handleChange}
           placeholder={
             userJournal.name ? userJournal.name : user?.username + "'s Journal"
           }
         />
-        <Button sx={{ mt: 'auto' }} variant='contained' type='submit'>
+        <Button onClick={handleSubmit} sx={{ mt: 'auto' }} variant='contained'>
           Update Settings
         </Button>
       </Box>

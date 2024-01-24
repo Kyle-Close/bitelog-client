@@ -107,3 +107,38 @@ export async function getUserJournalId(userId: string) {
     console.log(err);
   }
 }
+
+export async function updateDataFromBackend(url: string, name: string) {
+  try {
+    const auth = getAuth();
+    const user = auth.currentUser;
+
+    if (!user) {
+      throw new Error('User is not logged in');
+    }
+
+    // Get the user's ID token
+    const idToken = await user.getIdToken();
+
+    // Make the fetch request to the backend
+    const response = await fetch(url, {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${idToken}`,
+      },
+      body: JSON.stringify({ name }),
+    });
+
+    if (!response.ok) {
+      throw new Error(`Network response was not ok: ${response.statusText}`);
+    }
+
+    // Read and parse the response body as JSON
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.log('Error fetching data:', error);
+    throw error; // Rethrow the error if you need to handle it in the calling code
+  }
+}
