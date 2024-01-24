@@ -1,3 +1,4 @@
+import { BASE_URL } from '../config/axiosConfig';
 import { LoginFormData } from '../hooks/useLoginForm';
 import { RegisterFormData } from '../hooks/useRegisterForm';
 import { getAuth } from 'firebase/auth';
@@ -45,12 +46,15 @@ export async function fetchDataFromBackend(url: string) {
     });
 
     if (!response.ok) {
-      throw new Error('Network response was not ok');
+      throw new Error(`Network response was not ok: ${response.statusText}`);
     }
 
-    return response.json();
+    // Read and parse the response body as JSON
+    const data = await response.json();
+    return data;
   } catch (error) {
-    console.error('Error fetching data:', error);
+    console.log('Error fetching data:', error);
+    throw error; // Rethrow the error if you need to handle it in the calling code
   }
 }
 
@@ -91,5 +95,15 @@ export async function deleteDataFromBackend(url: string) {
     return response.json();
   } catch (error) {
     console.error('Error deleting data:', error);
+  }
+}
+
+export async function getUserJournalId(userId: string) {
+  try {
+    const url = BASE_URL + `/user/${userId}/journal`;
+    const data = await fetchDataFromBackend(url);
+    return data.journals[0].id;
+  } catch (err) {
+    console.log(err);
   }
 }

@@ -31,7 +31,7 @@ function GoogleAuthButton({ isLogin }: IGoogleAuthButton) {
         const { email, displayName, uid } = userCredential.user;
         if (!email || !displayName) return;
 
-        LoginUser(auth, { email, username: displayName, uid });
+        LoginUser(auth, { email, username: displayName, uid, journalId: null });
         navigate('/');
       }
     } catch (err: any) {

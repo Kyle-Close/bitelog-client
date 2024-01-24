@@ -4,13 +4,14 @@ import {
   IconButton,
   Typography,
   Divider,
-  Button,
   useTheme,
 } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import SpaIcon from '@mui/icons-material/Spa';
 import AutoStoriesIcon from '@mui/icons-material/AutoStories';
 import { Link } from 'react-router-dom';
+import { useContext } from 'react';
+import { UserContext } from '../../contexts';
 
 export function MobileMenu({
   handleOpenDrawer,
@@ -33,6 +34,26 @@ export function MobileMenu({
 
 function MenuContent({ handleCloseDrawer }: { handleCloseDrawer: () => void }) {
   const theme = useTheme();
+  const createMenuItems = (handleCloseDrawer: () => void) => {
+    const menuList = menuObjectList;
+    const { user } = useContext(UserContext);
+
+    return menuList.map((item) => {
+      const url = `/user/${user?.uid}/journal/${user?.journalId}`;
+      return (
+        <>
+          <Box sx={{ display: 'flex', alignItems: 'center', gap: '.5rem' }}>
+            {item.icon}
+            <Link onClick={handleCloseDrawer} to={url}>
+              {item.name}
+            </Link>
+          </Box>
+          <Divider sx={{ pt: '0.5rem' }} />
+        </>
+      );
+    });
+  };
+
   return (
     <Box
       sx={{
@@ -84,28 +105,10 @@ const mobileMenuContainer = {
   display: { xs: 'flex', md: 'none' },
 };
 
-const createMenuItems = (handleCloseDrawer: () => void) => {
-  const menuList = menuObjectList;
-
-  return menuList.map((item) => {
-    return (
-      <>
-        <Box sx={{ display: 'flex', alignItems: 'center', gap: '.5rem' }}>
-          {item.icon}
-          <Link onClick={handleCloseDrawer} to={item.to}>
-            {item.name}
-          </Link>
-        </Box>
-        <Divider sx={{ pt: '0.5rem' }} />
-      </>
-    );
-  });
-};
-
 export const menuObjectList = [
   {
     name: 'My Journal',
-    to: `/user/${1}/journal`,
+    to: `journal`,
     icon: <AutoStoriesIcon />,
   },
 ];
