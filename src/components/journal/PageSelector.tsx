@@ -72,7 +72,7 @@ function PageSelector() {
         sx={{ minWidth: '100%', pb: '0.5rem' }}
         variant='h6'
       >
-        {userJournal.name}
+        {userJournal.name ? userJournal.name : user?.username + "'s Journal"}
       </Typography>
       <Divider />
       <Box sx={contentContainerClasses}>{createButtons(buttonItems)}</Box>
