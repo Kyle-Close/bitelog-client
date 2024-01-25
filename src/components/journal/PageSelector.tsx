@@ -7,7 +7,7 @@ import { useQuery } from '@tanstack/react-query';
 import { fetchDataFromBackend } from '../../helpers/utility';
 import { BASE_URL } from '../../config/axiosConfig';
 import { useContext } from 'react';
-import { UserContext } from '../../contexts';
+import { User, UserContext } from '../../contexts';
 import { useNavigate } from 'react-router-dom';
 
 function PageSelector() {
@@ -20,6 +20,10 @@ function PageSelector() {
       fetchDataFromBackend(BASE_URL + `/user/${user?.uid}/journal`),
     enabled: !!user,
   });
+
+  if (!user) {
+    return <Typography>Must be logged in.</Typography>;
+  }
 
   if (error) {
     return <Typography>Error fetching user journal.</Typography>;
@@ -36,19 +40,18 @@ function PageSelector() {
     buttonItems: {
       name: string;
       icon: React.ReactElement;
-      url?: string;
+      url: string;
     }[]
   ) => {
     return buttonItems.map((item, key) => {
+      const url = populateLinkVariables(item.url, user);
       return (
         <Button
           key={key}
-          onClick={() =>
-            navigate(`/user/${user?.uid}/journal/${userJournal.id}/${item.url}`)
-          }
+          onClick={() => navigate(url)}
           sx={{
             display: 'flex',
-            mt: item.url === 'settings' ? 'auto' : null,
+            mt: item.url.includes('settings') ? 'auto' : null,
           }}
         >
           <Paper
@@ -95,22 +98,40 @@ const contentContainerClasses = {
 
 const buttonItems = [
   {
-    name: 'Hourly Tracking',
+    name: 'My Journal Logs',
     icon: <CalendarTodayIcon />,
+    url: '/user/:userId/journal/:journalId/logs',
   },
   {
     name: 'My Foods',
     icon: <FastfoodIcon />,
-    url: 'foods',
+    url: '/user/:userId/food',
   },
   {
     name: 'My Ingredients',
     icon: <EggIcon />,
-    url: 'ingredients',
+    url: '/user/:userId/ingredients',
   },
   {
     name: 'Journal Settings',
     icon: <SettingsIcon />,
-    url: 'settings',
+    url: '/user/:userId/journal/:journalId/settings',
   },
 ];
+
+const populateLinkVariables = (inputURL: string, user: User) => {
+  const segments = inputURL.split('/');
+  const updatedSegments = segments.map((segment) => {
+    if (segment.startsWith(':')) {
+      if (segment.toLowerCase().includes('userid')) {
+        return user.uid;
+      } else if (segment.toLowerCase().includes('journalid')) {
+        return user.journalId;
+      }
+    } else {
+      return segment;
+    }
+  });
+
+  return updatedSegments.join('/');
+};

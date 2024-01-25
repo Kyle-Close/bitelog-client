@@ -131,7 +131,7 @@ function IngredientsPage() {
         />
       </BasicModal>
 
-      <Box sx={{ display: 'flex', gap: '3rem' }}>
+      <Box sx={{ display: 'flex', gap: '2rem', alignItems: 'end' }}>
         <GoToHome url={`/user/${user?.uid}/journal/${user?.journalId}`} />
         <Typography variant='h5'>Ingredients</Typography>
       </Box>

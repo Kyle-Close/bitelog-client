@@ -1,9 +1,8 @@
 import App from '../../../App';
-import Journal from '../../../components/journal';
-import IngredientsPage from '../../../components/journal/Ingredients';
+import IngredientsPage from '../../../components/journal/IngredientsPage';
 
 export default {
-  path: '/user/:userId/journal/:journalId/ingredients',
+  path: '/user/:userId/ingredients',
   element: (
     <App>
       <IngredientsPage />
