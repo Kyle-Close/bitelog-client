@@ -25,7 +25,13 @@ function App({ children }: AppProps) {
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
-      <Box sx={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
+      <Box
+        sx={{
+          display: 'flex',
+          flexDirection: 'column',
+          height: '100vh',
+        }}
+      >
         <ResponsiveAppBar />
         {children}
       </Box>

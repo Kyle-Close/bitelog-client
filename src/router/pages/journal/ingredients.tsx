@@ -6,9 +6,7 @@ export default {
   path: '/user/:userId/journal/:journalId/ingredients',
   element: (
     <App>
-      <Journal>
-        <IngredientsPage />
-      </Journal>
+      <IngredientsPage />
     </App>
   ),
 };

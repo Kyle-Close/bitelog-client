@@ -167,13 +167,18 @@ export async function createDataOnBackend(
     });
 
     if (!response.ok) {
-      // TODO - deal with err handling. err can come as string or arr
-
       const errorBody = await response.json(); // Assuming the server sends a JSON response
-      console.log('HERE: ', errorBody);
-      let err = '';
-      if (errorBody.length > 0) {
+      let errorList: string[] = [];
+
+      if (Array.isArray(errorBody.err)) {
+        errorBody.err.forEach((err: any) => {
+          errorList.push(err.msg);
+        });
+
+        const errorResponse = errorList.join('||');
+        throw new Error(errorResponse);
       }
+
       throw new Error(
         errorBody.err || `HTTP error! status: ${response.status}`
       );

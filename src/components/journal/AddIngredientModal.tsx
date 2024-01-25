@@ -17,7 +17,7 @@ interface DisplayMessage {
   message?: React.ReactNode;
 }
 
-function AddIngredientModal() {
+function AddIngredientModalContent() {
   const queryClient = useQueryClient();
   const { user } = useContext(UserContext);
   const [displayMessage, setDisplayMessage] = useState<DisplayMessage | null>();
@@ -41,6 +41,7 @@ function AddIngredientModal() {
       queryClient.invalidateQueries({ queryKey: ['ingredients', user?.uid] });
     },
     onError: (error) => {
+      console.log(error);
       const msg = (
         <Box sx={{ display: 'flex', gap: '0.5rem', alignItems: 'end' }}>
           <ErrorIcon color='error' />
@@ -70,44 +71,25 @@ function AddIngredientModal() {
   };
 
   return (
-    <Box sx={style}>
-      <Typography variant='h6'>Add Ingredient</Typography>
-      <Box
-        component='form'
-        onSubmit={handleSubmit}
-        sx={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}
-      >
-        <TextField
-          onChange={handleChange}
-          size='small'
-          label='Ingredient'
-          placeholder='Olive Oil'
-          variant='filled'
-          sx={{ display: 'flex' }}
-        ></TextField>
-        {displayMessage && displayMessage.show && displayMessage.message}
-        <Button variant='contained' type='submit'>
-          Add Ingredient
-        </Button>
-      </Box>
+    <Box
+      component='form'
+      onSubmit={handleSubmit}
+      sx={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}
+    >
+      <TextField
+        onChange={handleChange}
+        size='small'
+        label='Ingredient'
+        placeholder='Olive Oil'
+        variant='filled'
+        sx={{ display: 'flex' }}
+      ></TextField>
+      {displayMessage && displayMessage.show && displayMessage.message}
+      <Button variant='contained' type='submit'>
+        Add Ingredient
+      </Button>
     </Box>
   );
 }
 
-export default AddIngredientModal;
-
-const style = {
-  position: 'absolute' as 'absolute',
-  top: '50%',
-  left: '50%',
-  transform: 'translate(-50%, -50%)',
-  width: 400,
-  bgcolor: '#4A525A',
-  border: '2px solid #000',
-  borderRadius: '8px',
-  boxShadow: 24,
-  p: '2rem',
-  display: 'flex',
-  flexDirection: 'column',
-  gap: '1rem',
-};
+export default AddIngredientModalContent;

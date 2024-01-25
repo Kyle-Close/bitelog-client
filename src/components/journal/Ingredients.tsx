@@ -23,12 +23,25 @@ import { BASE_URL } from '../../config/axiosConfig';
 import DeleteIcon from '@mui/icons-material/Delete';
 import GoToHome from './GoToHome';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
-import AddIngredientModal from './AddIngredientModal';
+import AddIngredientModalContent from './AddIngredientModal';
+import DeleteIngredientModal from './DeleteIngredientModalContent';
+import BasicModal from '../generic/BasicModal';
+import DeleteIngredientModalContent from './DeleteIngredientModalContent';
+
+interface CurrentIngredient {
+  name: string;
+  id: number;
+}
 
 function IngredientsPage() {
   const { user } = useContext(UserContext);
-  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  const [isCreateIngredientModalOpen, setIsCreateIngredientModalOpen] =
+    useState<boolean>(false);
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState<boolean>(false);
   const queryClient = useQueryClient();
+  const [currentIngredient, setCurrentIngredient] = useState<CurrentIngredient>(
+    { name: '', id: 0 }
+  );
 
   const { data, error, isLoading } = useQuery({
     queryKey: ['ingredients', user?.uid],
@@ -71,12 +84,15 @@ function IngredientsPage() {
     return data.ingredients.map(
       (row: { id: number; name: string; createdAt: string }) => (
         <TableRow key={row.id}>
-          <TableCell align='center'>{row.name.toLowerCase()}</TableCell>
-          <TableCell align='center'>
-            {convertToLocalDate(row.createdAt)}
-          </TableCell>
-          <TableCell align='center'>
-            <Button onClick={() => handleDelete(row.id)}>
+          <TableCell>{row.name.toLowerCase()}</TableCell>
+          <TableCell>{convertToLocalDate(row.createdAt)}</TableCell>
+          <TableCell>
+            <Button
+              onClick={() => {
+                setCurrentIngredient({ name: row.name, id: row.id });
+                setIsDeleteModalOpen(true);
+              }}
+            >
               <DeleteIcon color='error' />
             </Button>
           </TableCell>
@@ -86,34 +102,51 @@ function IngredientsPage() {
   };
 
   const handleBtnClick = () => {
-    setIsModalOpen(true);
+    setIsCreateIngredientModalOpen(true);
   };
 
   const handleClose = () => {
-    setIsModalOpen(false);
+    setIsCreateIngredientModalOpen(false);
   };
 
   return (
-    <>
-      <Modal open={isModalOpen} onClose={handleClose}>
-        <AddIngredientModal />
-      </Modal>
+    <Box sx={{ p: '1rem' }}>
+      <BasicModal
+        isOpen={isCreateIngredientModalOpen}
+        onClose={handleClose}
+        title='Create Ingredient'
+      >
+        <AddIngredientModalContent />
+      </BasicModal>
+
+      <BasicModal
+        isOpen={isDeleteModalOpen}
+        onClose={() => setIsDeleteModalOpen(false)}
+        title='Delete Ingredient'
+      >
+        <DeleteIngredientModalContent
+          handleDelete={handleDelete}
+          handleClose={() => setIsDeleteModalOpen(false)}
+          currentIngredient={currentIngredient}
+        />
+      </BasicModal>
+
       <Box sx={{ display: 'flex', gap: '3rem' }}>
         <GoToHome url={`/user/${user?.uid}/journal/${user?.journalId}`} />
         <Typography variant='h5'>Ingredients</Typography>
       </Box>
 
       <TableContainer sx={{ mt: '1rem' }} component={Paper}>
-        <Table size='small'>
+        <Table stickyHeader size='small' sx={{ maxWidth: '100%' }}>
           <TableHead>
             <TableRow>
-              <TableCell align='center'>Ingredient</TableCell>
-              <TableCell align='center'>Date Added</TableCell>
-              <TableCell align='center'>Delete</TableCell>
+              <TableCell>Ingredient</TableCell>
+              <TableCell>Date Added</TableCell>
+              <TableCell>Delete</TableCell>
             </TableRow>
           </TableHead>
           <TableRow sx={{ backgroundColor: 'rgba(39, 245, 82, 0.40)' }}>
-            <TableCell align='center' colSpan={3}>
+            <TableCell colSpan={3}>
               <Button
                 onClick={handleBtnClick}
                 sx={{ display: 'flex', flexGrow: 1, minWidth: '100%' }}
@@ -125,7 +158,7 @@ function IngredientsPage() {
           <TableBody>{mapRows()}</TableBody>
         </Table>
       </TableContainer>
-    </>
+    </Box>
   );
 }
 
