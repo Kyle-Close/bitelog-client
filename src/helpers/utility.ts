@@ -167,6 +167,8 @@ export async function createDataOnBackend(
     });
 
     if (!response.ok) {
+      // TODO - deal with err handling. err can come as string or arr
+
       const errorBody = await response.json(); // Assuming the server sends a JSON response
       console.log('HERE: ', errorBody);
       let err = '';
