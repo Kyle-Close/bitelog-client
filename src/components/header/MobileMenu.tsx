@@ -62,6 +62,7 @@ function MenuContent({ handleCloseDrawer }: { handleCloseDrawer: () => void }) {
       sx={{
         display: 'flex',
         flexDirection: 'column',
+        p: '0.8rem',
       }}
     >
       <Box
