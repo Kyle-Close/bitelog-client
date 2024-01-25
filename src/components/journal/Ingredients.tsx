@@ -12,7 +12,7 @@ import {
   Modal,
 } from '@mui/material';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { useContext, useEffect, useState } from 'react';
+import { useContext, useState } from 'react';
 import { UserContext } from '../../contexts';
 import {
   convertToLocalDate,
@@ -23,6 +23,7 @@ import { BASE_URL } from '../../config/axiosConfig';
 import DeleteIcon from '@mui/icons-material/Delete';
 import GoToHome from './GoToHome';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
+import AddIngredientModal from './AddIngredientModal';
 
 function IngredientsPage() {
   const { user } = useContext(UserContext);
@@ -43,10 +44,6 @@ function IngredientsPage() {
     },
   });
 
-  if (isLoading) {
-    return <Typography>Loading ingredients...</Typography>;
-  }
-
   if (error) {
     return <Typography>Error fetching user ingredients</Typography>;
   }
@@ -57,6 +54,10 @@ function IngredientsPage() {
 
   if (deleteMutation.isPending) {
     return <Typography>Mutation pending...</Typography>;
+  }
+
+  if (isLoading || !data) {
+    return <Typography>Loading ingredients...</Typography>;
   }
 
   const handleDelete = (id: number) => {
@@ -95,7 +96,7 @@ function IngredientsPage() {
   return (
     <>
       <Modal open={isModalOpen} onClose={handleClose}>
-        <Typography>Modal Content</Typography>
+        <AddIngredientModal />
       </Modal>
       <Box sx={{ display: 'flex', gap: '3rem' }}>
         <GoToHome url={`/user/${user?.uid}/journal/${user?.journalId}`} />

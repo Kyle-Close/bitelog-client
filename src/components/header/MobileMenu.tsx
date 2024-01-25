@@ -38,11 +38,14 @@ function MenuContent({ handleCloseDrawer }: { handleCloseDrawer: () => void }) {
     const menuList = menuObjectList;
     const { user } = useContext(UserContext);
 
-    return menuList.map((item) => {
+    return menuList.map((item, key) => {
       const url = `/user/${user?.uid}/journal/${user?.journalId}`;
       return (
         <>
-          <Box sx={{ display: 'flex', alignItems: 'center', gap: '.5rem' }}>
+          <Box
+            key={key}
+            sx={{ display: 'flex', alignItems: 'center', gap: '.5rem' }}
+          >
             {item.icon}
             <Link onClick={handleCloseDrawer} to={url}>
               {item.name}

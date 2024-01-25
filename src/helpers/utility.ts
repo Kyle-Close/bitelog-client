@@ -135,10 +135,51 @@ export async function updateDataFromBackend(url: string, name: string) {
     }
 
     // Read and parse the response body as JSON
-    const data = await response.json();
-    return data;
+    return await response.json();
   } catch (error) {
     console.log('Error fetching data:', error);
     throw error; // Rethrow the error if you need to handle it in the calling code
+  }
+}
+
+export async function createDataOnBackend(
+  url: string,
+  data: Record<string, any>
+) {
+  try {
+    const auth = getAuth();
+    const user = auth.currentUser;
+
+    if (!user) {
+      throw new Error('User is not logged in');
+    }
+
+    // Get the user's ID token
+    const idToken = await user.getIdToken();
+
+    const response = await fetch(url, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${idToken}`,
+      },
+      body: JSON.stringify(data),
+    });
+
+    if (!response.ok) {
+      const errorBody = await response.json(); // Assuming the server sends a JSON response
+      console.log('HERE: ', errorBody);
+      let err = '';
+      if (errorBody.length > 0) {
+      }
+      throw new Error(
+        errorBody.err || `HTTP error! status: ${response.status}`
+      );
+    }
+
+    return await response.json();
+  } catch (error) {
+    console.error('Error in createDataOnBackend:', error);
+    throw error;
   }
 }

@@ -17,7 +17,7 @@ function useFirebaseAuth() {
           return;
         }
 
-        LoginUser(auth, { email, username: displayName, uid });
+        LoginUser(auth, { email, username: displayName, uid, journalId: null });
       } else {
         ClearUserContext();
       }
