@@ -4,9 +4,9 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import ExpandRowCell from './ExpandRowCell';
 import { FoodDataValues } from './FoodsPage';
 import { useState } from 'react';
-import ExpandedSection from './ExpandedSection';
+import ExpandedRowUpdateFood from './ExpandedRowUpdateFood';
 
-interface RowProps {
+export interface RowProps {
   food: FoodDataValues;
 }
 
@@ -28,13 +28,8 @@ function Row({ food }: RowProps) {
           </Button>
         </TableCell>
       </TableRow>
-      <TableRow>
-        <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
-          <Collapse in={open} timeout='auto' unmountOnExit>
-            <ExpandedSection foodId={food.id} />
-          </Collapse>
-        </TableCell>
-      </TableRow>
+      {/* <ExpandedRowIngredientList food={food} open={open} /> */}
+      <ExpandedRowUpdateFood open={open} food={food} />
     </>
   );
 }
