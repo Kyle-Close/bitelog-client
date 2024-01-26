@@ -1,4 +1,4 @@
-import { Box, List, Typography, ListItem } from '@mui/material';
+import { Box, List, Typography, ListItem, Paper } from '@mui/material';
 import { useContext } from 'react';
 import { UserContext } from '../../contexts';
 import { useQuery } from '@tanstack/react-query';
@@ -9,7 +9,7 @@ interface ExpandedSectionProps {
   foodId: number;
 }
 
-type IngredientDataValue = {
+export type IngredientDataValue = {
   id: number;
   name: string;
   createdAt: string;
@@ -45,7 +45,9 @@ function ExpandedSection({ foodId }: ExpandedSectionProps) {
       <Typography fontSize='0.85rem' variant='h6'>
         Ingredient List
       </Typography>
-      <IngredientList ingredients={ingredients} />
+      <Paper elevation={6}>
+        <IngredientList ingredients={ingredients} />
+      </Paper>
     </Box>
   );
 }
