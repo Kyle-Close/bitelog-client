@@ -1,9 +1,9 @@
 import { Box, List, Typography, ListItem, Paper } from '@mui/material';
 import { useContext } from 'react';
-import { UserContext } from '../../contexts';
+import { UserContext } from '../../../../../contexts';
 import { useQuery } from '@tanstack/react-query';
-import { fetchDataFromBackend } from '../../helpers/utility';
-import { BASE_URL } from '../../config/axiosConfig';
+import { fetchDataFromBackend } from '../../../../../helpers/utility';
+import { BASE_URL } from '../../../../../config/axiosConfig';
 
 interface ExpandedSectionProps {
   foodId: number;

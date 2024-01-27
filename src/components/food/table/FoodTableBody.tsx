@@ -1,5 +1,5 @@
-import { FoodDataValues } from './FoodsPage';
-import Row from './Row';
+import { FoodDataValues } from '../FoodsPage';
+import Row from './rows/Row';
 
 interface FoodTableBodyProps {
   foodData: FoodDataValues[];

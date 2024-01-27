@@ -1,6 +1,6 @@
 import { Paper, Table, TableContainer } from '@mui/material';
-import { FoodDataValues } from './FoodsPage';
-import CustomHeaderRow from './CustomHeaderRow';
+import { FoodDataValues } from '../FoodsPage';
+import CustomHeaderRow from './rows/CustomHeaderRow';
 import FoodTableBody from './FoodTableBody';
 
 interface FoodTableProps {

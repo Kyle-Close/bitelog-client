@@ -1,6 +1,6 @@
 import { TableRow, TableCell, Collapse } from '@mui/material';
 import ExpandedSection from './ExpandedSection';
-import { FoodDataValues } from './FoodsPage';
+import { FoodDataValues } from '../../../FoodsPage';
 
 interface ExpandedRowIngredientListProps {
   food: FoodDataValues;

@@ -1,10 +1,10 @@
 import { TableRow, TableCell, Collapse, Box, Button } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
-import ExpandRowCell from './ExpandRowCell';
-import { FoodDataValues } from './FoodsPage';
+import ExpandRowCell from '../expanded/ExpandRowCell';
+import { FoodDataValues } from '../../FoodsPage';
 import { useState } from 'react';
-import ExpandedRowUpdateFood from './ExpandedRowUpdateFood';
+import ExpandedRowUpdateFood from '../expanded/update-food/ExpandedRowUpdateFood';
 
 export interface RowProps {
   food: FoodDataValues;

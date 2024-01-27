@@ -1,6 +1,6 @@
 import { TableRow, TableCell, Collapse } from '@mui/material';
 import UpdateFoodForm from './UpdateFoodForm';
-import { FoodDataValues } from './FoodsPage';
+import { FoodDataValues } from '../../../FoodsPage';
 
 interface ExpandedRowUpdateFoodProps {
   open: boolean;

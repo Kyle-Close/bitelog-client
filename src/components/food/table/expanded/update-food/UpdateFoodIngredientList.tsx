@@ -9,7 +9,7 @@ import {
   Divider,
 } from '@mui/material';
 import RemoveIcon from '@mui/icons-material/Remove';
-import { IngredientDataValue } from './ExpandedSection';
+import { IngredientDataValue } from '../food-ingredients/ExpandedSection';
 
 interface UpdateFoodIngredientListProps {
   ingredientsList: IngredientDataValue[];

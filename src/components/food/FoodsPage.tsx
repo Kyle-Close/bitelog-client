@@ -5,7 +5,7 @@ import { fetchDataFromBackend } from '../../helpers/utility';
 import { BASE_URL } from '../../config/axiosConfig';
 import { Box, Typography } from '@mui/material';
 import GoToHome from '../journal/GoToHome';
-import FoodTable from './FoodTable';
+import FoodTable from './table/FoodTable';
 
 export interface FoodDataValues {
   id: number;

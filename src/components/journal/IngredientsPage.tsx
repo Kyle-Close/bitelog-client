@@ -9,7 +9,6 @@ import {
   Typography,
   Button,
   Box,
-  Modal,
 } from '@mui/material';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { useContext, useState } from 'react';
@@ -24,7 +23,6 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import GoToHome from './GoToHome';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import AddIngredientModalContent from './AddIngredientModal';
-import DeleteIngredientModal from './DeleteIngredientModalContent';
 import BasicModal from '../generic/BasicModal';
 import DeleteIngredientModalContent from './DeleteIngredientModalContent';
 
