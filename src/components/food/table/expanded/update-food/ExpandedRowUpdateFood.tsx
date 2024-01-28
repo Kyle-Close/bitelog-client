@@ -1,22 +1,22 @@
 import { TableRow, TableCell, Collapse } from '@mui/material';
-import UpdateFoodForm from './UpdateFoodForm';
 import { FoodDataValues } from '../../../FoodsPage';
 
-interface ExpandedRowUpdateFoodProps {
+interface ExpandedRowProps {
   open: boolean;
   food: FoodDataValues;
+  children?: React.ReactNode;
 }
 
-function ExpandedRowUpdateFood({ open, food }: ExpandedRowUpdateFoodProps) {
+function ExpandedRow({ open, children }: ExpandedRowProps) {
   return (
     <TableRow sx={{ p: 0 }}>
       <TableCell sx={{ p: 0 }} colSpan={6}>
         <Collapse in={open} timeout='auto' unmountOnExit>
-          <UpdateFoodForm food={food} />
+          {children}
         </Collapse>
       </TableCell>
     </TableRow>
   );
 }
 
-export default ExpandedRowUpdateFood;
+export default ExpandedRow;

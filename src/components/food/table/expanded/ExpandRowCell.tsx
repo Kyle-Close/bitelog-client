@@ -1,21 +1,40 @@
 import { TableCell, IconButton } from '@mui/material';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
+import UpdateFoodForm from './update-food/UpdateFoodForm';
+import { FoodDataValues } from '../../FoodsPage';
+import { ExpandedRow } from '../rows/Row';
 
 interface ExpandRowCellProps {
-  open: boolean;
-  setOpen: (open: boolean) => void;
+  expandedRow: ExpandedRow;
+  setExpandedRow: React.Dispatch<React.SetStateAction<ExpandedRow>>;
+  food: FoodDataValues;
 }
 
-function ExpandRowCell({ open, setOpen }: ExpandRowCellProps) {
+function ExpandRowCell({
+  expandedRow,
+  setExpandedRow,
+  food,
+}: ExpandRowCellProps) {
   return (
     <TableCell>
       <IconButton
         aria-label='expand row'
         size='small'
-        onClick={() => setOpen(!open)}
+        onClick={() =>
+          setExpandedRow((prevExpandedRow: ExpandedRow) => {
+            return {
+              component: <UpdateFoodForm food={food} />,
+              isOpen: !prevExpandedRow.isOpen,
+            };
+          })
+        }
       >
-        {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
+        {expandedRow.isOpen ? (
+          <KeyboardArrowUpIcon />
+        ) : (
+          <KeyboardArrowDownIcon />
+        )}
       </IconButton>
     </TableCell>
   );

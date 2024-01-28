@@ -4,32 +4,61 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import ExpandRowCell from '../expanded/ExpandRowCell';
 import { FoodDataValues } from '../../FoodsPage';
 import { useState } from 'react';
-import ExpandedRowUpdateFood from '../expanded/update-food/ExpandedRowUpdateFood';
-
+import ExpandedRow from '../expanded/update-food/ExpandedRowUpdateFood';
+import UpdateFoodForm from '../expanded/update-food/UpdateFoodForm';
+import DeleteFood from '../expanded/DeleteFood';
 export interface RowProps {
   food: FoodDataValues;
 }
 
+export interface ExpandedRow {
+  isOpen: boolean;
+  component: React.ReactNode | null;
+}
+
 function Row({ food }: RowProps) {
-  const [open, setOpen] = useState(false);
+  const [expandedRow, setExpandedRow] = useState<ExpandedRow>({
+    isOpen: false,
+    component: null,
+  });
+
   return (
     <>
       <TableRow>
-        <ExpandRowCell open={open} setOpen={setOpen} />
+        <ExpandRowCell
+          expandedRow={expandedRow}
+          setExpandedRow={setExpandedRow}
+          food={food}
+        />
         <TableCell>{food.name}</TableCell>
         <TableCell align='right'>
-          <Button>
+          <Button
+            onClick={() =>
+              setExpandedRow({
+                component: <UpdateFoodForm food={food} />,
+                isOpen: true,
+              })
+            }
+          >
             <EditIcon color='info' />
           </Button>
         </TableCell>
         <TableCell align='right'>
-          <Button>
+          <Button
+            onClick={() =>
+              setExpandedRow({
+                component: <DeleteFood food={food} />,
+                isOpen: true,
+              })
+            }
+          >
             <DeleteIcon color='error' />
           </Button>
         </TableCell>
       </TableRow>
-      {/* <ExpandedRowIngredientList food={food} open={open} /> */}
-      <ExpandedRowUpdateFood open={open} food={food} />
+      <ExpandedRow open={expandedRow.isOpen} food={food}>
+        {expandedRow.component}
+      </ExpandedRow>
     </>
   );
 }
