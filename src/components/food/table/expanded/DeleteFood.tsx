@@ -1,11 +1,37 @@
 import { Box, Button, Typography } from '@mui/material';
 import { FoodDataValues } from '../../FoodsPage';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { useContext } from 'react';
+import { UserContext } from '../../../../contexts';
+import { makeRequestToBackend } from '../../../../helpers/utility';
+import { BASE_URL } from '../../../../config/axiosConfig';
 
 interface DeleteFoodProps {
   food: FoodDataValues;
 }
 
+const deleteFoodFn = (uid: string | undefined, foodId: number) => {
+  const url = BASE_URL + `/user/${uid}/food/${foodId}`;
+  const method = 'DELETE';
+
+  return makeRequestToBackend({ url, method });
+};
+
 function DeleteFood({ food }: DeleteFoodProps) {
+  const { user } = useContext(UserContext);
+  const queryClient = useQueryClient();
+
+  const deleteFoodMutation = useMutation({
+    mutationKey: ['food', user?.uid, food.id],
+    mutationFn: () => deleteFoodFn(user?.uid, food.id),
+    onSettled: () =>
+      queryClient.invalidateQueries({ queryKey: ['food', user?.uid] }),
+  });
+
+  const handleClick = () => {
+    deleteFoodMutation.mutate();
+  };
+
   return (
     <Box
       component='form'
@@ -20,7 +46,7 @@ function DeleteFood({ food }: DeleteFoodProps) {
       <Typography>
         Are you sure you want to delete the food '{food.name}'?
       </Typography>
-      <Button variant='contained' color='error'>
+      <Button onClick={handleClick} variant='contained' color='error'>
         Confirm Delete
       </Button>
     </Box>

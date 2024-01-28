@@ -4,7 +4,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import ExpandRowCell from '../expanded/ExpandRowCell';
 import { FoodDataValues } from '../../FoodsPage';
 import { useState } from 'react';
-import ExpandedRow from '../expanded/update-food/ExpandedRowUpdateFood';
+import ExpandedRow from '../expanded/update-food/ExpandedRow';
 import UpdateFoodForm from '../expanded/update-food/UpdateFoodForm';
 import DeleteFood from '../expanded/DeleteFood';
 export interface RowProps {

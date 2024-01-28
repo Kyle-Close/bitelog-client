@@ -1,14 +1,21 @@
 import { FoodDataValues } from '../FoodsPage';
+import ExpandedRow from './expanded/update-food/ExpandedRow';
 import Row from './rows/Row';
 
 interface FoodTableBodyProps {
   foodData: FoodDataValues[];
+  createFoodIsOpen: boolean;
 }
 
-function FoodTableBody({ foodData }: FoodTableBodyProps) {
-  return foodData.map((food) => {
-    return <Row food={food} />;
-  });
+function FoodTableBody({ foodData, createFoodIsOpen }: FoodTableBodyProps) {
+  return (
+    <>
+      <ExpandedRow open={createFoodIsOpen}>Some content</ExpandedRow>
+      {foodData.map((food) => {
+        return <Row food={food} />;
+      })}
+    </>
+  );
 }
 
 export default FoodTableBody;

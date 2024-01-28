@@ -1,9 +1,9 @@
 import { useQuery, useQueryClient } from '@tanstack/react-query';
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
 import { UserContext } from '../../contexts';
 import { fetchDataFromBackend } from '../../helpers/utility';
 import { BASE_URL } from '../../config/axiosConfig';
-import { Box, Typography } from '@mui/material';
+import { Box, Button, Typography } from '@mui/material';
 import GoToHome from '../journal/GoToHome';
 import FoodTable from './table/FoodTable';
 
@@ -17,7 +17,7 @@ export interface FoodDataValues {
 
 function FoodsPage() {
   const { user } = useContext(UserContext);
-  const queryClient = useQueryClient();
+  const [createFoodIsOpen, setCreateFoodIsOpen] = useState<boolean>(false);
   const foodQuery = useQuery({
     queryKey: ['food', user?.uid],
     queryFn: () => fetchDataFromBackend(BASE_URL + `/user/${user?.uid}/food`),
@@ -31,15 +31,20 @@ function FoodsPage() {
   }
 
   const foodData: FoodDataValues[] = foodQuery.data.foodDataValues;
-  console.log(foodData);
+
+  const handleClick = () => {
+    setCreateFoodIsOpen(true);
+  };
 
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', p: '1rem' }}>
       <Box sx={{ display: 'flex', gap: '2rem', alignItems: 'end' }}>
-        <GoToHome url={`/user/${user?.uid}/journal/${user?.journalId}`} />
         <Typography variant='h5'>Foods</Typography>
+        <Button onClick={handleClick} sx={{ ml: 'auto' }} variant='contained'>
+          Create Food
+        </Button>
       </Box>
-      <FoodTable foodData={foodData} />
+      <FoodTable createFoodIsOpen={createFoodIsOpen} foodData={foodData} />
     </Box>
   );
 }

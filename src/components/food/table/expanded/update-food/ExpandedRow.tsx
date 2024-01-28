@@ -3,7 +3,7 @@ import { FoodDataValues } from '../../../FoodsPage';
 
 interface ExpandedRowProps {
   open: boolean;
-  food: FoodDataValues;
+  food?: FoodDataValues;
   children?: React.ReactNode;
 }
 

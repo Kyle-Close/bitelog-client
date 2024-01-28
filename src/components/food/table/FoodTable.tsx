@@ -5,14 +5,18 @@ import FoodTableBody from './FoodTableBody';
 
 interface FoodTableProps {
   foodData: FoodDataValues[];
+  createFoodIsOpen: boolean;
 }
 
-function FoodTable({ foodData }: FoodTableProps) {
+function FoodTable({ foodData, createFoodIsOpen }: FoodTableProps) {
   return (
     <TableContainer sx={{ mt: '1rem' }} component={Paper}>
       <Table aria-label='food data table'>
         <CustomHeaderRow />
-        <FoodTableBody foodData={foodData}></FoodTableBody>
+        <FoodTableBody
+          createFoodIsOpen={createFoodIsOpen}
+          foodData={foodData}
+        ></FoodTableBody>
       </Table>
     </TableContainer>
   );
