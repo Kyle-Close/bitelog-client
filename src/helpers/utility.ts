@@ -142,7 +142,7 @@ export async function updateDataFromBackend(url: string, name: string) {
   }
 }
 
-export async function createDataOnBackend(
+export async function mutateDataOnBackend(
   url: string,
   data: Record<string, any>
 ) {
@@ -187,6 +187,76 @@ export async function createDataOnBackend(
     return await response.json();
   } catch (error) {
     console.error('Error in createDataOnBackend:', error);
+    throw error;
+  }
+}
+
+export function capitalizeFirstLetter(string: string) {
+  return string.charAt(0).toUpperCase() + string.slice(1);
+}
+
+type RequestBody =
+  | Record<string, unknown>
+  | Blob
+  | FormData
+  | URLSearchParams
+  | string
+  | null;
+
+export interface RequestToBackend {
+  url: string;
+  method?: 'GET' | 'PUT' | 'PATCH' | 'POST' | 'DELETE';
+  headers?: object;
+  body?: RequestBody | null;
+  authRequired?: boolean;
+}
+
+export async function makeRequestToBackend({
+  url,
+  method = 'GET',
+  headers = {},
+  body = null,
+  authRequired = true,
+}: RequestToBackend) {
+  try {
+    let idToken = null;
+
+    if (authRequired) {
+      const auth = getAuth();
+      const user = auth.currentUser;
+      if (!user) {
+        throw new Error('User is not logged in');
+      }
+      idToken = await user.getIdToken();
+    }
+
+    const finalHeaders: HeadersInit = {
+      'Content-Type': 'application/json',
+      ...headers,
+    };
+
+    if (idToken) {
+      finalHeaders['Authorization'] = `Bearer ${idToken}`;
+    }
+
+    const requestOptions: RequestInit = {
+      method,
+      headers: finalHeaders,
+    };
+
+    if (body) {
+      requestOptions.body = JSON.stringify(body);
+    }
+
+    const response = await fetch(url, requestOptions);
+
+    if (!response.ok) {
+      throw new Error(`Network response was not ok: ${response.statusText}`);
+    }
+
+    return await response.json();
+  } catch (error) {
+    console.error('Error making request:', error);
     throw error;
   }
 }

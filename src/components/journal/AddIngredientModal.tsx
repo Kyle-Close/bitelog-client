@@ -2,7 +2,7 @@ import { Box, Button, TextField, Typography } from '@mui/material';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useContext, useState } from 'react';
 import { UserContext } from '../../contexts';
-import { createDataOnBackend } from '../../helpers/utility';
+import { mutateDataOnBackend } from '../../helpers/utility';
 import { BASE_URL } from '../../config/axiosConfig';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import ErrorIcon from '@mui/icons-material/Error';
@@ -24,7 +24,7 @@ function AddIngredientModalContent() {
   const [ingredient, setIngredient] = useState<string>('');
   const addIngredientMutation = useMutation({
     mutationKey: ['ingredients', user?.uid],
-    mutationFn: ({ url, data }: MutationArgs) => createDataOnBackend(url, data),
+    mutationFn: ({ url, data }: MutationArgs) => mutateDataOnBackend(url, data),
     onSuccess: () => {
       const msg = (
         <Box sx={{ display: 'flex', gap: '0.5rem', alignItems: 'end' }}>
