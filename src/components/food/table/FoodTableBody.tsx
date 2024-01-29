@@ -1,5 +1,5 @@
 import { FoodDataValues } from '../FoodsPage';
-import ExpandedRow from './expanded/update-food/ExpandedRow';
+import ExpandedRow from './expanded/ExpandedRow';
 import Row from './rows/Row';
 
 interface FoodTableBodyProps {

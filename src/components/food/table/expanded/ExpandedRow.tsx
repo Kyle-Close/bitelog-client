@@ -1,5 +1,5 @@
 import { TableRow, TableCell, Collapse } from '@mui/material';
-import { FoodDataValues } from '../../../FoodsPage';
+import { FoodDataValues } from '../../FoodsPage';
 
 interface ExpandedRowProps {
   open: boolean;
