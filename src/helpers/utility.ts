@@ -195,6 +195,8 @@ export function capitalizeFirstLetter(string: string) {
   return string.charAt(0).toUpperCase() + string.slice(1);
 }
 
+export type Method = 'GET' | 'PUT' | 'PATCH' | 'POST' | 'DELETE';
+
 type RequestBody =
   | Record<string, unknown>
   | Blob
@@ -205,7 +207,7 @@ type RequestBody =
 
 export interface RequestToBackend {
   url: string;
-  method?: 'GET' | 'PUT' | 'PATCH' | 'POST' | 'DELETE';
+  method?: Method;
   headers?: object;
   body?: RequestBody | null;
   authRequired?: boolean;

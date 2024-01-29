@@ -1,7 +1,7 @@
 import { TableCell, IconButton } from '@mui/material';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
-import UpdateFoodForm from './update-food/UpdateFoodForm';
+import FoodForm from './FoodForm';
 import { FoodDataValues } from '../../FoodsPage';
 import { ExpandedRow } from '../rows/Row';
 
@@ -24,7 +24,7 @@ function ExpandRowCell({
         onClick={() =>
           setExpandedRow((prevExpandedRow: ExpandedRow) => {
             return {
-              component: <UpdateFoodForm food={food} />,
+              component: <FoodForm food={food} />,
               isOpen: !prevExpandedRow.isOpen,
             };
           })

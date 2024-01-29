@@ -1,42 +1,46 @@
 import { useState, useContext, useEffect } from 'react';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import {
-  RequestToBackend,
   fetchDataFromBackend,
   makeRequestToBackend,
+  Method,
+  RequestToBackend,
 } from '../helpers/utility';
 import { BASE_URL } from '../config/axiosConfig';
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { UserContext } from '../contexts';
 import { FoodDataValues } from '../components/food/FoodsPage';
 import { IngredientDataValue } from '../components/food/table/expanded/food-ingredients/ExpandedSection';
 
-function useUpdateFoodForm(food: FoodDataValues) {
+function useFoodForm(food?: FoodDataValues) {
   const queryClient = useQueryClient();
-  const [foodName, setFoodName] = useState(food.name);
+  const [foodName, setFoodName] = useState(food?.name || '');
   const [ingredients, setIngredients] = useState<IngredientDataValue[]>([]);
   const { user } = useContext(UserContext);
+
   const foodIngredientsQuery = useQuery({
-    queryKey: [
-      'food ingredients',
-      {
-        uid: user?.uid,
-        foodId: food.id,
-      },
-    ],
+    queryKey: ['food ingredients', { uid: user?.uid, foodId: food?.id }],
     queryFn: () =>
-      fetchDataFromBackend(BASE_URL + `/user/${user?.uid}/food/${food.id}`),
+      fetchDataFromBackend(`${BASE_URL}/user/${user?.uid}/food/${food?.id}`),
+    enabled: !!food,
   });
+
   const userIngredientsQuery = useQuery({
     queryKey: ['ingredients', user?.uid],
     queryFn: () =>
-      fetchDataFromBackend(BASE_URL + `/user/${user?.uid}/ingredients`),
+      fetchDataFromBackend(`${BASE_URL}/user/${user?.uid}/ingredients`),
     enabled: !!user,
   });
+
   const updateMutation = useMutation({
-    mutationKey: ['food', user?.uid, food.id],
+    mutationKey: ['food', user?.uid, food?.id],
     mutationFn: (req: RequestToBackend) => makeRequestToBackend({ ...req }),
     onSettled: () =>
       queryClient.invalidateQueries({ queryKey: ['food', user?.uid] }),
+  });
+
+  const createMutation = useMutation({
+    mutationKey: ['food', user?.uid],
+    mutationFn: (req: RequestToBackend) => makeRequestToBackend({ ...req }),
   });
 
   useEffect(() => {
@@ -49,23 +53,23 @@ function useUpdateFoodForm(food: FoodDataValues) {
   }, [foodIngredientsQuery.data]);
 
   const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value;
-    setFoodName(value);
+    setFoodName(e.target.value);
   };
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = (
+    e: React.FormEvent<HTMLFormElement>,
+    url: string,
+    method: Method
+  ) => {
     e.preventDefault();
+    const ingredientIds = ingredients.map((ingredient) => ingredient.id);
+    const body = { name: foodName, ingredientIds };
 
-    const name = foodName;
-    const ingredientIds = getIngredientIdList(ingredients);
-    const body = { name, ingredientIds };
-    const url = BASE_URL + `/user/${user?.uid}/food/${food.id}`;
-
-    updateMutation.mutate({ url, method: 'PUT', body });
-  };
-
-  const getIngredientIdList = (ingredients: IngredientDataValue[]) => {
-    return ingredients.map((ingredient) => ingredient.id);
+    if (method === 'PUT') {
+      updateMutation.mutate({ url: `${BASE_URL}${url}`, method, body });
+    } else if (method === 'POST') {
+      createMutation.mutate({ url: `${BASE_URL}${url}`, method, body });
+    }
   };
 
   return {
@@ -78,7 +82,8 @@ function useUpdateFoodForm(food: FoodDataValues) {
     handleNameChange,
     handleSubmit,
     updateMutation,
+    createMutation,
   };
 }
 
-export default useUpdateFoodForm;
+export default useFoodForm;

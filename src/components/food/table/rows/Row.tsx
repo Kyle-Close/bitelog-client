@@ -5,7 +5,7 @@ import ExpandRowCell from '../expanded/ExpandRowCell';
 import { FoodDataValues } from '../../FoodsPage';
 import { useState } from 'react';
 import ExpandedRow from '../expanded/ExpandedRow';
-import UpdateFoodForm from '../expanded/update-food/UpdateFoodForm';
+import FoodForm from '../expanded/FoodForm';
 import DeleteFood from '../expanded/DeleteFood';
 export interface RowProps {
   food: FoodDataValues;
@@ -35,7 +35,7 @@ function Row({ food }: RowProps) {
           <Button
             onClick={() =>
               setExpandedRow({
-                component: <UpdateFoodForm food={food} />,
+                component: <FoodForm food={food} />,
                 isOpen: true,
               })
             }

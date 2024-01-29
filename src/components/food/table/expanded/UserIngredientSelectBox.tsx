@@ -8,7 +8,7 @@ import {
   InputLabel,
   OutlinedInput,
 } from '@mui/material';
-import { IngredientDataValue } from '../food-ingredients/ExpandedSection';
+import { IngredientDataValue } from './food-ingredients/ExpandedSection';
 import { useEffect, useState } from 'react';
 
 interface UserIngredientSelectBoxProps {

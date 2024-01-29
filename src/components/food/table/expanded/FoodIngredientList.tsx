@@ -1,12 +1,12 @@
 import { Box, List, ListItem, ListItemText, Typography } from '@mui/material';
-import { IngredientDataValue } from '../food-ingredients/ExpandedSection';
-import { capitalizeFirstLetter } from '../../../../../helpers/utility';
+import { IngredientDataValue } from './food-ingredients/ExpandedSection';
+import { capitalizeFirstLetter } from '../../../../helpers/utility';
 
 interface UpdateFoodIngredientListProps {
   ingredientsList: IngredientDataValue[];
 }
 
-function UpdateFoodIngredientList({
+function FoodIngredientList({
   ingredientsList,
 }: UpdateFoodIngredientListProps) {
   const ingredientNameList = ingredientsList.map(
@@ -27,4 +27,4 @@ function UpdateFoodIngredientList({
   );
 }
 
-export default UpdateFoodIngredientList;
+export default FoodIngredientList;
