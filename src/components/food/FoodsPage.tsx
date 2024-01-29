@@ -33,7 +33,7 @@ function FoodsPage() {
   const foodData: FoodDataValues[] = foodQuery.data.foodDataValues;
 
   const handleClick = () => {
-    setCreateFoodIsOpen(true);
+    setCreateFoodIsOpen(!createFoodIsOpen);
   };
 
   return (
@@ -44,7 +44,11 @@ function FoodsPage() {
           Create Food
         </Button>
       </Box>
-      <FoodTable createFoodIsOpen={createFoodIsOpen} foodData={foodData} />
+      <FoodTable
+        createFoodIsOpen={createFoodIsOpen}
+        setCreateFoodIsOpen={setCreateFoodIsOpen}
+        foodData={foodData}
+      />
     </Box>
   );
 }

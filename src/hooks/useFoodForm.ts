@@ -41,6 +41,8 @@ function useFoodForm(food?: FoodDataValues) {
   const createMutation = useMutation({
     mutationKey: ['food', user?.uid],
     mutationFn: (req: RequestToBackend) => makeRequestToBackend({ ...req }),
+    onSettled: () =>
+      queryClient.invalidateQueries({ queryKey: ['food', user?.uid] }),
   });
 
   useEffect(() => {

@@ -9,17 +9,20 @@ interface FoodQueryStatusResult {
 function useFoodQueryStatus<TQuery>(
   userIngredientsQuery: UseQueryResult<TQuery, unknown>,
   updateMutation: UseMutationResult<any, Error, RequestToBackend, unknown>,
+  createMutation: UseMutationResult<any, Error, RequestToBackend, unknown>,
   foodIngredientsQuery?: UseQueryResult<TQuery, unknown> | null
 ): FoodQueryStatusResult {
   if (!foodIngredientsQuery) {
-    // Only check userIngredientsQuery
-    if (userIngredientsQuery.error) {
-      console.log('1');
+    // Only check userIngredientsQuery & createMutation
+    if (userIngredientsQuery.error || createMutation.error) {
       return { status: 'error', message: 'Error fetching ingredient list.' };
     }
 
-    if (userIngredientsQuery.isLoading || !userIngredientsQuery.data) {
-      console.log('2');
+    if (
+      userIngredientsQuery.isLoading ||
+      !userIngredientsQuery.data ||
+      createMutation.isPending
+    ) {
       return { status: 'loading', message: 'Loading...' };
     }
 

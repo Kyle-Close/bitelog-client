@@ -6,13 +6,18 @@ import Row from './rows/Row';
 interface FoodTableBodyProps {
   foodData: FoodDataValues[];
   createFoodIsOpen: boolean;
+  setCreateFoodIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-function FoodTableBody({ foodData, createFoodIsOpen }: FoodTableBodyProps) {
+function FoodTableBody({
+  foodData,
+  createFoodIsOpen,
+  setCreateFoodIsOpen,
+}: FoodTableBodyProps) {
   return (
     <>
       <ExpandedRow open={createFoodIsOpen}>
-        <FoodForm method='POST' />
+        <FoodForm method='POST' setCreateFoodIsOpen={setCreateFoodIsOpen} />
       </ExpandedRow>
       {foodData.map((food) => {
         return <Row food={food} />;

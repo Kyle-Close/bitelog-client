@@ -10,9 +10,10 @@ import FoodFormContent from './FoodFormContent';
 interface FoodFormProps {
   food?: FoodDataValues;
   method: 'POST' | 'PUT';
+  setCreateFoodIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-function FoodForm({ food, method }: FoodFormProps) {
+function FoodForm({ food, method, setCreateFoodIsOpen }: FoodFormProps) {
   const {
     foodIngredientsQuery,
     userIngredientsQuery,
@@ -22,11 +23,13 @@ function FoodForm({ food, method }: FoodFormProps) {
     setIngredients,
     handleSubmit,
     updateMutation,
+    createMutation,
   } = useFoodForm(food);
 
   const queryStatus = useFoodQueryStatus(
     userIngredientsQuery,
     updateMutation,
+    createMutation,
     food ? foodIngredientsQuery : null
   );
 
@@ -63,6 +66,7 @@ function FoodForm({ food, method }: FoodFormProps) {
         ingredients={ingredients}
         setIngredients={setIngredients}
         userIngredientList={userIngredientList}
+        method={method}
       />
     </Box>
   );
