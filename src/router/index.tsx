@@ -3,9 +3,9 @@ import landingPage from './pages/landingPage';
 import login from './pages/login';
 import register from './pages/register';
 import journal from './pages/journal';
-import settings from './pages/journal/settings';
-import ingredients from './pages/journal/ingredients';
-import food from './pages/journal/food';
+import settings from './pages/settings';
+import ingredients from './pages/ingredients';
+import food from './pages/food';
 
 const routes = [
   landingPage,
