@@ -6,8 +6,10 @@ interface Scheduler {
 }
 
 function Scheduler({ view }: Scheduler) {
+  const currentDate = new Date();
+
   if (view === 'hourly') {
-    return <HourlyScheduler />;
+    return <HourlyScheduler date={currentDate} />;
   }
   return <Box>Whoops, need a view...</Box>;
 }

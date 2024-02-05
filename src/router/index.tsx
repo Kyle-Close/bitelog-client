@@ -6,6 +6,7 @@ import journal from './pages/journal';
 import settings from './pages/settings';
 import ingredients from './pages/ingredients';
 import food from './pages/food';
+import scheduler from './pages/scheduler';
 
 const routes = [
   landingPage,
@@ -15,6 +16,7 @@ const routes = [
   settings,
   ingredients,
   food,
+  scheduler,
 ];
 
 export const router = createBrowserRouter(routes);

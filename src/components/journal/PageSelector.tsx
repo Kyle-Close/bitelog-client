@@ -100,7 +100,7 @@ const buttonItems = [
   {
     name: 'My Journal Logs',
     icon: <CalendarTodayIcon />,
-    url: '/user/:userId/journal/:journalId/logs',
+    url: '/user/:userId/journal/:journalId/scheduler',
   },
   {
     name: 'My Foods',
