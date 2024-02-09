@@ -6,10 +6,6 @@ interface HourlyScheduler {
 }
 
 function HourlyScheduler({ date }: HourlyScheduler) {
-  // Amount of hours passed in day, locally
-  // Use this to display the hours close to the actual time on mobile.
-  const currentHour = date.getHours();
-
   return (
     <Box
       sx={{
@@ -17,10 +13,25 @@ function HourlyScheduler({ date }: HourlyScheduler) {
         flexDirection: 'column',
         maxHeight: '100%',
         overflowY: 'auto',
-        gap: '0.15rem',
+        position: 'relative',
       }}
     >
-      <HourContainerList />
+      <Box
+        sx={{
+          display: 'flex',
+          flexGrow: 1,
+          minHeight: '5rem',
+          backgroundColor: '#606060',
+          px: '1rem',
+          gap: '1rem',
+          position: 'sticky',
+          top: 0,
+          borderBottom: '0.15rem solid #121212',
+        }}
+      ></Box>
+      <Box>
+        <HourContainerList date={date} />
+      </Box>
     </Box>
   );
 }

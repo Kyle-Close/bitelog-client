@@ -1,6 +1,13 @@
 import { Box, Typography } from '@mui/material';
 
-function HourContainerList() {
+interface HoursContainerList {
+  date: Date;
+}
+
+function HourContainerList({ date }: HoursContainerList) {
+  // Amount of hours passed in day, locally
+  const currentHour = date.getHours();
+
   const List = () => {
     // The individual containers for each hour. There will be 24.
     const containerList: React.ReactNode[] = [];
@@ -8,6 +15,8 @@ function HourContainerList() {
       const displayHour = i < 10 ? `0${i}` : i;
       const displayMinutes = '00';
       const displayFullTime = displayHour + ':' + displayMinutes;
+
+      const isCurrentHour = currentHour === i;
 
       const container = (
         <Box
@@ -29,7 +38,9 @@ function HourContainerList() {
               pr: '1rem',
             }}
           >
-            <Typography variant='h4'>{displayFullTime}</Typography>
+            <Typography color={isCurrentHour ? 'gold' : ''} variant='h4'>
+              {displayFullTime}
+            </Typography>
           </Box>
           <Box
             sx={{
