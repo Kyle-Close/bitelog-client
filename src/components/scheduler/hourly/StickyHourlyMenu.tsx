@@ -38,6 +38,7 @@ function StickyHourlyMenu({ date, setDate }: StickyHourlyMenu) {
         backgroundColor: '#606060',
         p: '0.5rem',
         position: 'sticky',
+        zIndex: 50,
         top: 0,
         borderBottom: '0.15rem solid #121212',
       }}

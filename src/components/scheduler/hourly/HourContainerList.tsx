@@ -18,11 +18,13 @@ function HourContainerList({ date }: HoursContainerList) {
       const displayFullTime = displayHour + ':' + displayMinutes;
 
       const isCurrentHour = currentHour === i;
+      const isScrollAnchor = currentHour - 3 === i;
       containerList.push(
         <HourRow
           key={i}
           isCurrentHour={isCurrentHour}
           displayFullTime={displayFullTime}
+          isScrollAnchor={isScrollAnchor}
         />
       );
     }
