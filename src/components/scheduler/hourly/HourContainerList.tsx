@@ -1,4 +1,5 @@
 import { Box, Typography } from '@mui/material';
+import HourRow from './HourRow';
 
 interface HoursContainerList {
   date: Date;
@@ -17,42 +18,13 @@ function HourContainerList({ date }: HoursContainerList) {
       const displayFullTime = displayHour + ':' + displayMinutes;
 
       const isCurrentHour = currentHour === i;
-
-      const container = (
-        <Box
-          sx={{
-            display: 'flex',
-            flexGrow: 1,
-            minHeight: '5rem',
-            backgroundColor: '#707070',
-            px: '1rem',
-            gap: '1rem',
-          }}
-        >
-          <Box
-            sx={{
-              display: 'flex',
-              alignItems: 'center',
-              textAlign: 'center',
-              borderRight: '0.15rem solid #121212',
-              pr: '1rem',
-            }}
-          >
-            <Typography color={isCurrentHour ? 'gold' : ''} variant='h4'>
-              {displayFullTime}
-            </Typography>
-          </Box>
-          <Box
-            sx={{
-              display: 'flex',
-              flexGrow: 1,
-            }}
-          >
-            Events
-          </Box>
-        </Box>
+      containerList.push(
+        <HourRow
+          key={i}
+          isCurrentHour={isCurrentHour}
+          displayFullTime={displayFullTime}
+        />
       );
-      containerList.push(container);
     }
     return containerList;
   };

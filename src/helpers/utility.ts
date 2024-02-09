@@ -262,3 +262,47 @@ export async function makeRequestToBackend({
     throw error;
   }
 }
+
+export function getFullMonthText(monthNumber: Number) {
+  const monthList = [
+    'January',
+    'Febuary',
+    'March',
+    'April',
+    'May',
+    'June',
+    'July',
+    'August',
+    'September',
+    'October',
+    'November',
+    'December',
+  ];
+
+  return monthList[monthNumber];
+}
+
+export function getDaySuffix(day: number) {
+  if (day < 1 || day > 31) {
+    return 'Invalid day'; // Basic validation for day of the month
+  }
+
+  const specialCases = [11, 12, 13];
+  const lastDigit = day % 10;
+  const lastTwoDigits = day % 100;
+
+  if (specialCases.includes(lastTwoDigits)) {
+    return 'th';
+  }
+
+  switch (lastDigit) {
+    case 1:
+      return 'st';
+    case 2:
+      return 'nd';
+    case 3:
+      return 'rd';
+    default:
+      return 'th';
+  }
+}
