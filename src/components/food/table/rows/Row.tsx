@@ -35,7 +35,7 @@ function Row({ food }: RowProps) {
           <Button
             onClick={() =>
               setExpandedRow({
-                component: <FoodForm food={food} />,
+                component: <FoodForm food={food} method='POST' />,
                 isOpen: true,
               })
             }

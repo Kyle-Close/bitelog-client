@@ -37,6 +37,7 @@ function MenuContent({ handleCloseDrawer }: { handleCloseDrawer: () => void }) {
   const createMenuItems = (handleCloseDrawer: () => void) => {
     const menuList = menuObjectList;
     const { user } = useContext(UserContext);
+    console.log('right here: ', user);
 
     return menuList.map((item, key) => {
       const url = `/user/${user?.uid}/journal/${user?.journalId}`;
