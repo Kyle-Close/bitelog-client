@@ -14,7 +14,7 @@ function EventContent() {
       }}
     >
       <Box sx={{ display: 'flex', flexGrow: 1 }}>
-        <EventEntry />
+        <EventEntry title='Some food' type='eat' />
       </Box>
     </Box>
   );

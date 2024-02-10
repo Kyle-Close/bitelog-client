@@ -1,33 +1,30 @@
-import { Box } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import TimeColumn from './TimeColumn';
 import EventContent from './event-content';
-import { useEffect, useRef } from 'react';
+import { useContext, useEffect, useRef } from 'react';
+import { useQuery } from '@tanstack/react-query';
+import { UserContext } from '../../../contexts';
+import {
+  fetchDataFromBackend,
+  makeRequestToBackend,
+} from '../../../helpers/utility';
+import { BASE_URL } from '../../../config/axiosConfig';
+import useScrollIntoView from '../../../hooks/useScrollIntoView';
+import useGetAllJournalEvents from '../../../hooks/useGetAllJournalEvents';
 
 interface HourRow {
-  key: number;
   isCurrentHour: boolean;
   displayFullTime: string;
   isScrollAnchor: boolean;
 }
 
-function HourRow({
-  key,
-  isCurrentHour,
-  isScrollAnchor,
-  displayFullTime,
-}: HourRow) {
+function HourRow({ isCurrentHour, isScrollAnchor, displayFullTime }: HourRow) {
   const currentHourRef = useRef<HTMLDivElement>(null);
-
-  // Scroll to the current hour in the day on load.
-  useEffect(() => {
-    if (currentHourRef.current)
-      currentHourRef.current.scrollIntoView({ behavior: 'smooth' });
-  }, []);
+  useScrollIntoView(currentHourRef, { behavior: 'smooth' });
 
   return (
     <Box
       ref={isScrollAnchor ? currentHourRef : null}
-      key={key}
       sx={{
         display: 'flex',
         flexGrow: 1,

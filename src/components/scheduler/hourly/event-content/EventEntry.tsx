@@ -6,10 +6,10 @@ interface EventEntry {
   title: string;
 }
 
-function EventEntry() {
+function EventEntry({ type, title }: EventEntry) {
   return (
     <Box sx={{ display: 'flex', flexGrow: 1 }}>
-      <EatEvent />
+      <EatEvent title={title} />
     </Box>
   );
 }

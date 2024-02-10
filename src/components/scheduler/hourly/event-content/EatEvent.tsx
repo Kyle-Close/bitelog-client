@@ -1,6 +1,10 @@
 import { Box, Typography } from '@mui/material';
 
-function EatEvent() {
+interface EatEvent {
+  title: string;
+}
+
+function EatEvent({ title }: EatEvent) {
   return (
     <Box
       sx={{
@@ -12,7 +16,7 @@ function EatEvent() {
       }}
     >
       <Typography textAlign='center' sx={{ flexGrow: 1 }} alignSelf='center'>
-        Hamburger + Fries
+        {title}
       </Typography>
     </Box>
   );

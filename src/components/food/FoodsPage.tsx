@@ -1,10 +1,9 @@
-import { useQuery, useQueryClient } from '@tanstack/react-query';
+import { useQuery } from '@tanstack/react-query';
 import { useContext, useState } from 'react';
 import { UserContext } from '../../contexts';
 import { fetchDataFromBackend } from '../../helpers/utility';
 import { BASE_URL } from '../../config/axiosConfig';
 import { Box, Button, Typography } from '@mui/material';
-import GoToHome from '../journal/GoToHome';
 import FoodTable from './table/FoodTable';
 
 export interface FoodDataValues {
