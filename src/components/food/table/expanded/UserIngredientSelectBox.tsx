@@ -33,7 +33,6 @@ function UserIngredientSelectBox({
 
   const handleChange = (event: SelectChangeEvent<number[]>) => {
     const value = event.target.value as number[];
-    console.log('value', value);
     setSelectedIngredientIds(value);
 
     // Convert IDs back to IngredientDataValue objects
@@ -65,7 +64,6 @@ function UserIngredientSelectBox({
       >
         {userIngredientList.map((ingredient, key) => {
           const id = ingredient.id;
-          console.log(selectedIngredientIds.includes(id));
 
           return (
             <MenuItem key={key} value={ingredient.id}>

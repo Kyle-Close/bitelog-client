@@ -19,8 +19,11 @@ function HourContainerList({ date }: HoursContainerList) {
     return <Typography>Error fetching eat log data</Typography>;
   }
 
-  console.log(eatLogQuery.data);
-  console.log(eventQuery.data);
+  if (eatLogQuery.data && eventQuery.data) {
+    console.log(eatLogQuery.data);
+    console.log(eventQuery.data);
+  }
+
   // Amount of hours passed in day, locally
   const currentHour = date.getHours();
 
@@ -28,10 +31,7 @@ function HourContainerList({ date }: HoursContainerList) {
     // The individual containers for each hour. There will be 24.
     const containerList: React.ReactNode[] = [];
     for (let i = 0; i < 24; i++) {
-      const displayHour = i < 10 ? `0${i}` : i;
-      const displayMinutes = '00';
-      const displayFullTime = displayHour + ':' + displayMinutes;
-
+      const displayFullTime = getFullDisplayTime(i);
       const isCurrentHour = currentHour === i;
       const isScrollAnchor = currentHour - 3 === i;
 
@@ -51,3 +51,9 @@ function HourContainerList({ date }: HoursContainerList) {
 }
 
 export default HourContainerList;
+function getFullDisplayTime(i: number) {
+  const displayHour = i < 10 ? `0${i}` : i;
+  const displayMinutes = '00';
+  const displayFullTime = displayHour + ':' + displayMinutes;
+  return displayFullTime;
+}

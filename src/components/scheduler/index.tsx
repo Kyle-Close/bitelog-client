@@ -7,7 +7,6 @@ interface Scheduler {
 }
 
 function Scheduler({ view }: Scheduler) {
-  console.log('re-rendering');
   const currentDate = new Date();
   const [date, setDate] = useState<Date>(currentDate);
 

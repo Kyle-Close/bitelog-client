@@ -263,7 +263,7 @@ export async function makeRequestToBackend({
   }
 }
 
-export function getFullMonthText(monthNumber: Number) {
+export function getFullMonthText(monthNumber: number) {
   const monthList = [
     'January',
     'Febuary',

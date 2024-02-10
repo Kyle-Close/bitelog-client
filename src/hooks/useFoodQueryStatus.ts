@@ -26,12 +26,10 @@ function useFoodQueryStatus<TQuery>(
       return { status: 'loading', message: 'Loading...' };
     }
 
-    console.log('3');
     return { status: 'success' };
   }
 
   if (foodIngredientsQuery.error || userIngredientsQuery.error) {
-    console.log('4');
     return { status: 'error', message: 'Error fetching ingredient lists.' };
   }
 
@@ -41,12 +39,10 @@ function useFoodQueryStatus<TQuery>(
     userIngredientsQuery.isLoading ||
     !userIngredientsQuery.data
   ) {
-    console.log('5');
     return { status: 'loading', message: 'Loading...' };
   }
 
   if (updateMutation.isError) {
-    console.log('6');
     return { status: 'error', message: 'Error during food update.' };
   }
 
@@ -54,11 +50,9 @@ function useFoodQueryStatus<TQuery>(
     updateMutation.isPending ||
     (!updateMutation.data && !updateMutation.isIdle)
   ) {
-    console.log('7');
     return { status: 'pending', message: 'Awaiting mutation...' };
   }
 
-  console.log('8');
   return { status: 'success' };
 }
 
