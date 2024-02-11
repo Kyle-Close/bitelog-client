@@ -19,11 +19,6 @@ function HourContainerList({ date }: HoursContainerList) {
     return <Typography>Error fetching eat log data</Typography>;
   }
 
-  if (eatLogQuery.data && eventQuery.data) {
-    console.log(eatLogQuery.data);
-    console.log(eventQuery.data);
-  }
-
   // Amount of hours passed in day, locally
   const currentHour = date.getHours();
 
@@ -35,7 +30,8 @@ function HourContainerList({ date }: HoursContainerList) {
       const isCurrentHour = currentHour === i;
       const isScrollAnchor = currentHour - 3 === i;
 
-      //TODO: need to pass titles of food and
+      //TODO: pass any event data to here. for each hour
+      // ex: {eatData: [...], eventData: [...]}
       containerList.push(
         <HourRow
           key={i}

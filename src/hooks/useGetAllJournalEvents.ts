@@ -12,9 +12,9 @@ function useGetAllJournalEvents(user?: User | null) {
         queryKey: ['eatLogs', user?.uid, user?.journalId],
         queryFn: () =>
           makeRequestToBackend({
-            url: `${BASE_URL}/user/${user?.uid}/journal/${user?.journalId}/eat_logs`,
+            url: `${BASE_URL}/user/${user?.uid}/journal/${user?.journalId}/eat_logs?time=24`,
           }),
-        enabled: !!isEnabled, // Use `isEnabled` to conditionally enable this query
+        enabled: !!isEnabled,
       },
       {
         queryKey: ['eventLogs', user?.uid, user?.journalId],
@@ -22,7 +22,7 @@ function useGetAllJournalEvents(user?: User | null) {
           makeRequestToBackend({
             url: `${BASE_URL}/user/${user?.uid}/journal/${user?.journalId}/report_logs?time=24`,
           }),
-        enabled: !!isEnabled, // Use `isEnabled` to conditionally enable this query
+        enabled: !!isEnabled,
       },
     ],
   });
