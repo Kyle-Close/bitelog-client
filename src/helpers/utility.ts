@@ -306,3 +306,20 @@ export function getDaySuffix(day: number) {
       return 'th';
   }
 }
+export function buildDateStringForQueryParam(date: Date) {
+  const year = date.getFullYear();
+  const month = date.getMonth() + 1;
+  const day = date.getDate();
+
+  let monthString = month.toString();
+  let dayString = day.toString();
+
+  if (month < 10) {
+    monthString = '0' + month;
+  }
+  if (day < 10) {
+    dayString = '0' + day;
+  }
+
+  return `${year}-${monthString}-${dayString}`;
+}

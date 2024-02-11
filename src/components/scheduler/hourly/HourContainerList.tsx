@@ -10,7 +10,13 @@ interface HoursContainerList {
 
 function HourContainerList({ date }: HoursContainerList) {
   const { user } = useContext(UserContext);
-  const [eatLogQuery, eventQuery] = useGetAllJournalEvents(user);
+  const fromDate = date;
+  const toDate = new Date(date.getTime() + 86400000);
+  const [eatLogQuery, eventQuery] = useGetAllJournalEvents(
+    fromDate,
+    toDate,
+    user
+  );
 
   if (!eatLogQuery || !eventQuery || eatLogQuery.isLoading)
     return <Typography>Loading...</Typography>;
@@ -18,6 +24,8 @@ function HourContainerList({ date }: HoursContainerList) {
   if (eatLogQuery.error) {
     return <Typography>Error fetching eat log data</Typography>;
   }
+
+  console.log(eatLogQuery.data);
 
   // Amount of hours passed in day, locally
   const currentHour = date.getHours();
