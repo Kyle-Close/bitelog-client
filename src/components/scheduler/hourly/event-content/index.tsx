@@ -2,7 +2,7 @@ import { Box } from '@mui/material';
 import EventEntry from './EventEntry';
 import { EatLogDataValue, EventLogDataValue } from '../../helpers';
 
-interface EventContent {
+interface EventContentProps {
   eatLogs: {
     hourMark: number;
     quarterHourMark: number;
@@ -15,13 +15,57 @@ interface EventContent {
   }[];
 }
 
-function EventContent({ eatLogs, eventLogs }: EventContent) {
+interface LogEntry {
+  hourMark: number;
+  quarterHourMark: number;
+  data: EatLogDataValue | EventLogDataValue;
+  type: 'eat' | 'event';
+}
+
+function EventContent({ eatLogs, eventLogs }: EventContentProps) {
+  const allLogs: LogEntry[] = [
+    ...eatLogs.map((log) => ({ ...log, type: 'eat' as 'eat' })),
+    ...eventLogs.map((log) => ({ ...log, type: 'event' as 'event' })),
+  ];
+
+  const groupedByQuarterHourMark = allLogs.reduce<Record<string, LogEntry[]>>(
+    (accumulator, item) => {
+      const key = item.quarterHourMark.toString();
+      if (!accumulator[key]) {
+        accumulator[key] = [];
+      }
+      accumulator[key].push(item);
+      return accumulator;
+    },
+    {}
+  );
+
+  // Step 2: Build event entries from the grouped logs
   const buildEventEntries = () => {
-    return eatLogs.map((log) => (
-      <Box sx={{ display: 'flex', flexGrow: 1, gap: '0.3rem' }}>
-        <EventEntry title='Eat Entry' type='eat' />
-      </Box>
-    ));
+    return Object.entries(groupedByQuarterHourMark).map(
+      ([quarterHourMark, logs]) => {
+        const gridRow = parseInt(quarterHourMark, 10) + 1;
+        return (
+          <Box
+            key={quarterHourMark}
+            sx={{
+              display: 'flex',
+              flexGrow: 1,
+              gridRow: `${gridRow} / span 1`,
+              gap: '0.25rem',
+            }}
+          >
+            {logs.map((log, index) => (
+              <EventEntry
+                key={index}
+                title={log.type === 'eat' ? 'Eat Entry' : 'Event Entry'}
+                type={log.type}
+              />
+            ))}
+          </Box>
+        );
+      }
+    );
   };
 
   return (
@@ -35,7 +79,7 @@ function EventContent({ eatLogs, eventLogs }: EventContent) {
         flexGrow: 1,
       }}
     >
-      {eatLogs.length > 0 && buildEventEntries()}
+      {buildEventEntries()}
     </Box>
   );
 }

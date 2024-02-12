@@ -1,5 +1,4 @@
 import { Box, Typography } from '@mui/material';
-import EatEvent from './EatEvent';
 
 interface EventEntry {
   type: 'eat' | 'event';
@@ -7,9 +6,26 @@ interface EventEntry {
 }
 
 function EventEntry({ type, title }: EventEntry) {
+  const eventBackgroundColor = type === 'eat' ? '#0B60B0' : '#ff7700';
+
   return (
-    <Box sx={{ display: 'flex', flexGrow: 1 }}>
-      <EatEvent title={title} />
+    <Box
+      sx={{
+        display: 'flex',
+        backgroundColor: eventBackgroundColor,
+        borderRadius: '0.5rem',
+        px: '1rem',
+        flexGrow: 1,
+      }}
+    >
+      <Typography
+        fontWeight='bold'
+        textAlign='center'
+        sx={{ flexGrow: 1 }}
+        alignSelf='center'
+      >
+        {title}
+      </Typography>
     </Box>
   );
 }
