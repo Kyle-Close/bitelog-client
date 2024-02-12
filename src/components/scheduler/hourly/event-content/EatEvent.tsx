@@ -15,7 +15,12 @@ function EatEvent({ title }: EatEvent) {
         flexGrow: 1,
       }}
     >
-      <Typography textAlign='center' sx={{ flexGrow: 1 }} alignSelf='center'>
+      <Typography
+        fontWeight='bold'
+        textAlign='center'
+        sx={{ flexGrow: 1 }}
+        alignSelf='center'
+      >
         {title}
       </Typography>
     </Box>

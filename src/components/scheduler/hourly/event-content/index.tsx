@@ -1,7 +1,29 @@
 import { Box } from '@mui/material';
 import EventEntry from './EventEntry';
+import { EatLogDataValue, EventLogDataValue } from '../../helpers';
 
-function EventContent() {
+interface EventContent {
+  eatLogs: {
+    hourMark: number;
+    quarterHourMark: number;
+    data: EatLogDataValue;
+  }[];
+  eventLogs: {
+    hourMark: number;
+    quarterHourMark: number;
+    data: EventLogDataValue;
+  }[];
+}
+
+function EventContent({ eatLogs, eventLogs }: EventContent) {
+  const buildEventEntries = () => {
+    return eatLogs.map((log) => (
+      <Box sx={{ display: 'flex', flexGrow: 1, gap: '0.3rem' }}>
+        <EventEntry title='Eat Entry' type='eat' />
+      </Box>
+    ));
+  };
+
   return (
     <Box
       sx={{
@@ -13,9 +35,7 @@ function EventContent() {
         flexGrow: 1,
       }}
     >
-      <Box sx={{ display: 'flex', flexGrow: 1 }}>
-        <EventEntry title='Some food' type='eat' />
-      </Box>
+      {eatLogs.length > 0 && buildEventEntries()}
     </Box>
   );
 }

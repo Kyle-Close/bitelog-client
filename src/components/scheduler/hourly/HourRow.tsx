@@ -1,26 +1,43 @@
-import { Box, Typography } from '@mui/material';
+import { Box } from '@mui/material';
 import TimeColumn from './TimeColumn';
 import EventContent from './event-content';
-import { useContext, useEffect, useRef } from 'react';
-import { useQuery } from '@tanstack/react-query';
-import { UserContext } from '../../../contexts';
-import {
-  fetchDataFromBackend,
-  makeRequestToBackend,
-} from '../../../helpers/utility';
-import { BASE_URL } from '../../../config/axiosConfig';
+import { useRef } from 'react';
 import useScrollIntoView from '../../../hooks/useScrollIntoView';
-import useGetAllJournalEvents from '../../../hooks/useGetAllJournalEvents';
+import { EatLogDataValue, EventLogDataValue } from '../helpers';
 
 interface HourRow {
   isCurrentHour: boolean;
   displayFullTime: string;
   isScrollAnchor: boolean;
+  eatLogs: {
+    hourMark: number;
+    quarterHourMark: number;
+    data: EatLogDataValue;
+  }[];
+  eventLogs: {
+    hourMark: number;
+    quarterHourMark: number;
+    data: EventLogDataValue;
+  }[];
 }
 
-function HourRow({ isCurrentHour, isScrollAnchor, displayFullTime }: HourRow) {
+function HourRow({
+  isCurrentHour,
+  isScrollAnchor,
+  displayFullTime,
+  eatLogs,
+  eventLogs,
+}: HourRow) {
   const currentHourRef = useRef<HTMLDivElement>(null);
   useScrollIntoView(currentHourRef, { behavior: 'smooth' });
+
+  if (eatLogs.length > 0) {
+    console.log('Eat Logs for this hour: ', eatLogs);
+  }
+
+  if (eventLogs.length > 0) {
+    console.log('Event Logs for this hour: ', eventLogs);
+  }
 
   return (
     <Box
@@ -37,7 +54,7 @@ function HourRow({ isCurrentHour, isScrollAnchor, displayFullTime }: HourRow) {
         isCurrentHour={isCurrentHour}
         displayFullTime={displayFullTime}
       />
-      <EventContent />
+      <EventContent eatLogs={eatLogs} eventLogs={eventLogs} />
     </Box>
   );
 }

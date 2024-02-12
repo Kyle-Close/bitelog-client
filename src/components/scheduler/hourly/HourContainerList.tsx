@@ -1,12 +1,25 @@
-import { Box, Typography } from '@mui/material';
+import { Typography } from '@mui/material';
 import HourRow from './HourRow';
 import useGetAllJournalEvents from '../../../hooks/useGetAllJournalEvents';
 import { useContext } from 'react';
 import { UserContext } from '../../../contexts';
+import { getFullDisplayTime } from '../helpers';
+import { buildEatLogList } from '../helpers';
+import { buildEventLogList } from '../helpers';
+import { EventLogDataValue } from '../helpers';
 
 interface HoursContainerList {
   date: Date;
 }
+
+export type EatLogDataValue = {
+  logTimestamp: string;
+  JournalId: number;
+  id: number;
+  createdAt: string;
+  updatedAt: string;
+  notes: string;
+};
 
 function HourContainerList({ date }: HoursContainerList) {
   const { user } = useContext(UserContext);
@@ -18,14 +31,27 @@ function HourContainerList({ date }: HoursContainerList) {
     user
   );
 
-  if (!eatLogQuery || !eventQuery || eatLogQuery.isLoading)
+  if (
+    !eatLogQuery ||
+    !eventQuery ||
+    eatLogQuery.isLoading ||
+    eventQuery.isLoading ||
+    eatLogQuery.isPending ||
+    eventQuery.isPending
+  )
     return <Typography>Loading...</Typography>;
 
-  if (eatLogQuery.error) {
-    return <Typography>Error fetching eat log data</Typography>;
+  if (eatLogQuery.error || eventQuery.error) {
+    return <Typography>Error fetching data</Typography>;
   }
 
-  console.log(eatLogQuery.data);
+  const eatLogDataValues: EatLogDataValue[] = eatLogQuery.data.eatLogDataValues;
+  const eventLogDataValues: EventLogDataValue[] = eventQuery.data.reportLogs;
+
+  const eatLogList = buildEatLogList(eatLogDataValues);
+  const eventLogList = buildEventLogList(eventLogDataValues);
+  console.log(eatLogList);
+  console.log(eventLogList);
 
   // Amount of hours passed in day, locally
   const currentHour = date.getHours();
@@ -37,15 +63,17 @@ function HourContainerList({ date }: HoursContainerList) {
       const displayFullTime = getFullDisplayTime(i);
       const isCurrentHour = currentHour === i;
       const isScrollAnchor = currentHour - 3 === i;
+      const eatLogs = eatLogList.filter((log) => log.hourMark === i);
+      const eventLogs = eventLogList.filter((log) => log.hourMark === i);
 
-      //TODO: pass any event data to here. for each hour
-      // ex: {eatData: [...], eventData: [...]}
       containerList.push(
         <HourRow
           key={i}
           isCurrentHour={isCurrentHour}
           displayFullTime={displayFullTime}
           isScrollAnchor={isScrollAnchor}
+          eatLogs={eatLogs}
+          eventLogs={eventLogs}
         />
       );
     }
@@ -55,9 +83,3 @@ function HourContainerList({ date }: HoursContainerList) {
 }
 
 export default HourContainerList;
-function getFullDisplayTime(i: number) {
-  const displayHour = i < 10 ? `0${i}` : i;
-  const displayMinutes = '00';
-  const displayFullTime = displayHour + ':' + displayMinutes;
-  return displayFullTime;
-}
