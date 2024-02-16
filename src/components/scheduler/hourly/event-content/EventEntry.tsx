@@ -3,7 +3,7 @@ import { EatLogDataValue } from '../HourContainerList';
 import { EventLogDataValue } from '../../helpers';
 import BasicModal from '../../../generic/BasicModal';
 import { useState } from 'react';
-import Event from './modal-contents/event';
+import Event from './modal-contents/Event';
 import Eat from './modal-contents/Eat';
 
 interface EventEntry {

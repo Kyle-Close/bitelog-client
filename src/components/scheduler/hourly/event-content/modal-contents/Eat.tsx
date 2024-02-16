@@ -1,4 +1,4 @@
-import { Box, Typography, tabClasses } from '@mui/material';
+import { Box, Button, IconButton, Typography } from '@mui/material';
 import { EatLogDataValue } from '../../HourContainerList';
 import { formatISO8601ToReadableDate } from '../../../helpers';
 import { useQuery } from '@tanstack/react-query';
@@ -7,6 +7,7 @@ import { BASE_URL } from '../../../../../config/axiosConfig';
 import { useContext } from 'react';
 import { UserContext } from '../../../../../contexts';
 import FoodIngredientList from './FoodIngredientList';
+import EditIcon from '@mui/icons-material/Edit';
 
 interface Eat {
   data: EatLogDataValue;
@@ -47,6 +48,14 @@ function Eat({ data }: Eat) {
         <Typography fontWeight='600'>Notes:</Typography>
         <Typography>{data.notes}</Typography>
       </Box>
+      <Button
+        sx={{ mt: '1rem' }}
+        color='secondary'
+        variant='contained'
+        startIcon={<EditIcon />}
+      >
+        Edit
+      </Button>
     </Box>
   );
 }

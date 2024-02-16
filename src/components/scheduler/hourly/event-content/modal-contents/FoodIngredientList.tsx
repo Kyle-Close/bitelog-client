@@ -1,6 +1,5 @@
-import { Box, Typography, List, ListItem } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import { UseQueryResult } from '@tanstack/react-query';
-import { IngredientDataValue } from '../../../../food/table/expanded/food-ingredients/ExpandedSection';
 
 interface FoodIngredientList {
   query: UseQueryResult<any, Error>;
