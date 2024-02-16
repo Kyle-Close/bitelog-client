@@ -1,12 +1,28 @@
-import { Box, Typography } from '@mui/material';
+import { Box, Button, Typography } from '@mui/material';
+import { EatLogDataValue } from '../HourContainerList';
+import { EventLogDataValue } from '../../helpers';
+import BasicModal from '../../../generic/BasicModal';
+import { useState } from 'react';
+import Event from './modal-contents/event';
+import Eat from './modal-contents/Eat';
 
 interface EventEntry {
   type: 'eat' | 'event';
   title: string;
+  data: EatLogDataValue | EventLogDataValue;
 }
 
-function EventEntry({ type, title }: EventEntry) {
+function EventEntry({ type, title, data }: EventEntry) {
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const eventBackgroundColor = type === 'eat' ? '#0B60B0' : '#ff7700';
+
+  const onModalClose = () => {
+    setIsModalOpen(false);
+  };
+
+  const handleButtonClick = () => {
+    setIsModalOpen(true);
+  };
 
   return (
     <Box
@@ -18,14 +34,24 @@ function EventEntry({ type, title }: EventEntry) {
         flexGrow: 1,
       }}
     >
-      <Typography
-        fontWeight='bold'
-        textAlign='center'
-        sx={{ flexGrow: 1 }}
-        alignSelf='center'
+      <BasicModal
+        isOpen={isModalOpen}
+        onClose={onModalClose}
+        title={`${title} Log`}
       >
-        {title}
-      </Typography>
+        {type === 'event' && <Event data={data as EventLogDataValue} />}
+        {type === 'eat' && <Eat data={data as EatLogDataValue} />}
+      </BasicModal>
+      <Button onClick={handleButtonClick} sx={{ display: 'flex', flexGrow: 1 }}>
+        <Typography
+          fontWeight='bold'
+          textAlign='center'
+          sx={{ flexGrow: 1 }}
+          alignSelf='center'
+        >
+          {title}
+        </Typography>
+      </Button>
     </Box>
   );
 }

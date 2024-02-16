@@ -58,8 +58,9 @@ function EventContent({ eatLogs, eventLogs }: EventContentProps) {
             {logs.map((log, index) => (
               <EventEntry
                 key={index}
-                title={log.type === 'eat' ? 'Eat Entry' : 'Event Entry'}
+                title={log.type === 'eat' ? 'Eat' : 'Event'}
                 type={log.type}
+                data={log.data}
               />
             ))}
           </Box>

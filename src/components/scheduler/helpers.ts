@@ -1,7 +1,3 @@
-import { EventLogDataValue } from './helpers';
-import { EatLogDataValue } from './helpers';
-import { getQuarterHourMark } from './helpers';
-
 export function getFullDisplayTime(i: number) {
   const displayHour = i < 10 ? `0${i}` : i;
   const displayMinutes = '00';
@@ -51,7 +47,7 @@ export type EventLogDataValue = {
   id: number;
   createdAt: string;
   updatedAt: string;
-  dicomfortRating: string;
+  discomfortRating: string;
   notes: string;
 };
 export type EatLogDataValue = {
@@ -62,3 +58,20 @@ export type EatLogDataValue = {
   updatedAt: string;
   notes: string;
 };
+export function formatISO8601ToReadableDate(iso8601String: string) {
+  // Parse the ISO 8601 string to a Date object
+  const date = new Date(iso8601String);
+
+  // Format the date components
+  const year = date.getFullYear();
+  // Month in JavaScript is 0-indexed (0 for January, 1 for February, etc.), so add 1
+  const month = (date.getMonth() + 1).toString().padStart(2, '0');
+  const day = date.getDate().toString().padStart(2, '0');
+
+  // Format the time components
+  const hours = date.getHours().toString().padStart(2, '0');
+  const minutes = date.getMinutes().toString().padStart(2, '0');
+
+  // Return the formatted string with actual hours and minutes
+  return `${year}-${month}-${day} at ${hours}:${minutes}`;
+}

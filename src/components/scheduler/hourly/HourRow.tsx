@@ -31,14 +31,6 @@ function HourRow({
   const currentHourRef = useRef<HTMLDivElement>(null);
   useScrollIntoView(currentHourRef, { behavior: 'smooth' });
 
-  if (eatLogs.length > 0) {
-    console.log('Eat Logs for this hour: ', eatLogs);
-  }
-
-  if (eventLogs.length > 0) {
-    console.log('Event Logs for this hour: ', eventLogs);
-  }
-
   return (
     <Box
       ref={isScrollAnchor ? currentHourRef : null}

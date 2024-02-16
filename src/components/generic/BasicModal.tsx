@@ -19,13 +19,13 @@ function BasicModal({ onClose, isOpen, title, children }: BasicModal) {
             sx={{
               position: 'absolute',
               right: 0,
-              top: 0,
+              top: 5,
               mr: '0.5rem',
               mt: '0.5rem',
             }}
             onClick={onClose}
           >
-            <CloseIcon fontSize='large' color='error' />
+            <CloseIcon sx={{ fontSize: '40px' }} color='error' />
           </Button>
         </Box>
         <Divider />
