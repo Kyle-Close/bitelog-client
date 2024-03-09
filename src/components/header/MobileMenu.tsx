@@ -1,11 +1,4 @@
-import {
-  Drawer,
-  Box,
-  IconButton,
-  Typography,
-  Divider,
-  useTheme,
-} from '@mui/material';
+import { Drawer, Box, IconButton, Typography, Divider, useTheme } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import SpaIcon from '@mui/icons-material/Spa';
 import AutoStoriesIcon from '@mui/icons-material/AutoStories';
@@ -35,24 +28,20 @@ export function MobileMenu({
 function MenuContent({ handleCloseDrawer }: { handleCloseDrawer: () => void }) {
   const theme = useTheme();
   const createMenuItems = (handleCloseDrawer: () => void) => {
-    const menuList = menuObjectList;
     const { user } = useContext(UserContext);
 
-    return menuList.map((item, key) => {
+    return menuObjectList.map((item, key) => {
       const url = `/user/${user?.uid}/journal/${user?.journalId}`;
       return (
-        <>
-          <Box
-            key={key}
-            sx={{ display: 'flex', alignItems: 'center', gap: '.5rem' }}
-          >
+        <Box key={key}>
+          <Box key={key} sx={{ display: 'flex', alignItems: 'center', gap: '.5rem' }}>
             {item.icon}
             <Link onClick={handleCloseDrawer} to={url}>
               {item.name}
             </Link>
           </Box>
           <Divider sx={{ pt: '0.5rem' }} />
-        </>
+        </Box>
       );
     });
   };
@@ -65,10 +54,7 @@ function MenuContent({ handleCloseDrawer }: { handleCloseDrawer: () => void }) {
         p: '0.8rem',
       }}
     >
-      <Box
-        color={theme.palette.darker}
-        sx={{ display: 'flex', alignItems: 'center', p: '1.5rem', gap: '1rem' }}
-      >
+      <Box color={theme.palette.darker} sx={{ display: 'flex', alignItems: 'center', p: '1.5rem', gap: '1rem' }}>
         <SpaIcon />
         <Typography variant='h6'>Bitelog</Typography>
       </Box>

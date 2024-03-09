@@ -10,10 +10,9 @@ import FoodFormContent from './FoodFormContent';
 interface FoodFormProps {
   food?: FoodDataValues;
   method: 'POST' | 'PUT';
-  setCreateFoodIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-function FoodForm({ food, method, setCreateFoodIsOpen }: FoodFormProps) {
+function FoodForm({ food, method }: FoodFormProps) {
   const {
     foodIngredientsQuery,
     userIngredientsQuery,
@@ -39,8 +38,7 @@ function FoodForm({ food, method, setCreateFoodIsOpen }: FoodFormProps) {
     return <Typography>{queryStatus.message}</Typography>;
   }
 
-  const userIngredientList: IngredientDataValue[] =
-    userIngredientsQuery.data.ingredients;
+  const userIngredientList: IngredientDataValue[] = userIngredientsQuery.data.ingredients;
 
   const runHandleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     if (!user) return;
@@ -55,11 +53,7 @@ function FoodForm({ food, method, setCreateFoodIsOpen }: FoodFormProps) {
   };
 
   return (
-    <Box
-      onSubmit={runHandleSubmit}
-      component='form'
-      sx={{ display: 'flex', flexGrow: 1 }}
-    >
+    <Box onSubmit={runHandleSubmit} component='form' sx={{ display: 'flex', flexGrow: 1 }}>
       <FoodFormContent
         foodName={foodName}
         handleNameChange={handleNameChange}

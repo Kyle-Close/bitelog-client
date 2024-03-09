@@ -97,6 +97,18 @@ function SmallScreenHomeBtn() {
 }
 
 function LargeScreenLinks() {
+  const { user } = React.useContext(UserContext);
+  const createLargeScreenLinks = () => {
+    return menuObjectList.map((item, key) => {
+      const url = `/user/${user?.uid}/journal/${user?.journalId}`;
+      return (
+        <Box key={key} sx={{ display: 'flex', alignItems: 'center', gap: '.5rem' }}>
+          {item.icon}
+          <Link to={url}>{item.name}</Link>
+        </Box>
+      );
+    });
+  };
   return (
     <Box
       sx={{
@@ -125,17 +137,3 @@ function AuthButtons({ user }: { user: User | null }) {
     </Box>
   );
 }
-
-const createLargeScreenLinks = () => {
-  return menuObjectList.map((item, key) => {
-    return (
-      <Box
-        key={key}
-        sx={{ display: 'flex', alignItems: 'center', gap: '.5rem' }}
-      >
-        {item.icon}
-        <Link to={item.to}>{item.name}</Link>
-      </Box>
-    );
-  });
-};

@@ -13,11 +13,7 @@ import {
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { useContext, useState } from 'react';
 import { UserContext } from '../../contexts';
-import {
-  convertToLocalDate,
-  deleteDataFromBackend,
-  fetchDataFromBackend,
-} from '../../helpers/utility';
+import { convertToLocalDate, deleteDataFromBackend, fetchDataFromBackend } from '../../helpers/utility';
 import { BASE_URL } from '../../config/axiosConfig';
 import DeleteIcon from '@mui/icons-material/Delete';
 import GoToHome from './GoToHome';
@@ -33,18 +29,14 @@ interface CurrentIngredient {
 
 function IngredientsPage() {
   const { user } = useContext(UserContext);
-  const [isCreateIngredientModalOpen, setIsCreateIngredientModalOpen] =
-    useState<boolean>(false);
+  const [isCreateIngredientModalOpen, setIsCreateIngredientModalOpen] = useState<boolean>(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState<boolean>(false);
   const queryClient = useQueryClient();
-  const [currentIngredient, setCurrentIngredient] = useState<CurrentIngredient>(
-    { name: '', id: 0 }
-  );
+  const [currentIngredient, setCurrentIngredient] = useState<CurrentIngredient>({ name: '', id: 0 });
 
   const { data, error, isLoading } = useQuery({
     queryKey: ['ingredients', user?.uid],
-    queryFn: () =>
-      fetchDataFromBackend(BASE_URL + `/user/${user?.uid}/ingredients`),
+    queryFn: () => fetchDataFromBackend(BASE_URL + `/user/${user?.uid}/ingredients`),
     enabled: !!user,
   });
 
@@ -79,24 +71,22 @@ function IngredientsPage() {
   };
 
   const mapRows = () => {
-    return data.ingredients.map(
-      (row: { id: number; name: string; createdAt: string }) => (
-        <TableRow key={row.id}>
-          <TableCell>{row.name.toLowerCase()}</TableCell>
-          <TableCell>{convertToLocalDate(row.createdAt)}</TableCell>
-          <TableCell>
-            <Button
-              onClick={() => {
-                setCurrentIngredient({ name: row.name, id: row.id });
-                setIsDeleteModalOpen(true);
-              }}
-            >
-              <DeleteIcon color='error' />
-            </Button>
-          </TableCell>
-        </TableRow>
-      )
-    );
+    return data.ingredients.map((row: { id: number; name: string; createdAt: string }) => (
+      <TableRow key={row.id}>
+        <TableCell>{row.name.toLowerCase()}</TableCell>
+        <TableCell>{convertToLocalDate(row.createdAt)}</TableCell>
+        <TableCell>
+          <Button
+            onClick={() => {
+              setCurrentIngredient({ name: row.name, id: row.id });
+              setIsDeleteModalOpen(true);
+            }}
+          >
+            <DeleteIcon color='error' />
+          </Button>
+        </TableCell>
+      </TableRow>
+    ));
   };
 
   const handleBtnClick = () => {
@@ -109,19 +99,11 @@ function IngredientsPage() {
 
   return (
     <Box sx={{ p: '1rem' }}>
-      <BasicModal
-        isOpen={isCreateIngredientModalOpen}
-        onClose={handleClose}
-        title='Create Ingredient'
-      >
+      <BasicModal isOpen={isCreateIngredientModalOpen} onClose={handleClose} title='Create Ingredient'>
         <AddIngredientModalContent />
       </BasicModal>
 
-      <BasicModal
-        isOpen={isDeleteModalOpen}
-        onClose={() => setIsDeleteModalOpen(false)}
-        title='Delete Ingredient'
-      >
+      <BasicModal isOpen={isDeleteModalOpen} onClose={() => setIsDeleteModalOpen(false)} title='Delete Ingredient'>
         <DeleteIngredientModalContent
           handleDelete={handleDelete}
           handleClose={() => setIsDeleteModalOpen(false)}
@@ -143,17 +125,16 @@ function IngredientsPage() {
               <TableCell>Delete</TableCell>
             </TableRow>
           </TableHead>
-          <TableRow sx={{ backgroundColor: 'rgba(39, 245, 82, 0.40)' }}>
-            <TableCell colSpan={3}>
-              <Button
-                onClick={handleBtnClick}
-                sx={{ display: 'flex', flexGrow: 1, minWidth: '100%' }}
-              >
-                <AddCircleOutlineIcon />
-              </Button>
-            </TableCell>
-          </TableRow>
-          <TableBody>{mapRows()}</TableBody>
+          <TableBody>
+            <TableRow sx={{ backgroundColor: 'rgba(39, 245, 82, 0.40)' }}>
+              <TableCell colSpan={3}>
+                <Button onClick={handleBtnClick} sx={{ display: 'flex', flexGrow: 1, minWidth: '100%' }}>
+                  <AddCircleOutlineIcon />
+                </Button>
+              </TableCell>
+            </TableRow>
+            {mapRows()}
+          </TableBody>
         </Table>
       </TableContainer>
     </Box>
