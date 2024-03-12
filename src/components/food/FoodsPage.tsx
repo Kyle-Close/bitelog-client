@@ -1,10 +1,9 @@
-import { useQuery } from '@tanstack/react-query';
-import { useContext, useState } from 'react';
+import GoToHome from '../journal/GoToHome';
+import { useContext } from 'react';
 import { UserContext } from '../../contexts';
-import { fetchDataFromBackend } from '../../helpers/utility';
-import { BASE_URL } from '../../config/axiosConfig';
 import { Box, Button, Typography } from '@mui/material';
-import FoodTable from './table/FoodTable';
+import { FoodTable } from './FoodTable';
+import { useFetchUserFood } from '../../hooks/useFetchUserFood';
 
 export interface FoodDataValues {
   id: number;
@@ -16,12 +15,7 @@ export interface FoodDataValues {
 
 function FoodsPage() {
   const { user } = useContext(UserContext);
-  const [createFoodIsOpen, setCreateFoodIsOpen] = useState<boolean>(false);
-  const foodQuery = useQuery({
-    queryKey: ['food', user?.uid],
-    queryFn: () => fetchDataFromBackend(BASE_URL + `/user/${user?.uid}/food`),
-    enabled: !!user,
-  });
+  const { foodQuery, ingredientsQuery } = useFetchUserFood(user);
 
   if (foodQuery.isError) {
     return <Typography>Error fetching user food.</Typography>;
@@ -30,24 +24,18 @@ function FoodsPage() {
   }
 
   const foodData: FoodDataValues[] = foodQuery.data.foodDataValues;
-
-  const handleClick = () => {
-    setCreateFoodIsOpen(!createFoodIsOpen);
-  };
+  console.log('here', ingredientsQuery.data);
 
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', p: '1rem' }}>
       <Box sx={{ display: 'flex', gap: '2rem', alignItems: 'end' }}>
+        <GoToHome url={`/user/${user?.uid}/journal/${user?.journalId}`} />
         <Typography variant='h5'>Foods</Typography>
-        <Button onClick={handleClick} sx={{ ml: 'auto' }} variant='contained'>
+        <Button sx={{ ml: 'auto' }} variant='contained'>
           Create Food
         </Button>
       </Box>
-      <FoodTable
-        createFoodIsOpen={createFoodIsOpen}
-        setCreateFoodIsOpen={setCreateFoodIsOpen}
-        foodData={foodData}
-      />
+      <FoodTable foodData={foodData} />
     </Box>
   );
 }
