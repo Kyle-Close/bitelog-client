@@ -25,11 +25,7 @@ function HourContainerList({ date }: HoursContainerList) {
   const { user } = useContext(UserContext);
   const fromDate = date;
   const toDate = new Date(date.getTime() + 86400000);
-  const [eatLogQuery, eventQuery] = useGetAllJournalEvents(
-    fromDate,
-    toDate,
-    user
-  );
+  const [eatLogQuery, eventQuery] = useGetAllJournalEvents(fromDate, toDate, user);
 
   if (
     !eatLogQuery ||
@@ -50,8 +46,6 @@ function HourContainerList({ date }: HoursContainerList) {
 
   const eatLogList = buildEatLogList(eatLogDataValues);
   const eventLogList = buildEventLogList(eventLogDataValues);
-  console.log(eatLogList);
-  console.log(eventLogList);
 
   // Amount of hours passed in day, locally
   const currentHour = date.getHours();

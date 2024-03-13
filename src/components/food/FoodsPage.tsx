@@ -15,16 +15,15 @@ export interface FoodDataValues {
 
 function FoodsPage() {
   const { user } = useContext(UserContext);
-  const { foodQuery, ingredientsQuery } = useFetchUserFood(user);
+  const { foodQuery, ingredientsQuery, foods } = useFetchUserFood(user);
 
-  if (foodQuery.isError) {
+  if (foodQuery.isError || ingredientsQuery.isError) {
     return <Typography>Error fetching user food.</Typography>;
-  } else if (foodQuery.isLoading || !foodQuery.data) {
+  } else if (foodQuery.isLoading || !foodQuery.data || ingredientsQuery.isLoading) {
     return <Typography>Loading...</Typography>;
   }
 
-  const foodData: FoodDataValues[] = foodQuery.data.foodDataValues;
-  console.log('here', ingredientsQuery.data);
+  console.log(foods);
 
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', p: '1rem' }}>
@@ -35,7 +34,7 @@ function FoodsPage() {
           Create Food
         </Button>
       </Box>
-      <FoodTable foodData={foodData} />
+      {foods && <FoodTable foods={foods} />}
     </Box>
   );
 }

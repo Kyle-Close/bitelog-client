@@ -3,7 +3,14 @@ import { makeRequestToBackend } from '../helpers/utility';
 import { BASE_URL } from '../config/axiosConfig';
 import { User } from '../contexts';
 import { FoodDataValues } from '../components/food/FoodsPage';
+import { IFoods } from '../components/food/FoodTable';
 
+interface IFoodIngredients {
+  id: number;
+  createdAt: string;
+  updatedAt: string;
+  name: string;
+}
 export function useFetchUserFood(user: User | null) {
   const foodQuery = useQuery({
     queryKey: ['food', user?.uid],
@@ -27,8 +34,29 @@ export function useFetchUserFood(user: User | null) {
     return { foodIds: foodData.map((food) => food.id) };
   }
 
+  function createFoods() {
+    if (!foodQuery.data || !ingredientsQuery.data) return;
+
+    const foodIngredientsData = ingredientsQuery.data.foodIngredients;
+    const foodData = foodQuery.data.foodDataValues;
+
+    const ingredientNames = foodIngredientsData.map((foodIngredients: IFoodIngredients[]) => {
+      return foodIngredients.map((ingredients) => ingredients.name);
+    });
+
+    const foods: IFoods[] = [];
+    for (let i = 0; i < foodData.length; i++) {
+      foods.push({ ...foodData[i], ingredients: ingredientNames[i] });
+    }
+
+    return foods;
+  }
+
+  const foods = createFoods();
+
   return {
     foodQuery,
     ingredientsQuery,
+    foods,
   };
 }

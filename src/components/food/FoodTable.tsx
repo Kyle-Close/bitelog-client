@@ -1,14 +1,65 @@
 import { useState } from 'react';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
-import { FoodDataValues } from './FoodsPage';
-import { Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow } from '@mui/material';
+import { Table, TableBody, TableContainer, TableHead, TablePagination, TableRow, Typography } from '@mui/material';
+import { styled } from '@mui/material/styles';
+import TableCell, { tableCellClasses } from '@mui/material/TableCell';
+import { ReadMore } from '../generic/ReadMore';
+import { useScreenSize } from '../../hooks/useScreenSize';
 
-export function FoodTable({ foodData }: { foodData: FoodDataValues[] }) {
+export interface IFoods {
+  UserId: string;
+  createdAt: string;
+  updatedAt: string;
+  id: number;
+  name: string;
+  ingredients: string[];
+}
+
+interface FoodTableProps {
+  foods: IFoods[];
+}
+
+const StyledTableCell = styled(TableCell)(({ theme }) => ({
+  paddingTop: '2rem',
+  paddingBottom: '2rem',
+  [`&.${tableCellClasses.head}`]: {
+    backgroundColor: theme.palette.common.black,
+    color: theme.palette.common.white,
+  },
+  [`&.${tableCellClasses.body}`]: {
+    fontSize: 14,
+  },
+}));
+
+const StyledTableRow = styled(TableRow)(({ theme }) => ({
+  '&:nth-of-type(odd)': {
+    backgroundColor: theme.palette.action.hover,
+  },
+  '&:last-child td, &:last-child th': {
+    border: 0,
+  },
+}));
+
+export function FoodTable({ foods }: FoodTableProps) {
   const [currentPage, setCurrentPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
+  const screenSize = useScreenSize();
+  const ingredientsCharLimit = () => {
+    switch (screenSize) {
+      case 'xs':
+        return 30;
+      case 'sm':
+        return 50;
+      case 'md':
+        return 100;
+      case 'lg':
+        return 150;
+      case 'xl':
+        return 250;
+    }
+  };
 
-  console.log(foodData);
   return (
     <>
       <TableContainer sx={{ mt: '2rem' }}>
@@ -24,18 +75,23 @@ export function FoodTable({ foodData }: { foodData: FoodDataValues[] }) {
             </TableRow>
           </TableHead>
           <TableBody>
-            {foodData.slice(rowsPerPage * currentPage, rowsPerPage * currentPage + rowsPerPage).map((food, key) => {
+            {foods.slice(rowsPerPage * currentPage, rowsPerPage * currentPage + rowsPerPage).map((food, key) => {
+              const ingredients = food.ingredients.join(', ');
               return (
-                <TableRow key={key}>
-                  <TableCell align='center'>
+                <StyledTableRow key={key}>
+                  <StyledTableCell sx={{ py: '2rem' }} align='center'>
                     <EditIcon />
-                  </TableCell>
-                  <TableCell>{food.name}</TableCell>
-                  <TableCell>ingredients</TableCell>
-                  <TableCell align='center'>
+                  </StyledTableCell>
+                  <StyledTableCell>
+                    <Typography>{food.name}</Typography>
+                  </StyledTableCell>
+                  <StyledTableCell>
+                    <ReadMore text={ingredients} charLimit={ingredientsCharLimit()} />
+                  </StyledTableCell>
+                  <StyledTableCell align='center'>
                     <DeleteIcon color='error' />
-                  </TableCell>
-                </TableRow>
+                  </StyledTableCell>
+                </StyledTableRow>
               );
             })}
           </TableBody>
@@ -44,7 +100,7 @@ export function FoodTable({ foodData }: { foodData: FoodDataValues[] }) {
       <TablePagination
         rowsPerPageOptions={[10, 20, 50]}
         component='div'
-        count={foodData.length}
+        count={foods.length}
         rowsPerPage={rowsPerPage}
         page={currentPage}
         onPageChange={(e, newPage) => setCurrentPage(newPage)}
