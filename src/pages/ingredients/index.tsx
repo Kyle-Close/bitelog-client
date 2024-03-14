@@ -17,9 +17,9 @@ import { convertToLocalDate, deleteDataFromBackend, fetchDataFromBackend } from 
 import { BASE_URL } from '../../config/axiosConfig';
 import DeleteIcon from '@mui/icons-material/Delete';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
-import GoToHome from '../generic/GoToHome';
+import GoToHome from '../../components/generic/GoToHome';
 import AddIngredientModalContent from './AddIngredientModal';
-import BasicModal from '../generic/BasicModal';
+import BasicModal from '../../components/generic/BasicModal';
 import DeleteIngredientModalContent from './DeleteIngredientModalContent';
 
 interface CurrentIngredient {
