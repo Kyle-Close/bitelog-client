@@ -1,6 +1,6 @@
 import App from '../../App';
-import Journal from '../../components/journal';
-import SettingsForm from '../../components/journal/Settings';
+import Journal from '../../pages/journal';
+import SettingsForm from '../../pages/journal/Settings';
 
 export default {
   path: '/user/:userId/journal/:journalId/settings',

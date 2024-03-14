@@ -3,7 +3,7 @@ import { UserContext } from '../../contexts';
 import { Box, Button, Typography } from '@mui/material';
 import { useFetchUserFood } from '../../hooks/useFetchUserFood';
 import { FoodTable } from './FoodTable';
-import GoToHome from '../../components/journal/GoToHome';
+import GoToHome from '../../components/generic/GoToHome';
 
 export interface FoodDataValues {
   id: number;

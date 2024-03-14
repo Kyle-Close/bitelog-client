@@ -1,6 +1,6 @@
 import App from '../../App';
-import Journal from '../../components/journal';
-import PageSelector from '../../components/journal/PageSelector';
+import Journal from '../../pages/journal';
+import PageSelector from '../../pages/journal/PageSelector';
 
 export default {
   path: '/user/:userId/journal/:journalId',

@@ -2,7 +2,7 @@ import { useQuery } from '@tanstack/react-query';
 import { makeRequestToBackend } from '../helpers/utility';
 import { BASE_URL } from '../config/axiosConfig';
 import { User } from '../contexts';
-import { FoodDataValues } from '../components/food/FoodsPage';
+import { FoodDataValues } from '../pages/food';
 
 export interface IFoods {
   UserId: string;
