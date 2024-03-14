@@ -21,13 +21,7 @@ interface HourRow {
   }[];
 }
 
-function HourRow({
-  isCurrentHour,
-  isScrollAnchor,
-  displayFullTime,
-  eatLogs,
-  eventLogs,
-}: HourRow) {
+function HourRow({ isCurrentHour, isScrollAnchor, displayFullTime, eatLogs, eventLogs }: HourRow) {
   const currentHourRef = useRef<HTMLDivElement>(null);
   useScrollIntoView(currentHourRef, { behavior: 'smooth' });
 
@@ -42,10 +36,7 @@ function HourRow({
         pl: '1rem',
       }}
     >
-      <TimeColumn
-        isCurrentHour={isCurrentHour}
-        displayFullTime={displayFullTime}
-      />
+      <TimeColumn isCurrentHour={isCurrentHour} displayFullTime={displayFullTime} />
       <EventContent eatLogs={eatLogs} eventLogs={eventLogs} />
     </Box>
   );

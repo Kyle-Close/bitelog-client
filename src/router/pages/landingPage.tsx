@@ -1,5 +1,5 @@
 import App from '../../App';
-import LandingPage from '../../components/LandingPage';
+import LandingPage from '../../pages/landing';
 
 export default {
   path: '/',

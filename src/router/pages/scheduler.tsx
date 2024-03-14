@@ -1,5 +1,5 @@
 import App from '../../App';
-import Scheduler from '../../components/scheduler';
+import Scheduler from '../../pages/scheduler';
 
 export default {
   path: '/user/:userId/journal/:journalId/scheduler',

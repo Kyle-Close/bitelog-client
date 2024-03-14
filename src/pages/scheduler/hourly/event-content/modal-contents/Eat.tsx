@@ -48,12 +48,7 @@ function Eat({ data }: Eat) {
         <Typography fontWeight='600'>Notes:</Typography>
         <Typography>{data.notes}</Typography>
       </Box>
-      <Button
-        sx={{ mt: '1rem' }}
-        color='secondary'
-        variant='contained'
-        startIcon={<EditIcon />}
-      >
+      <Button sx={{ mt: '1rem' }} color='secondary' variant='contained' startIcon={<EditIcon />}>
         Edit
       </Button>
     </Box>

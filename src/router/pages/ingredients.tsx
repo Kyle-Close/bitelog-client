@@ -1,5 +1,5 @@
 import App from '../../App';
-import IngredientsPage from '../../components/journal/IngredientsPage';
+import IngredientsPage from '../../pages/ingredients';
 
 export default {
   path: '/user/:userId/ingredients',

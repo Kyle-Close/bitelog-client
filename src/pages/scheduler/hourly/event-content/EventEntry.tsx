@@ -1,7 +1,7 @@
 import { Box, Button, Typography } from '@mui/material';
 import { EatLogDataValue } from '../HourContainerList';
 import { EventLogDataValue } from '../../helpers';
-import BasicModal from '../../../generic/BasicModal';
+import BasicModal from '../../../../components/generic/BasicModal';
 import { useState } from 'react';
 import Event from './modal-contents/Event';
 import Eat from './modal-contents/Eat';
@@ -34,21 +34,12 @@ function EventEntry({ type, title, data }: EventEntry) {
         flexGrow: 1,
       }}
     >
-      <BasicModal
-        isOpen={isModalOpen}
-        onClose={onModalClose}
-        title={`${title} Log`}
-      >
+      <BasicModal isOpen={isModalOpen} onClose={onModalClose} title={`${title} Log`}>
         {type === 'event' && <Event data={data as EventLogDataValue} />}
         {type === 'eat' && <Eat data={data as EatLogDataValue} />}
       </BasicModal>
       <Button onClick={handleButtonClick} sx={{ display: 'flex', flexGrow: 1 }}>
-        <Typography
-          fontWeight='bold'
-          textAlign='center'
-          sx={{ flexGrow: 1 }}
-          alignSelf='center'
-        >
+        <Typography fontWeight='bold' textAlign='center' sx={{ flexGrow: 1 }} alignSelf='center'>
           {title}
         </Typography>
       </Button>

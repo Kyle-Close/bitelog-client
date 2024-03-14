@@ -16,10 +16,7 @@ function Event({ data }: Event) {
         <Box component='span'>{'Event Time: '}</Box>
         {eventTimeText}
       </Typography>
-      <Typography
-        fontSize='large'
-        sx={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}
-      >
+      <Typography fontSize='large' sx={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
         <Box fontWeight='600' component='span'>
           Discomfort Rating:
         </Box>
