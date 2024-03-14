@@ -4,17 +4,9 @@ import EditIcon from '@mui/icons-material/Edit';
 import { Table, TableBody, TableContainer, TableHead, TablePagination, TableRow, Typography } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import TableCell, { tableCellClasses } from '@mui/material/TableCell';
-import { ReadMore } from '../generic/ReadMore';
 import { useScreenSize } from '../../hooks/useScreenSize';
-
-export interface IFoods {
-  UserId: string;
-  createdAt: string;
-  updatedAt: string;
-  id: number;
-  name: string;
-  ingredients: string[];
-}
+import { IFoods } from '../../hooks/useFetchUserFood';
+import { ReadMore } from '../../components/generic/ReadMore';
 
 interface FoodTableProps {
   foods: IFoods[];
@@ -63,14 +55,20 @@ export function FoodTable({ foods }: FoodTableProps) {
   return (
     <>
       <TableContainer sx={{ mt: '2rem' }}>
-        <Table stickyHeader size='small'>
+        <Table stickyHeader>
           <TableHead>
             <TableRow>
-              <TableCell align='center'>Edit</TableCell>
-              <TableCell>Name</TableCell>
-              <TableCell size='small'>Ingredients</TableCell>
-              <TableCell align='center' size='small'>
-                Delete
+              <TableCell sx={{ px: '2rem' }} align='center'>
+                <Typography variant='h6'>Edit</Typography>
+              </TableCell>
+              <TableCell>
+                <Typography variant='h6'>Name</Typography>
+              </TableCell>
+              <TableCell size='small'>
+                <Typography variant='h6'>Ingredients</Typography>
+              </TableCell>
+              <TableCell sx={{ px: '2rem' }} align='center' size='small'>
+                <Typography variant='h6'>Delete</Typography>
               </TableCell>
             </TableRow>
           </TableHead>

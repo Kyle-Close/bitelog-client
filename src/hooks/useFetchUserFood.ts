@@ -3,7 +3,15 @@ import { makeRequestToBackend } from '../helpers/utility';
 import { BASE_URL } from '../config/axiosConfig';
 import { User } from '../contexts';
 import { FoodDataValues } from '../components/food/FoodsPage';
-import { IFoods } from '../components/food/FoodTable';
+
+export interface IFoods {
+  UserId: string;
+  createdAt: string;
+  updatedAt: string;
+  id: number;
+  name: string;
+  ingredients: string[];
+}
 
 interface IFoodIngredients {
   id: number;
@@ -11,6 +19,7 @@ interface IFoodIngredients {
   updatedAt: string;
   name: string;
 }
+
 export function useFetchUserFood(user: User | null) {
   const foodQuery = useQuery({
     queryKey: ['food', user?.uid],
