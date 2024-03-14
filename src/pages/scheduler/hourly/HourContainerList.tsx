@@ -2,7 +2,7 @@ import { Typography } from '@mui/material';
 import HourRow from './HourRow';
 import useGetAllJournalEvents from '../../../hooks/useGetAllJournalEvents';
 import { useContext } from 'react';
-import { UserContext } from '../../../contexts';
+import { UserContext } from '../../../context';
 import { getFullDisplayTime } from '../helpers';
 import { buildEatLogList } from '../helpers';
 import { buildEventLogList } from '../helpers';

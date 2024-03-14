@@ -1,7 +1,7 @@
 import { Box, TextField, Button } from '@mui/material';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useContext, useState } from 'react';
-import { UserContext } from '../../contexts';
+import { UserContext } from '../../context';
 import { fetchDataFromBackend, updateDataFromBackend } from '../../helpers/utility';
 import { BASE_URL } from '../../config/axiosConfig';
 import { Typography } from '@mui/material';

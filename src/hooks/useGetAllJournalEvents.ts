@@ -1,5 +1,5 @@
 import { useQueries } from '@tanstack/react-query';
-import { User } from '../contexts';
+import { User } from '../context';
 import { makeRequestToBackend } from '../helpers/utility';
 import { BASE_URL } from '../config/axiosConfig';
 import { buildDateStringForQueryParam } from '../helpers/utility';

@@ -1,13 +1,8 @@
 import { useState, useContext, useEffect } from 'react';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import {
-  fetchDataFromBackend,
-  makeRequestToBackend,
-  Method,
-  RequestToBackend,
-} from '../helpers/utility';
+import { fetchDataFromBackend, makeRequestToBackend, Method, RequestToBackend } from '../helpers/utility';
 import { BASE_URL } from '../config/axiosConfig';
-import { UserContext } from '../contexts';
+import { UserContext } from '../context';
 import { FoodDataValues } from '../components/food/FoodsPage';
 import { IngredientDataValue } from '../components/food/table/expanded/food-ingredients/ExpandedSection';
 
@@ -19,37 +14,30 @@ function useFoodForm(food?: FoodDataValues) {
 
   const foodIngredientsQuery = useQuery({
     queryKey: ['food ingredients', { uid: user?.uid, foodId: food?.id }],
-    queryFn: () =>
-      fetchDataFromBackend(`${BASE_URL}/user/${user?.uid}/food/${food?.id}`),
+    queryFn: () => fetchDataFromBackend(`${BASE_URL}/user/${user?.uid}/food/${food?.id}`),
     enabled: !!food,
   });
 
   const userIngredientsQuery = useQuery({
     queryKey: ['ingredients', user?.uid],
-    queryFn: () =>
-      fetchDataFromBackend(`${BASE_URL}/user/${user?.uid}/ingredients`),
+    queryFn: () => fetchDataFromBackend(`${BASE_URL}/user/${user?.uid}/ingredients`),
     enabled: !!user,
   });
 
   const updateMutation = useMutation({
     mutationKey: ['food', user?.uid, food?.id],
     mutationFn: (req: RequestToBackend) => makeRequestToBackend({ ...req }),
-    onSettled: () =>
-      queryClient.invalidateQueries({ queryKey: ['food', user?.uid] }),
+    onSettled: () => queryClient.invalidateQueries({ queryKey: ['food', user?.uid] }),
   });
 
   const createMutation = useMutation({
     mutationKey: ['food', user?.uid],
     mutationFn: (req: RequestToBackend) => makeRequestToBackend({ ...req }),
-    onSettled: () =>
-      queryClient.invalidateQueries({ queryKey: ['food', user?.uid] }),
+    onSettled: () => queryClient.invalidateQueries({ queryKey: ['food', user?.uid] }),
   });
 
   useEffect(() => {
-    if (
-      foodIngredientsQuery.data &&
-      foodIngredientsQuery.data.ingredientsDataValues
-    ) {
+    if (foodIngredientsQuery.data && foodIngredientsQuery.data.ingredientsDataValues) {
       setIngredients(foodIngredientsQuery.data.ingredientsDataValues);
     }
   }, [foodIngredientsQuery.data]);
@@ -58,11 +46,7 @@ function useFoodForm(food?: FoodDataValues) {
     setFoodName(e.target.value);
   };
 
-  const handleSubmit = (
-    e: React.FormEvent<HTMLFormElement>,
-    url: string,
-    method: Method
-  ) => {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>, url: string, method: Method) => {
     e.preventDefault();
     const ingredientIds = ingredients.map((ingredient) => ingredient.id);
     const body = { name: foodName, ingredientIds };

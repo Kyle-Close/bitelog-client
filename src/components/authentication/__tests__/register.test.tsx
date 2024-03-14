@@ -1,21 +1,14 @@
 import '@testing-library/jest-dom';
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import { BrowserRouter, useNavigate } from 'react-router-dom';
-import { UserContext } from '../../../contexts';
+import { UserContext } from '../../../context';
 import Register from '../register';
-import {
-  signInWithPopup,
-  createUserWithEmailAndPassword,
-  sendEmailVerification,
-  getAuth,
-} from 'firebase/auth';
+import { signInWithPopup, createUserWithEmailAndPassword, sendEmailVerification, getAuth } from 'firebase/auth';
 
 jest.mock('firebase/auth');
 
 const setup = (isLoggedIn: boolean) => {
-  const user = isLoggedIn
-    ? { username: 'test', email: 'test@gmail.com' }
-    : null;
+  const user = isLoggedIn ? { username: 'test', email: 'test@gmail.com' } : null;
   const provider = { user, LoginUser: jest.fn(), ClearUserContext: jest.fn() };
 
   return render(
@@ -84,9 +77,7 @@ describe('<Register />', () => {
     await fireEvent.change(confirmInput, { target: { value: 'update' } });
 
     await waitFor(() => {
-      expect(screen.getByPlaceholderText('Confirm Password')).toHaveValue(
-        'update'
-      );
+      expect(screen.getByPlaceholderText('Confirm Password')).toHaveValue('update');
     });
   });
 
@@ -132,9 +123,7 @@ describe('<Register />', () => {
     const rejectValue = {
       message: 'Firebase: Error (auth/invalid-email).',
     };
-    (createUserWithEmailAndPassword as jest.Mock).mockRejectedValue(
-      rejectValue
-    );
+    (createUserWithEmailAndPassword as jest.Mock).mockRejectedValue(rejectValue);
 
     setup(false);
     const usernameInput = screen.getByPlaceholderText(/username/i);
@@ -179,9 +168,7 @@ describe('<Register />', () => {
     const resolveValue = {
       user: { displayName: 'test', email: 'test@gmail.com' },
     };
-    (createUserWithEmailAndPassword as jest.Mock).mockResolvedValue(
-      resolveValue
-    );
+    (createUserWithEmailAndPassword as jest.Mock).mockResolvedValue(resolveValue);
 
     (sendEmailVerification as jest.Mock).mockResolvedValue(true);
     (getAuth as jest.Mock).mockResolvedValue({
@@ -203,9 +190,7 @@ describe('<Register />', () => {
       const registerBtn = screen.getByText('Register');
       fireEvent.click(registerBtn);
 
-      expect(
-        screen.getByText('Account Successfully Created!')
-      ).toBeInTheDocument();
+      expect(screen.getByText('Account Successfully Created!')).toBeInTheDocument();
     });
   });
 });

@@ -1,6 +1,6 @@
 import { Box, Divider, Typography } from '@mui/material';
 import { useContext, useState } from 'react';
-import { UserContext } from '../../../contexts';
+import { UserContext } from '../../../context';
 import GoogleAuthButton from '../GoogleAuthButton';
 import RegisterFormContent from './RegisterFormContents';
 import useRegisterForm from '../../../hooks/useRegisterForm';
@@ -15,8 +15,7 @@ function Register() {
   };
   const handleClose = () => setIsOpen(false);
 
-  const { handleRegisterSubmit, handleUpdate, errors, isSubmitEnabled } =
-    useRegisterForm(handleOpen);
+  const { handleRegisterSubmit, handleUpdate, errors, isSubmitEnabled } = useRegisterForm(handleOpen);
 
   return user === null ? (
     <Box sx={loggedOutFormWrapper}>

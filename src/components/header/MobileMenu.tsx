@@ -4,7 +4,7 @@ import SpaIcon from '@mui/icons-material/Spa';
 import AutoStoriesIcon from '@mui/icons-material/AutoStories';
 import { Link } from 'react-router-dom';
 import { useContext } from 'react';
-import { UserContext } from '../../contexts';
+import { UserContext } from '../../context';
 
 export function MobileMenu({
   handleOpenDrawer,

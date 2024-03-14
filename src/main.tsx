@@ -1,6 +1,6 @@
 import React from 'react';
 import './index.css';
-import { UserProvider } from './contexts/UserContext.tsx';
+import { UserProvider } from './context/UserContext.tsx';
 import { createRoot } from 'react-dom/client';
 import { QueryClientProvider, QueryClient } from '@tanstack/react-query';
 import Router from './routes/index.tsx';

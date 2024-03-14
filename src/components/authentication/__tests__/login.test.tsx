@@ -2,7 +2,7 @@ import '@testing-library/jest-dom';
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import { signInWithEmailAndPassword, signInWithPopup } from 'firebase/auth';
 import { BrowserRouter, useNavigate } from 'react-router-dom';
-import { UserContext } from '../../../contexts';
+import { UserContext } from '../../../context';
 import LoginForm from '../login';
 
 jest.mock('firebase/auth');
@@ -12,13 +12,9 @@ const mockResolveData = {
   user: 'Kyle',
 };
 
-const mockSignInWithEmailAndPassword = jest
-  .fn()
-  .mockResolvedValue(mockResolveData);
+const mockSignInWithEmailAndPassword = jest.fn().mockResolvedValue(mockResolveData);
 
-(signInWithEmailAndPassword as jest.Mock).mockImplementation(
-  mockSignInWithEmailAndPassword
-);
+(signInWithEmailAndPassword as jest.Mock).mockImplementation(mockSignInWithEmailAndPassword);
 
 const mockedUsedNavigate = useNavigate();
 
@@ -92,8 +88,7 @@ describe('<LoginForm />', () => {
     const app = render(<LoginForm />);
     const emailInput = app.container.querySelector('#email');
 
-    if (emailInput)
-      fireEvent.change(emailInput, { target: { value: 'jest@gmail.com' } });
+    if (emailInput) fireEvent.change(emailInput, { target: { value: 'jest@gmail.com' } });
 
     const emailState = screen.getByDisplayValue('jest@gmail.com');
 
@@ -104,8 +99,7 @@ describe('<LoginForm />', () => {
     const app = render(<LoginForm />);
     const passwordInput = app.container.querySelector('#password');
 
-    if (passwordInput)
-      fireEvent.change(passwordInput, { target: { value: 'password' } });
+    if (passwordInput) fireEvent.change(passwordInput, { target: { value: 'password' } });
 
     const passwordState = screen.getByDisplayValue('password');
 
@@ -114,18 +108,14 @@ describe('<LoginForm />', () => {
 
   test('forgot password button is displayed', () => {
     const page = render(<LoginForm />);
-    const forgotPassButton = page.container.querySelector(
-      '#forgot-password-button'
-    );
+    const forgotPassButton = page.container.querySelector('#forgot-password-button');
 
     expect(forgotPassButton).toBeInTheDocument();
   });
 
   test('forgot password opens modal when clicked', () => {
     const page = render(<LoginForm />);
-    const forgotPasswordButton = page.container.querySelector(
-      '#forgot-password-button'
-    );
+    const forgotPasswordButton = page.container.querySelector('#forgot-password-button');
 
     if (forgotPasswordButton) fireEvent.click(forgotPasswordButton);
 
@@ -158,8 +148,7 @@ describe('<LoginForm />', () => {
       </UserContext.Provider>
     );
 
-    const emailInput: HTMLInputElement =
-      screen.getByPlaceholderText('Email Address');
+    const emailInput: HTMLInputElement = screen.getByPlaceholderText('Email Address');
     const passInput: HTMLInputElement = screen.getByPlaceholderText('Password');
     const submitButton = screen.getByText('Login');
 

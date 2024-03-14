@@ -1,7 +1,7 @@
 import { Box, Button, TextField, Typography } from '@mui/material';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useContext, useState } from 'react';
-import { UserContext } from '../../contexts';
+import { UserContext } from '../../context';
 import { mutateDataOnBackend } from '../../helpers/utility';
 import { BASE_URL } from '../../config/axiosConfig';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
@@ -29,9 +29,7 @@ function AddIngredientModalContent() {
       const msg = (
         <Box sx={{ display: 'flex', gap: '0.5rem', alignItems: 'end' }}>
           <CheckCircleIcon color='success' />
-          <Typography fontSize='0.8rem'>
-            Successfully added ingredient!
-          </Typography>
+          <Typography fontSize='0.8rem'>Successfully added ingredient!</Typography>
         </Box>
       );
       setDisplayMessage({
@@ -71,11 +69,7 @@ function AddIngredientModalContent() {
   };
 
   return (
-    <Box
-      component='form'
-      onSubmit={handleSubmit}
-      sx={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}
-    >
+    <Box component='form' onSubmit={handleSubmit} sx={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
       <TextField
         onChange={handleChange}
         size='small'

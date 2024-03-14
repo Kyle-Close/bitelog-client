@@ -1,5 +1,5 @@
 import { useContext } from 'react';
-import { UserContext } from '../../contexts';
+import { UserContext } from '../../context';
 import { Box, Button, Typography } from '@mui/material';
 import { useFetchUserFood } from '../../hooks/useFetchUserFood';
 import { FoodTable } from './FoodTable';

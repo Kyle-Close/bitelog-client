@@ -12,7 +12,7 @@ import {
 } from '@mui/material';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { useContext, useState } from 'react';
-import { UserContext } from '../../contexts';
+import { UserContext } from '../../context';
 import { convertToLocalDate, deleteDataFromBackend, fetchDataFromBackend } from '../../helpers/utility';
 import { BASE_URL } from '../../config/axiosConfig';
 import DeleteIcon from '@mui/icons-material/Delete';

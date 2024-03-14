@@ -5,7 +5,7 @@ import { ReactNode, useContext, useEffect } from 'react';
 import { initializeApp } from 'firebase/app';
 import { firebaseConfig } from './config/firebaseConfig';
 import useFirebaseAuth from './hooks/useFirebaseAuth';
-import { UserContext } from './contexts';
+import { UserContext } from './context';
 
 interface AppProps {
   children?: ReactNode;

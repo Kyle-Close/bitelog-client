@@ -5,11 +5,11 @@ import Toolbar from '@mui/material/Toolbar';
 import Container from '@mui/material/Container';
 import Button from '@mui/material/Button';
 import SpaIcon from '@mui/icons-material/Spa';
-import { UserContext } from '../../contexts';
+import { UserContext } from '../../context';
 import LoggedOutButtons from './LoggedOutButtons';
 import LoggedInButtons from './LoggedInButtons';
 import { Link, useNavigate } from 'react-router-dom';
-import { User } from '../../contexts';
+import { User } from '../../context';
 import { MobileMenu, menuObjectList } from './MobileMenu';
 
 export default function Header() {

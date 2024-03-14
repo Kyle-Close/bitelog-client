@@ -2,7 +2,7 @@ import { useState, useEffect, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Auth, signInWithEmailAndPassword } from 'firebase/auth';
 import { isLoginFormPopulated } from '../helpers/utility';
-import { UserContext } from '../contexts';
+import { UserContext } from '../context';
 
 export interface LoginFormData {
   email: string;
@@ -64,10 +64,7 @@ function useLoginForm(): IUseAuthFormExports {
     });
   };
 
-  const handleLoginSubmit = async (
-    e: React.FormEvent<HTMLFormElement>,
-    auth: Auth
-  ) => {
+  const handleLoginSubmit = async (e: React.FormEvent<HTMLFormElement>, auth: Auth) => {
     e.preventDefault();
     if (!formData) return;
 
@@ -77,11 +74,7 @@ function useLoginForm(): IUseAuthFormExports {
     }
 
     try {
-      const userCredential = await signInWithEmailAndPassword(
-        auth,
-        formData.email,
-        formData.password
-      );
+      const userCredential = await signInWithEmailAndPassword(auth, formData.email, formData.password);
       const { email, displayName } = userCredential.user;
       if (!email || !displayName) {
         addError('Could not find account username or email.');

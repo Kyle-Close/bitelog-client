@@ -1,5 +1,5 @@
 import { useContext } from 'react';
-import { UserContext } from '../contexts';
+import { UserContext } from '../context';
 import { useQuery } from '@tanstack/react-query';
 import { BASE_URL } from '../config/axiosConfig';
 

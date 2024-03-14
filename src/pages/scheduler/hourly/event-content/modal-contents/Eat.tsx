@@ -5,7 +5,7 @@ import { useQuery } from '@tanstack/react-query';
 import { makeRequestToBackend } from '../../../../../helpers/utility';
 import { BASE_URL } from '../../../../../config/axiosConfig';
 import { useContext } from 'react';
-import { UserContext } from '../../../../../contexts';
+import { UserContext } from '../../../../../context';
 import FoodIngredientList from './FoodIngredientList';
 import EditIcon from '@mui/icons-material/Edit';
 

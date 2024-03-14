@@ -1,15 +1,9 @@
 import GoogleIcon from '@mui/icons-material/Google';
 import { Button } from '@mui/material';
-import {
-  GoogleAuthProvider,
-  getAuth,
-  signInWithPopup,
-  Auth,
-  UserCredential,
-} from 'firebase/auth';
+import { GoogleAuthProvider, getAuth, signInWithPopup, Auth, UserCredential } from 'firebase/auth';
 import { useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { UserContext } from '../../contexts';
+import { UserContext } from '../../context';
 interface IGoogleAuthButton {
   isLogin: boolean;
 }
@@ -22,10 +16,7 @@ function GoogleAuthButton({ isLogin }: IGoogleAuthButton) {
 
   const googleSignIn = async (auth: Auth, provider: GoogleAuthProvider) => {
     try {
-      const userCredential: UserCredential = await signInWithPopup(
-        auth,
-        provider
-      );
+      const userCredential: UserCredential = await signInWithPopup(auth, provider);
 
       if (userCredential) {
         const { email, displayName, uid } = userCredential.user;
@@ -39,12 +30,7 @@ function GoogleAuthButton({ isLogin }: IGoogleAuthButton) {
     }
   };
   return (
-    <Button
-      onClick={() => googleSignIn(auth, provider)}
-      variant='outlined'
-      startIcon={<GoogleIcon />}
-      size='small'
-    >
+    <Button onClick={() => googleSignIn(auth, provider)} variant='outlined' startIcon={<GoogleIcon />} size='small'>
       {isLogin ? 'Login with Google' : 'Register with Google'}
     </Button>
   );

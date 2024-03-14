@@ -7,7 +7,7 @@ import { useQuery } from '@tanstack/react-query';
 import { fetchDataFromBackend } from '../../helpers/utility';
 import { BASE_URL } from '../../config/axiosConfig';
 import { useContext } from 'react';
-import { User, UserContext } from '../../contexts';
+import { User, UserContext } from '../../context';
 import { useNavigate } from 'react-router-dom';
 
 function PageSelector() {
@@ -16,8 +16,7 @@ function PageSelector() {
 
   const { data, error, isLoading } = useQuery({
     queryKey: ['journal', user?.uid],
-    queryFn: () =>
-      fetchDataFromBackend(BASE_URL + `/user/${user?.uid}/journal`),
+    queryFn: () => fetchDataFromBackend(BASE_URL + `/user/${user?.uid}/journal`),
     enabled: !!user,
   });
 
@@ -54,16 +53,9 @@ function PageSelector() {
             mt: item.url.includes('settings') ? 'auto' : null,
           }}
         >
-          <Paper
-            sx={{ display: 'flex', flexGrow: 1, p: '1rem', gap: '1.5rem' }}
-            elevation={1}
-          >
+          <Paper sx={{ display: 'flex', flexGrow: 1, p: '1rem', gap: '1.5rem' }} elevation={1}>
             {item.icon}
-            <Typography
-              textAlign='start'
-              fontWeight='bold'
-              sx={{ flexGrow: '1' }}
-            >
+            <Typography textAlign='start' fontWeight='bold' sx={{ flexGrow: '1' }}>
               {item.name}
             </Typography>
           </Paper>
@@ -74,11 +66,7 @@ function PageSelector() {
 
   return (
     <>
-      <Typography
-        textAlign='center'
-        sx={{ minWidth: '100%', pb: '0.5rem' }}
-        variant='h6'
-      >
+      <Typography textAlign='center' sx={{ minWidth: '100%', pb: '0.5rem' }} variant='h6'>
         {userJournal.name ? userJournal.name : user?.username + "'s Journal"}
       </Typography>
       <Divider />

@@ -4,7 +4,7 @@ import LoggedOutButtons from '../LoggedOutButtons';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import { BrowserRouter, useNavigate } from 'react-router-dom';
 import Header from '..';
-import { UserContext } from '../../../contexts';
+import { UserContext } from '../../../context';
 
 jest.mock('firebase/auth');
 
