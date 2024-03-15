@@ -26,7 +26,7 @@ export default function Header() {
 
   return (
     <AppBar position='sticky'>
-      <Container maxWidth='xl'>
+      <Container>
         <Toolbar disableGutters>
           <LargeScreenMenuAndHome />
           <MobileMenu

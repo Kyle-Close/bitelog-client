@@ -1,4 +1,4 @@
-import { Paper } from '@mui/material';
+import { Container, Paper } from '@mui/material';
 import { ReactNode } from 'react';
 
 interface IJournalProps {
@@ -7,9 +7,11 @@ interface IJournalProps {
 
 function Journal({ children }: IJournalProps) {
   return (
-    <Paper elevation={6} sx={bgPaperClasses}>
-      {children}
-    </Paper>
+    <Container sx={{ height: '100%' }}>
+      <Paper elevation={6} sx={bgPaperClasses}>
+        {children}
+      </Paper>
+    </Container>
   );
 }
 

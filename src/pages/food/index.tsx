@@ -1,9 +1,10 @@
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
 import { UserContext } from '../../context';
-import { Box, Button, Typography } from '@mui/material';
+import { Box, Button, Container, Typography } from '@mui/material';
 import { useFetchUserFood } from '../../hooks/useFetchUserFood';
-import { FoodTable } from './FoodTable';
-import GoToHome from '../../components/generic/GoToHome';
+import { FoodTable } from './table';
+import { useScreenSize } from '../../hooks/useScreenSize';
+import { FoodIngredientModal } from './FoodIngredientModal';
 
 export interface FoodDataValues {
   id: number;
@@ -14,8 +15,10 @@ export interface FoodDataValues {
 }
 
 function FoodsPage() {
+  const [isOpen, setIsOpen] = useState(false);
   const { user } = useContext(UserContext);
   const { foodQuery, ingredientsQuery, foods } = useFetchUserFood(user);
+  const currentSize = useScreenSize();
 
   if (foodQuery.isError || ingredientsQuery.isError) {
     return <Typography>Error fetching user food.</Typography>;
@@ -23,18 +26,20 @@ function FoodsPage() {
     return <Typography>Loading...</Typography>;
   }
 
-  console.log(foods);
-
   return (
-    <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-      <Box sx={{ display: 'flex', gap: '2rem', alignItems: 'end', p: '1rem' }}>
-        <GoToHome url={`/user/${user?.uid}/journal/${user?.journalId}`} />
-        <Typography variant='h5'>Foods</Typography>
-        <Button sx={{ ml: 'auto' }} variant='contained'>
-          Create Food
-        </Button>
-      </Box>
-      {foods && <FoodTable foods={foods} />}
+    <Box sx={{ backgroundColor: '#303030', height: '100%' }}>
+      <FoodIngredientModal isOpen={isOpen} handleClose={() => setIsOpen(false)} />
+      <Container disableGutters={currentSize === 'xs'}>
+        <Box sx={{ display: 'flex', flexDirection: 'column', mt: { md: '2rem' } }}>
+          <Box sx={{ display: 'flex', gap: '2rem', alignItems: 'end', p: '1rem' }}>
+            <Typography variant='h5'>Foods</Typography>
+            <Button onClick={() => setIsOpen(true)} sx={{ ml: 'auto' }} variant='contained'>
+              Create Food
+            </Button>
+          </Box>
+          {foods && <FoodTable foods={foods} />}
+        </Box>
+      </Container>
     </Box>
   );
 }

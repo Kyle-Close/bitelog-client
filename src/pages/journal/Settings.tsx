@@ -61,7 +61,6 @@ function SettingsForm() {
       }}
     >
       <Box sx={{ display: 'flex', gap: '3rem' }}>
-        <GoToHome url={homeURL} />
         <Typography variant='h5'>Settings</Typography>
       </Box>
 
