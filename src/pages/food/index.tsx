@@ -18,7 +18,6 @@ function FoodsPage() {
   const [isOpen, setIsOpen] = useState(false);
   const { user } = useContext(UserContext);
   const { foodQuery, ingredientsQuery, foods } = useFetchUserFood(user);
-  const currentSize = useScreenSize();
 
   if (foodQuery.isError || ingredientsQuery.isError) {
     return <Typography>Error fetching user food.</Typography>;
@@ -27,7 +26,7 @@ function FoodsPage() {
   }
 
   return (
-    <Box sx={{ backgroundColor: '#303030', flexGrow: 1 }}>
+    <Box sx={{ flexGrow: 1 }}>
       <FoodIngredientModal isOpen={isOpen} handleClose={() => setIsOpen(false)} />
       <Container>
         <Box sx={{ display: 'flex', flexDirection: 'column', mt: { md: '2rem' } }}>

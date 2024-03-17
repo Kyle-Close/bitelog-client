@@ -1,29 +1,38 @@
-import { TableCell, TableHead, TableRow, Typography } from '@mui/material';
+import { TableHead, TableRow, Typography } from '@mui/material';
+import TableCell, { tableCellClasses } from '@mui/material/TableCell';
+import { styled } from '@mui/material/styles';
+
+const StyledTableCell = styled(TableCell)(({ theme }) => ({
+  [`&.${tableCellClasses.head}`]: {
+    backgroundColor: theme.palette.common.black,
+    color: theme.palette.common.white,
+  },
+}));
 
 export function FoodTableHeader() {
   return (
     <TableHead>
       <TableRow>
-        <TableCell sx={cellClasses} align='center'>
+        <StyledTableCell sx={cellClasses} align='center'>
           <Typography sx={textClasses} variant='h6'>
             Edit
           </Typography>
-        </TableCell>
-        <TableCell>
+        </StyledTableCell>
+        <StyledTableCell>
           <Typography sx={textClasses} variant='h6'>
             Name
           </Typography>
-        </TableCell>
-        <TableCell size='small'>
+        </StyledTableCell>
+        <StyledTableCell size='small'>
           <Typography sx={textClasses} variant='h6'>
             Ingredients
           </Typography>
-        </TableCell>
-        <TableCell sx={cellClasses} align='center' size='small'>
+        </StyledTableCell>
+        <StyledTableCell sx={cellClasses} align='center' size='small'>
           <Typography sx={textClasses} variant='h6'>
             Delete
           </Typography>
-        </TableCell>
+        </StyledTableCell>
       </TableRow>
     </TableHead>
   );
