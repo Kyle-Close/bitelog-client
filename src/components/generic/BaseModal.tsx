@@ -15,12 +15,7 @@ const style = {
   width: { xs: '90%', sm: '85%', md: '65%', lg: '50%' },
   border: '2px solid #000',
   boxShadow: 24,
-  p: {
-    xs: '0.5rem',
-    sm: '0.8rem',
-    md: '1rem',
-    lg: '1.2rem',
-  },
+  borderRadius: '8px',
 };
 
 export function BaseModal({ isOpen, handleClose, children }: BaseModalProps) {

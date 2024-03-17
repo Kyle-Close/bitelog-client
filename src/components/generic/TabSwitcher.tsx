@@ -19,25 +19,12 @@ export default function TabSwitcher({ tabs }: TabSwitcherProps) {
   const tabPanels = tabs.map((tab, index) => <TabPanel value={index}>{tab.tabPanel}</TabPanel>);
 
   return (
-    <Tabs style={{ backgroundColor: '#1C2025', padding: '1rem' }} defaultValue={0}>
+    <Tabs style={{ backgroundColor: '#1C2025', padding: '1rem', borderRadius: '8px' }} defaultValue={0}>
       <TabsList>{tabList}</TabsList>
       {tabPanels}
     </Tabs>
   );
 }
-
-const blue = {
-  50: '#F0F7FF',
-  100: '#C2E0FF',
-  200: '#80BFFF',
-  300: '#66B2FF',
-  400: '#3399FF',
-  500: '#007FFF',
-  600: '#0072E5',
-  700: '#0059B2',
-  800: '#004C99',
-  900: '#003A75',
-};
 
 const grey = {
   50: '#F3F6F9',
@@ -57,7 +44,7 @@ const Tab = styled(BaseTab)(
   font-family: 'IBM Plex Sans', sans-serif;
   color: #fff;
   cursor: pointer;
-  font-size: 0.875rem;
+  font-size: 0.7rem;
   font-weight: 600;
   background-color: transparent;
   width: 100%;
@@ -72,7 +59,8 @@ const Tab = styled(BaseTab)(
   align-items: center;
 
   ${theme.breakpoints.up('sm')} {
-    padding: 24px 16px;
+    padding: 1rem 0.75rem;
+    font-size: 0.8rem;
   }
 
   &:hover {
@@ -81,11 +69,11 @@ const Tab = styled(BaseTab)(
 
   &:focus {
     color: #fff;
-    outline: 3px solid ${grey[500]};
+    outline: 2px solid ${grey[200]};
   }
 
   &.${tabClasses.selected} {
-    background-color: ${theme.palette.background.paper};
+    background-color: ${theme.palette.primary.main};
     color: #fff;
   }
 
