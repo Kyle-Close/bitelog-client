@@ -8,7 +8,7 @@ import EditIcon from '@mui/icons-material/Edit';
 import { useScreenSize } from '../../../hooks/useScreenSize';
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
-  paddingTop: '1rem', // Smaller padding for smaller screens
+  paddingTop: '1rem',
   paddingBottom: '1rem',
   [theme.breakpoints.up('sm')]: {
     paddingTop: '1.5rem',
@@ -21,12 +21,6 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
     backgroundColor: theme.palette.common.black,
     color: theme.palette.common.white,
-  },
-  [`&.${tableCellClasses.body}`]: {
-    fontSize: '8px',
-    [theme.breakpoints.up('sm')]: {
-      fontSize: '12px',
-    },
   },
 }));
 
@@ -74,10 +68,14 @@ export function FoodTableBody({ foods, rowsPerPage, currentPage }: FoodTableBody
               <EditIcon />
             </StyledTableCell>
             <StyledTableCell>
-              <Typography>{food.name}</Typography>
+              <Typography sx={foodNameStyles}>{food.name}</Typography>
             </StyledTableCell>
             <StyledTableCell>
-              <ReadMore text={ingredients} charLimit={ingredientsCharLimit()} />
+              <ReadMore
+                typographyOptions={foodIngredientStyles}
+                text={ingredients}
+                charLimit={ingredientsCharLimit()}
+              />
             </StyledTableCell>
             <StyledTableCell align='center'>
               <DeleteIcon color='error' />
@@ -88,3 +86,21 @@ export function FoodTableBody({ foods, rowsPerPage, currentPage }: FoodTableBody
     </TableBody>
   );
 }
+
+const foodNameStyles = {
+  fontSize: {
+    xs: '0.8rem',
+    sm: '0.9rem',
+    md: '1rem',
+    lg: '1.2rem',
+  },
+};
+
+const foodIngredientStyles = {
+  fontSize: {
+    xs: '0.6rem',
+    sm: '0.7rem',
+    md: '0.8rem',
+    lg: '0.9rem',
+  },
+};

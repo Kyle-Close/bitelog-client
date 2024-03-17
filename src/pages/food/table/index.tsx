@@ -14,10 +14,6 @@ export function FoodTable({ foods }: FoodTableProps) {
 
   return (
     <TableContainer>
-      <Table stickyHeader>
-        <FoodTableHeader />
-        <FoodTableBody foods={foods} currentPage={currentPage} rowsPerPage={rowsPerPage} />
-      </Table>
       <TablePagination
         rowsPerPageOptions={[10, 20, 50]}
         component='div'
@@ -27,6 +23,10 @@ export function FoodTable({ foods }: FoodTableProps) {
         onPageChange={(e, newPage) => setCurrentPage(newPage)}
         onRowsPerPageChange={(e) => setRowsPerPage(parseInt(e.target.value, 10))}
       />
+      <Table sx={{ mb: '2rem' }} stickyHeader>
+        <FoodTableHeader />
+        <FoodTableBody foods={foods} currentPage={currentPage} rowsPerPage={rowsPerPage} />
+      </Table>
     </TableContainer>
   );
 }

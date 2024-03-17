@@ -39,9 +39,9 @@ const cellClasses = {
 
 const textClasses = {
   fontSize: {
-    xs: '0.85rem',
-    sm: '0.9rem',
-    md: '1rem',
+    xs: '0.75rem',
+    sm: '0.85rem',
+    md: '0.95rem',
     lg: '1.1rem',
   },
 };
