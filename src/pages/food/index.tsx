@@ -27,7 +27,7 @@ function FoodsPage() {
   }
 
   return (
-    <Box sx={{ backgroundColor: '#303030', height: '100%' }}>
+    <Box sx={{ backgroundColor: '#303030', flexGrow: 1 }}>
       <FoodIngredientModal isOpen={isOpen} handleClose={() => setIsOpen(false)} />
       <Container disableGutters={currentSize === 'xs'}>
         <Box sx={{ display: 'flex', flexDirection: 'column', mt: { md: '2rem' } }}>

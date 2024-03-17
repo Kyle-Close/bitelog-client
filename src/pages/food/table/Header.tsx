@@ -41,7 +41,7 @@ const textClasses = {
   fontSize: {
     xs: '0.85rem',
     sm: '0.9rem',
-    md: '0.1rem',
+    md: '1rem',
     lg: '1.1rem',
   },
 };

@@ -16,7 +16,7 @@ export function ReadMore({ charLimit, text }: ReadMoreProps) {
       <Typography variant='overline'>{displayText}</Typography>
       {isEllipsis && (
         <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
-          <Link href='#' variant='caption' onClick={() => setIsExpanded(!isExpanded)} className='ellipsis'>
+          <Link variant='caption' onClick={() => setIsExpanded(!isExpanded)} className='ellipsis'>
             {isExpanded ? 'see less' : 'see more'}
           </Link>
         </Box>

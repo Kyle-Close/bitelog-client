@@ -29,7 +29,7 @@ function App({ children }: AppProps) {
         sx={{
           display: 'flex',
           flexDirection: 'column',
-          height: '100vh',
+          flexGrow: 1,
         }}
       >
         <ResponsiveAppBar />
