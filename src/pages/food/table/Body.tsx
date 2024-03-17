@@ -8,14 +8,25 @@ import EditIcon from '@mui/icons-material/Edit';
 import { useScreenSize } from '../../../hooks/useScreenSize';
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
-  paddingTop: '2rem',
-  paddingBottom: '2rem',
+  paddingTop: '1rem', // Smaller padding for smaller screens
+  paddingBottom: '1rem',
+  [theme.breakpoints.up('sm')]: {
+    paddingTop: '1.5rem',
+    paddingBottom: '1.5rem',
+  },
+  [theme.breakpoints.up('md')]: {
+    paddingTop: '2rem',
+    paddingBottom: '2rem',
+  },
   [`&.${tableCellClasses.head}`]: {
     backgroundColor: theme.palette.common.black,
     color: theme.palette.common.white,
   },
   [`&.${tableCellClasses.body}`]: {
-    fontSize: 14,
+    fontSize: '8px',
+    [theme.breakpoints.up('sm')]: {
+      fontSize: '12px',
+    },
   },
 }));
 
