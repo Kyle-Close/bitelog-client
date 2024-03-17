@@ -1,4 +1,4 @@
-import { Button, IconButton } from '@mui/material';
+import { IconButton } from '@mui/material';
 import LogoutIcon from '@mui/icons-material/Logout';
 
 import { getAuth, signOut } from 'firebase/auth';
