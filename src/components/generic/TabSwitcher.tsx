@@ -52,7 +52,8 @@ const grey = {
   900: '#1C2025',
 };
 
-const Tab = styled(BaseTab)`
+const Tab = styled(BaseTab)(
+  ({ theme }) => `
   font-family: 'IBM Plex Sans', sans-serif;
   color: #fff;
   cursor: pointer;
@@ -66,26 +67,34 @@ const Tab = styled(BaseTab)`
   border-radius: 7px;
   display: flex;
   justify-content: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  ${theme.breakpoints.up('sm')} {
+    padding: 24px 16px;
+  }
 
   &:hover {
-    background-color: ${blue[400]};
+    background-color: ${grey[300]};
   }
 
   &:focus {
     color: #fff;
-    outline: 3px solid ${blue[200]};
+    outline: 3px solid ${grey[500]};
   }
 
   &.${tabClasses.selected} {
-    background-color: #fff;
-    color: ${blue[600]};
+    background-color: ${theme.palette.background.paper};
+    color: #fff;
   }
 
   &.${buttonClasses.disabled} {
     opacity: 0.5;
     cursor: not-allowed;
   }
-`;
+`
+);
 
 const TabPanel = styled(BaseTabPanel)(
   ({ theme }) => `
@@ -93,7 +102,7 @@ const TabPanel = styled(BaseTabPanel)(
   font-family: 'IBM Plex Sans', sans-serif;
   font-size: 0.875rem;
   padding: 20px 12px;
-  background: ${theme.palette.mode === 'dark' ? '#FFFFFF' : '#fff'};
+  background:  'background.paper'; 
   border-radius: 12px;
   opacity: 0.6;
   `
@@ -101,12 +110,11 @@ const TabPanel = styled(BaseTabPanel)(
 
 const TabsList = styled(BaseTabsList)(
   ({ theme }) => `
-  min-width: 400px;
-  background-color: ${blue[500]};
+  background-color: ${theme.palette.background.default};
   border-radius: 12px;
   margin-bottom: 16px;
   display: flex;
-  align-items: center;
+  align-items: stretch;
   justify-content: center;
   align-content: space-between;
   box-shadow: 0px 4px 30px ${theme.palette.mode === 'dark' ? grey[900] : grey[200]};
