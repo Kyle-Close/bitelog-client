@@ -1,8 +1,16 @@
 import { Autocomplete, Box, Button, Divider, InputLabel, TextField } from '@mui/material';
-import { useState } from 'react';
+
+interface IngredientType {
+  name: string;
+}
+
+const ingredients = [{ name: 'The Shawshank Redemption' }];
 
 export function FoodForm() {
-  const [activeIngredient, setActiveIngredient] = useState('');
+  const defaultProps = {
+    options: ingredients,
+    getOptionLabel: (option: IngredientType) => option.name,
+  };
 
   return (
     <Box component='form' sx={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
@@ -12,7 +20,12 @@ export function FoodForm() {
       </Box>
       <Box sx={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
         <InputLabel id='combo-ingredients-label'>Ingredients</InputLabel>
-        <Autocomplete id='combo-ingredients' value={activeIngredient} size='small'></Autocomplete>
+        <Autocomplete
+          {...defaultProps}
+          renderInput={(params) => <TextField {...params} variant='standard' />}
+          id='combo-ingredients'
+          size='small'
+        ></Autocomplete>
       </Box>
       <Button sx={{ mt: '2rem' }} color='secondary' variant='contained' type='submit' size='small'>
         Submit
