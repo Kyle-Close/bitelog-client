@@ -1,14 +1,17 @@
 import { Autocomplete, Box, Button, Divider, InputLabel, TextField } from '@mui/material';
+import { useFoodForm } from '../../hooks/useFoodForm';
 
 interface IngredientType {
   name: string;
 }
 
-const ingredients = [{ name: 'The Shawshank Redemption' }];
-
 export function FoodForm() {
+  const { ingredientsQuery } = useFoodForm();
+
+  if (!ingredientsQuery || !ingredientsQuery.data) return;
+
   const defaultProps = {
-    options: ingredients,
+    options: ingredientsQuery.data,
     getOptionLabel: (option: IngredientType) => option.name,
   };
 

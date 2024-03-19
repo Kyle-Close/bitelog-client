@@ -15,8 +15,16 @@ interface TabSwitcherProps {
 }
 
 export default function TabSwitcher({ tabs }: TabSwitcherProps) {
-  const tabList = tabs.map((tab, index) => <Tab value={index}>{tab.tabName}</Tab>);
-  const tabPanels = tabs.map((tab, index) => <TabPanel value={index}>{tab.tabPanel}</TabPanel>);
+  const tabList = tabs.map((tab, index) => (
+    <Tab key={index} value={index}>
+      {tab.tabName}
+    </Tab>
+  ));
+  const tabPanels = tabs.map((tab, index) => (
+    <TabPanel key={index} value={index}>
+      {tab.tabPanel}
+    </TabPanel>
+  ));
 
   return (
     <Tabs style={{ backgroundColor: '#1C2025', padding: '1rem', borderRadius: '8px' }} defaultValue={0}>
