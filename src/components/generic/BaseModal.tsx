@@ -10,7 +10,7 @@ const style = {
   position: 'absolute',
   top: '30%',
   left: '50%',
-  transform: 'translate(-50%, -50%)',
+  transform: 'translate(-50%, -30%)',
   bgcolor: 'background.paper',
   width: { xs: '90%', sm: '85%', md: '65%', lg: '50%' },
   border: '2px solid #000',
