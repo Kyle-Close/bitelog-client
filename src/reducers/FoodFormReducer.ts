@@ -1,3 +1,42 @@
+export function FoodFormReducer(
+  state: FoodFormReducerState,
+  action: FoodFormReducerAction
+) {
+  switch (action.type) {
+    case FoodFormActionTypes.UPDATE_INPUT_VALUE:
+      return {
+        ...state,
+        inputValue: action.payload.value,
+      };
+    case FoodFormActionTypes.UPDATE_AUTO_COMPLETE_VALUE:
+      return {
+        ...state,
+        autoCompleteValue: action.payload.value,
+      };
+    case FoodFormActionTypes.ADD_TO_SELECTED_INGREDIENTS:
+      if (!action.payload.value) return { ...state };
+      if (state.selectedIngredients.includes(action.payload.value))
+        return { ...state };
+      return {
+        ...state,
+        selectedIngredients: [
+          ...state.selectedIngredients,
+          action.payload.value,
+        ],
+      };
+    case FoodFormActionTypes.REMOVE_SELECTED_INGREDIENT:
+      if (!state.selectedIngredients.includes(action.payload.value))
+        return { ...state };
+      const newSelectedIngredients = state.selectedIngredients.filter(
+        (ingredient) => ingredient !== action.payload.value
+      );
+      return {
+        ...state,
+        selectedIngredients: newSelectedIngredients,
+      };
+  }
+}
+
 interface IngredientType {
   name: string;
 }
@@ -48,34 +87,3 @@ type FoodFormReducerAction =
   | UpdateInputValue
   | AddToSelectedIngredients
   | RemoveSelectedIngredient;
-
-export function FoodFormReducer(state: FoodFormReducerState, action: FoodFormReducerAction) {
-  switch (action.type) {
-    case FoodFormActionTypes.UPDATE_INPUT_VALUE:
-      return {
-        ...state,
-        inputValue: action.payload.value,
-      };
-    case FoodFormActionTypes.UPDATE_AUTO_COMPLETE_VALUE:
-      return {
-        ...state,
-        autoCompleteValue: action.payload.value,
-      };
-    case FoodFormActionTypes.ADD_TO_SELECTED_INGREDIENTS:
-      if (!action.payload.value) return { ...state };
-      if (state.selectedIngredients.includes(action.payload.value)) return { ...state };
-      return {
-        ...state,
-        selectedIngredients: [...state.selectedIngredients, action.payload.value],
-      };
-    case FoodFormActionTypes.REMOVE_SELECTED_INGREDIENT:
-      if (state.selectedIngredients.includes(action.payload.value)) return { ...state };
-      const newSelectedIngredients = state.selectedIngredients.filter(
-        (ingredient) => ingredient !== action.payload.value
-      );
-      return {
-        ...state,
-        selectedIngredients: newSelectedIngredients,
-      };
-  }
-}

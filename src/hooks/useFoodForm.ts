@@ -11,7 +11,7 @@ export interface IngredientType {
 
 export function useFoodForm() {
   const [state, dispatch] = useReducer(FoodFormReducer, {
-    autoCompleteValue: { name: '' },
+    autoCompleteValue: null,
     inputValue: '',
     selectedIngredients: [],
   });
