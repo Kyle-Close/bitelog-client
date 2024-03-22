@@ -1,8 +1,15 @@
+import { IngredientType } from '../hooks/useFoodForm';
+
 export function FoodFormReducer(
   state: FoodFormReducerState,
   action: FoodFormReducerAction
 ) {
   switch (action.type) {
+    case FoodFormActionTypes.UPDATE_FOOD_NAME:
+      return {
+        ...state,
+        foodName: action.payload.value,
+      };
     case FoodFormActionTypes.UPDATE_INPUT_VALUE:
       return {
         ...state,
@@ -25,10 +32,13 @@ export function FoodFormReducer(
         ],
       };
     case FoodFormActionTypes.REMOVE_SELECTED_INGREDIENT:
-      if (!state.selectedIngredients.includes(action.payload.value))
-        return { ...state };
+      const exists = state.selectedIngredients.some(
+        (ingredient) => ingredient.name === action.payload.value
+      );
+      console.log(exists);
+      if (!exists) return { ...state };
       const newSelectedIngredients = state.selectedIngredients.filter(
-        (ingredient) => ingredient !== action.payload.value
+        (ingredient) => ingredient.name !== action.payload.value
       );
       return {
         ...state,
@@ -37,14 +47,11 @@ export function FoodFormReducer(
   }
 }
 
-interface IngredientType {
-  name: string;
-}
-
 interface FoodFormReducerState {
+  foodName: string;
   autoCompleteValue: IngredientType | null;
   inputValue: string;
-  selectedIngredients: string[];
+  selectedIngredients: IngredientType[];
 }
 
 export enum FoodFormActionTypes {
@@ -52,6 +59,7 @@ export enum FoodFormActionTypes {
   UPDATE_AUTO_COMPLETE_VALUE = 'UPDATE_AUTO_COMPLETE_VALUE',
   ADD_TO_SELECTED_INGREDIENTS = 'ADD_TO_SELECTED_INGREDIENTS',
   REMOVE_SELECTED_INGREDIENT = 'REMOVE_SELECTED_INGREDIENT',
+  UPDATE_FOOD_NAME = 'UPDATE_FOOD_NAME',
 }
 
 interface UpdateInputValue {
@@ -71,7 +79,7 @@ interface UpdateAutoCompleteValue {
 interface AddToSelectedIngredients {
   type: FoodFormActionTypes.ADD_TO_SELECTED_INGREDIENTS;
   payload: {
-    value: string | null;
+    value: IngredientType | null;
   };
 }
 
@@ -82,8 +90,16 @@ interface RemoveSelectedIngredient {
   };
 }
 
+interface UpdateFoodName {
+  type: FoodFormActionTypes.UPDATE_FOOD_NAME;
+  payload: {
+    value: string;
+  };
+}
+
 type FoodFormReducerAction =
   | UpdateAutoCompleteValue
   | UpdateInputValue
   | AddToSelectedIngredients
-  | RemoveSelectedIngredient;
+  | RemoveSelectedIngredient
+  | UpdateFoodName;

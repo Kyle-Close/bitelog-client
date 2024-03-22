@@ -27,7 +27,14 @@ export default function TabSwitcher({ tabs }: TabSwitcherProps) {
   ));
 
   return (
-    <Tabs style={{ backgroundColor: '#1C2025', padding: '1rem', borderRadius: '8px' }} defaultValue={0}>
+    <Tabs
+      style={{
+        backgroundColor: '#1C2025',
+        padding: '1rem',
+        borderRadius: '8px',
+      }}
+      defaultValue={0}
+    >
       <TabsList>{tabList}</TabsList>
       {tabPanels}
     </Tabs>
@@ -113,6 +120,8 @@ const TabsList = styled(BaseTabsList)(
   align-items: stretch;
   justify-content: center;
   align-content: space-between;
-  box-shadow: 0px 4px 30px ${theme.palette.mode === 'dark' ? grey[900] : grey[200]};
+  box-shadow: 0px 4px 30px ${
+    theme.palette.mode === 'dark' ? grey[900] : grey[200]
+  };
   `
 );

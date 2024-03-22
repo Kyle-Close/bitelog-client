@@ -8,10 +8,7 @@ import {
 } from '@mui/material';
 import { useFoodForm } from '../../hooks/useFoodForm';
 import ChipsArray from '../generic/ChipArray';
-
-interface IngredientType {
-  name: string;
-}
+import { IngredientType } from '../../hooks/useFoodForm';
 
 export function FoodForm() {
   const {
@@ -20,6 +17,8 @@ export function FoodForm() {
     handleAutoCompleteChange,
     handleInputChange,
     removeSelectedIngredient,
+    handleFoodNameChange,
+    handleSubmit,
   } = useFoodForm();
 
   if (!ingredientsQuery || !ingredientsQuery.data) return;
@@ -32,6 +31,7 @@ export function FoodForm() {
   return (
     <Box
       component='form'
+      onSubmit={handleSubmit}
       sx={{
         display: 'flex',
         flexDirection: 'column',
@@ -46,7 +46,12 @@ export function FoodForm() {
         }}
       >
         <InputLabel id='food-name'>Food name</InputLabel>
-        <TextField size='small' required id='food-name' />
+        <TextField
+          onChange={handleFoodNameChange}
+          size='small'
+          required
+          id='food-name'
+        />
       </Box>
       <Box
         sx={{
@@ -78,7 +83,7 @@ export function FoodForm() {
       </Button>
       <Divider />
       <ChipsArray
-        chipData={state.selectedIngredients}
+        chipData={state.selectedIngredients.map((ing) => ing.name)}
         deleteData={removeSelectedIngredient}
       />
     </Box>
