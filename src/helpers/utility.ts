@@ -197,7 +197,7 @@ export function capitalizeFirstLetter(string: string) {
 
 export type Method = 'GET' | 'PUT' | 'PATCH' | 'POST' | 'DELETE';
 
-type RequestBody =
+export type RequestBody =
   | Record<string, unknown>
   | Blob
   | FormData

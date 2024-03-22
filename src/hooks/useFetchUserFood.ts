@@ -23,7 +23,8 @@ interface IFoodIngredients {
 export function useFetchUserFood(user: User | null) {
   const foodQuery = useQuery({
     queryKey: ['food', user?.uid],
-    queryFn: () => makeRequestToBackend({ url: `${BASE_URL}/user/${user?.uid}/food` }),
+    queryFn: () =>
+      makeRequestToBackend({ url: `${BASE_URL}/user/${user?.uid}/food` }),
     enabled: !!user,
   });
 
@@ -49,9 +50,11 @@ export function useFetchUserFood(user: User | null) {
     const foodIngredientsData = ingredientsQuery.data.foodIngredients;
     const foodData = foodQuery.data.foodDataValues;
 
-    const ingredientNames = foodIngredientsData.map((foodIngredients: IFoodIngredients[]) => {
-      return foodIngredients.map((ingredients) => ingredients.name);
-    });
+    const ingredientNames = foodIngredientsData.map(
+      (foodIngredients: IFoodIngredients[]) => {
+        return foodIngredients.map((ingredients) => ingredients.name);
+      }
+    );
 
     const foods: IFoods[] = [];
     for (let i = 0; i < foodData.length; i++) {
