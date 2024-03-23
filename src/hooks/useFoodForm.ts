@@ -6,11 +6,7 @@ import {
 } from '../reducers/FoodFormReducer';
 import { RequestBody, makeRequestToBackend } from '../helpers/utility';
 import { BASE_URL } from '../config/axiosConfig';
-import {
-  QueryClient,
-  useMutation,
-  useQueryClient,
-} from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { UserContext } from '../context';
 
 export interface IngredientType {
@@ -31,11 +27,12 @@ export function useFoodForm() {
   });
   const ingredientsQuery = useFetchIngredients();
 
-  const mutation = useMutation({
+  const createFoodMutation = useMutation({
     mutationKey: ['food', user?.uid],
     mutationFn: () =>
       submitFoodForm(`${BASE_URL}/user/${user?.uid}/food`, getBody()),
-    onSettled: () => {
+    onSuccess: () => {
+      dispatch({ type: FoodFormActionTypes.RESET_FORM });
       if (user?.uid) {
         queryClient.invalidateQueries({
           queryKey: ['food', user.uid],
@@ -45,6 +42,7 @@ export function useFoodForm() {
   });
 
   const handleFoodNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    createFoodMutation.reset();
     dispatch({
       type: FoodFormActionTypes.UPDATE_FOOD_NAME,
       payload: { value: e.target.value },
@@ -55,7 +53,7 @@ export function useFoodForm() {
     event: any,
     newValue: IngredientType | null
   ) => {
-    console.log(newValue);
+    createFoodMutation.reset();
     dispatch({
       type: FoodFormActionTypes.UPDATE_AUTO_COMPLETE_VALUE,
       payload: { value: newValue },
@@ -70,6 +68,7 @@ export function useFoodForm() {
     event: React.SyntheticEvent<Element, Event>,
     newInputValue: string
   ) => {
+    createFoodMutation.reset();
     dispatch({
       type: FoodFormActionTypes.UPDATE_INPUT_VALUE,
       payload: { value: newInputValue },
@@ -77,6 +76,7 @@ export function useFoodForm() {
   };
 
   const removeSelectedIngredient = (ingredient: string) => {
+    createFoodMutation.reset();
     dispatch({
       type: FoodFormActionTypes.REMOVE_SELECTED_INGREDIENT,
       payload: { value: ingredient },
@@ -92,7 +92,7 @@ export function useFoodForm() {
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    mutation.mutate();
+    createFoodMutation.mutate();
   };
 
   return {
@@ -103,6 +103,7 @@ export function useFoodForm() {
     removeSelectedIngredient,
     handleFoodNameChange,
     handleSubmit,
+    createFoodMutation,
   };
 }
 

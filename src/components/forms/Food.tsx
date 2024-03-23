@@ -5,10 +5,12 @@ import {
   Divider,
   InputLabel,
   TextField,
+  Typography,
 } from '@mui/material';
 import { useFoodForm } from '../../hooks/useFoodForm';
 import ChipsArray from '../generic/ChipArray';
 import { IngredientType } from '../../hooks/useFoodForm';
+import CircularProgress from '@mui/material/CircularProgress';
 
 export function FoodForm() {
   const {
@@ -19,9 +21,18 @@ export function FoodForm() {
     removeSelectedIngredient,
     handleFoodNameChange,
     handleSubmit,
+    createFoodMutation,
   } = useFoodForm();
 
   if (!ingredientsQuery || !ingredientsQuery.data) return;
+  if (createFoodMutation.isPending)
+    return (
+      <Box
+        sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}
+      >
+        <CircularProgress />
+      </Box>
+    );
 
   const defaultProps = {
     options: ingredientsQuery.data,
@@ -81,6 +92,16 @@ export function FoodForm() {
       >
         Submit
       </Button>
+      {createFoodMutation.isSuccess && (
+        <Typography
+          fontWeight={'bold'}
+          align='center'
+          fontSize={'small'}
+          color={'lightGreen'}
+        >
+          Successfully created food!
+        </Typography>
+      )}
       <Divider />
       <ChipsArray
         chipData={state.selectedIngredients.map((ing) => ing.name)}

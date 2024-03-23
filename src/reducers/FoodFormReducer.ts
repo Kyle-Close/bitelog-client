@@ -44,6 +44,13 @@ export function FoodFormReducer(
         ...state,
         selectedIngredients: newSelectedIngredients,
       };
+    case FoodFormActionTypes.RESET_FORM:
+      return {
+        foodName: '',
+        autoCompleteValue: null,
+        inputValue: '',
+        selectedIngredients: [],
+      };
   }
 }
 
@@ -60,6 +67,11 @@ export enum FoodFormActionTypes {
   ADD_TO_SELECTED_INGREDIENTS = 'ADD_TO_SELECTED_INGREDIENTS',
   REMOVE_SELECTED_INGREDIENT = 'REMOVE_SELECTED_INGREDIENT',
   UPDATE_FOOD_NAME = 'UPDATE_FOOD_NAME',
+  RESET_FORM = 'RESET_FORM',
+}
+
+interface ResetForm {
+  type: FoodFormActionTypes.RESET_FORM;
 }
 
 interface UpdateInputValue {
@@ -102,4 +114,5 @@ type FoodFormReducerAction =
   | UpdateInputValue
   | AddToSelectedIngredients
   | RemoveSelectedIngredient
-  | UpdateFoodName;
+  | UpdateFoodName
+  | ResetForm;
