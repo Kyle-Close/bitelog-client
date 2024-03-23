@@ -35,11 +35,8 @@ export function useFoodForm() {
     mutationKey: ['foodIngredients', user?.uid],
     mutationFn: () =>
       submitFoodForm(`${BASE_URL}/user/${user?.uid}/food`, getBody()),
-    onSuccess: () => {
+    onSettled: () => {
       if (user?.uid) {
-        queryClient.invalidateQueries({
-          queryKey: ['ingredients', user.uid],
-        });
         queryClient.invalidateQueries({
           queryKey: ['food', user.uid],
         });
