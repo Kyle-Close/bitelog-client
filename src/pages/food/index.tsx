@@ -3,7 +3,6 @@ import { UserContext } from '../../context';
 import { Box, Button, Container, Typography } from '@mui/material';
 import { useFetchUserFood } from '../../hooks/useFetchUserFood';
 import { FoodTable } from './table';
-import { useScreenSize } from '../../hooks/useScreenSize';
 import { FoodIngredientModal } from './FoodIngredientModal';
 
 export interface FoodDataValues {
@@ -17,22 +16,33 @@ export interface FoodDataValues {
 function FoodsPage() {
   const [isOpen, setIsOpen] = useState(false);
   const { user } = useContext(UserContext);
-  const { foodQuery, ingredientsQuery, foods } = useFetchUserFood(user);
+  const { foodQuery, foods } = useFetchUserFood(user);
 
-  if (foodQuery.isError || ingredientsQuery.isError) {
+  if (foodQuery.isError) {
     return <Typography>Error fetching user food.</Typography>;
-  } else if (foodQuery.isLoading || !foodQuery.data || ingredientsQuery.isLoading) {
+  } else if (foodQuery.isLoading || !foodQuery.data) {
     return <Typography>Loading...</Typography>;
   }
 
   return (
     <Box sx={{ flexGrow: 1 }}>
-      <FoodIngredientModal isOpen={isOpen} handleClose={() => setIsOpen(false)} />
+      <FoodIngredientModal
+        isOpen={isOpen}
+        handleClose={() => setIsOpen(false)}
+      />
       <Container>
-        <Box sx={{ display: 'flex', flexDirection: 'column', mt: { md: '2rem' } }}>
-          <Box sx={{ display: 'flex', gap: '2rem', alignItems: 'end', p: '1rem' }}>
+        <Box
+          sx={{ display: 'flex', flexDirection: 'column', mt: { md: '2rem' } }}
+        >
+          <Box
+            sx={{ display: 'flex', gap: '2rem', alignItems: 'end', p: '1rem' }}
+          >
             <Typography variant='h5'>Foods</Typography>
-            <Button onClick={() => setIsOpen(true)} sx={{ ml: 'auto' }} variant='contained'>
+            <Button
+              onClick={() => setIsOpen(true)}
+              sx={{ ml: 'auto' }}
+              variant='contained'
+            >
               Create Food
             </Button>
           </Box>

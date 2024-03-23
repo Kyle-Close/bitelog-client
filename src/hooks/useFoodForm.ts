@@ -32,16 +32,13 @@ export function useFoodForm() {
   const ingredientsQuery = useFetchIngredients();
 
   const mutation = useMutation({
-    mutationKey: ['foodIngredients', user?.uid],
+    mutationKey: ['food', user?.uid],
     mutationFn: () =>
       submitFoodForm(`${BASE_URL}/user/${user?.uid}/food`, getBody()),
     onSettled: () => {
       if (user?.uid) {
         queryClient.invalidateQueries({
           queryKey: ['food', user.uid],
-        });
-        queryClient.invalidateQueries({
-          queryKey: ['foodIngredients', user.uid],
         });
       }
     },
