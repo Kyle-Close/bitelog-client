@@ -102,6 +102,16 @@ export function FoodForm() {
           Successfully created food!
         </Typography>
       )}
+      {createFoodMutation.error && (
+        <Typography
+          fontWeight={'bold'}
+          align='center'
+          fontSize={'small'}
+          color={'error'}
+        >
+          {createFoodMutation.error.message}
+        </Typography>
+      )}
       <Divider />
       <ChipsArray
         chipData={state.selectedIngredients.map((ing) => ing.name)}

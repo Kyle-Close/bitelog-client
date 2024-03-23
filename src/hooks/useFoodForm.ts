@@ -120,6 +120,10 @@ const submitFoodForm = async (url: string, payload: CreateFoodPayload) => {
       body: payload as unknown as RequestBody,
     });
   } catch (err) {
-    console.log(err);
+    console.log('here', err);
+    if (err instanceof Error) {
+      throw new Error(err.message);
+    }
+    throw new Error('An unexpected error occurred');
   }
 };

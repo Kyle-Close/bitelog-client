@@ -250,13 +250,17 @@ export async function makeRequestToBackend({
       requestOptions.body = JSON.stringify(body);
     }
 
-    const response = await fetch(url, requestOptions);
-
-    if (!response.ok) {
-      throw new Error(`Network response was not ok: ${response.statusText}`);
+    try {
+      const response = await fetch(url, requestOptions);
+      if (!response.ok) {
+        const errorData = await response.json(); // Parsing the response body as JSON
+        const customErrorMessage = errorData.err; // Accessing the custom error message
+        throw new Error(customErrorMessage || 'An error occurred'); // Throw an error with the custom message
+      }
+      return await response.json();
+    } catch (err) {
+      throw err;
     }
-
-    return await response.json();
   } catch (error) {
     console.error('Error making request:', error);
     throw error;
