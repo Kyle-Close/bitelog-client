@@ -26,3 +26,7 @@ a {
   font-size: 1.2rem;
   justify-self: flex-end;
 }
+
+.MuiTablePagination-input {
+  font-size: 0.8rem;
+}

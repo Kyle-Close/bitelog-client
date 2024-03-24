@@ -10,7 +10,7 @@ import {
 import { useFoodForm } from '../../hooks/useFoodForm';
 import ChipsArray from '../generic/ChipArray';
 import { IngredientType } from '../../hooks/useFoodForm';
-import CircularProgress from '@mui/material/CircularProgress';
+import { Loading } from '../generic/Loading';
 
 export function FoodForm() {
   const {
@@ -24,15 +24,12 @@ export function FoodForm() {
     createFoodMutation,
   } = useFoodForm();
 
-  if (!ingredientsQuery || !ingredientsQuery.data) return;
-  if (createFoodMutation.isPending)
-    return (
-      <Box
-        sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}
-      >
-        <CircularProgress />
-      </Box>
-    );
+  if (
+    !ingredientsQuery ||
+    !ingredientsQuery.data ||
+    createFoodMutation.isPending
+  )
+    return <Loading />;
 
   const defaultProps = {
     options: ingredientsQuery.data,

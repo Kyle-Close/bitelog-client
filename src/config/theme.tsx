@@ -14,20 +14,30 @@ export const theme = createTheme({
       paper: '#363F50',
     },
   },
+  components: {
+    MuiTablePagination: {
+      styleOverrides: {
+        input: ({ theme }) => ({
+          [theme.breakpoints.down('sm')]: {
+            marginRight: '16px',
+          },
+        }),
+        displayedRows: ({ theme }) => ({
+          [theme.breakpoints.down('sm')]: {
+            fontSize: '0.8rem',
+          },
+        }),
+        root: ({ theme }) => ({
+          [theme.breakpoints.down('sm')]: {
+            fontSize: '0.8rem',
+          },
+        }),
+        selectLabel: ({ theme }) => ({
+          [theme.breakpoints.down('sm')]: {
+            fontSize: '0.8rem',
+          },
+        }),
+      },
+    },
+  },
 });
-
-declare module '@mui/material/styles' {
-  interface Palette {
-    darker: '#232423';
-  }
-
-  interface PaletteOptions {
-    darker?: '#232423';
-  }
-}
-
-declare module '@mui/material/Button' {
-  interface ButtonPropsColorOverrides {
-    darker: true;
-  }
-}

@@ -11,10 +11,7 @@ interface ChipsArrayProps {
   deleteData: (ingredient: string) => void;
 }
 
-export default function ChipsArray({
-  chipData,
-  deleteData,
-}: ChipsArrayProps) {
+export default function ChipsArray({ chipData, deleteData }: ChipsArrayProps) {
   return (
     <Box
       sx={{
@@ -32,6 +29,7 @@ export default function ChipsArray({
         return (
           <ListItem key={key}>
             <Chip
+              color='warning'
               icon={icon}
               label={data}
               onDelete={() => deleteData(data)}

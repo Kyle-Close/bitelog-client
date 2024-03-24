@@ -21,11 +21,17 @@ export function FoodTable({ foods }: FoodTableProps) {
         rowsPerPage={rowsPerPage}
         page={currentPage}
         onPageChange={(e, newPage) => setCurrentPage(newPage)}
-        onRowsPerPageChange={(e) => setRowsPerPage(parseInt(e.target.value, 10))}
+        onRowsPerPageChange={(e) =>
+          setRowsPerPage(parseInt(e.target.value, 10))
+        }
       />
       <Table sx={{ mb: '2rem' }} stickyHeader>
         <FoodTableHeader />
-        <FoodTableBody foods={foods} currentPage={currentPage} rowsPerPage={rowsPerPage} />
+        <FoodTableBody
+          foods={foods}
+          currentPage={currentPage}
+          rowsPerPage={rowsPerPage}
+        />
       </Table>
     </TableContainer>
   );
