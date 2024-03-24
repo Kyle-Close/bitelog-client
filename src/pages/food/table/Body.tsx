@@ -1,11 +1,14 @@
 import { styled } from '@mui/material/styles';
 import TableCell, { tableCellClasses } from '@mui/material/TableCell';
-import { TableBody, TableRow, Typography } from '@mui/material';
+import { IconButton, TableBody, TableRow, Typography } from '@mui/material';
 import { IFoods } from '../../../hooks/useFetchUserFood';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { ReadMore } from '../../../components/generic/ReadMore';
 import EditIcon from '@mui/icons-material/Edit';
 import { useScreenSize } from '../../../hooks/useScreenSize';
+import { BaseModal } from '../../../components/generic/BaseModal';
+import { useState } from 'react';
+import { DeleteFood } from '../DeleteFood';
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   paddingTop: '1rem',
@@ -42,7 +45,23 @@ interface FoodTableBodyProps {
   currentPage: number;
 }
 
-export function FoodTableBody({ foods, rowsPerPage, currentPage }: FoodTableBodyProps) {
+export function FoodTableBody({
+  foods,
+  rowsPerPage,
+  currentPage,
+}: FoodTableBodyProps) {
+  const [isDeleteOpen, setIsDeleteOpen] = useState(false);
+  const [activeFood, setActiveFood] = useState<IFoods | null>(null);
+
+  const handleDeleteClick = (food: IFoods) => {
+    setIsDeleteOpen(true);
+    setActiveFood(food);
+  };
+
+  const closeDeleteModal = () => {
+    setIsDeleteOpen(false);
+  };
+
   const screenSize = useScreenSize();
   const ingredientsCharLimit = () => {
     switch (screenSize) {
@@ -59,31 +78,45 @@ export function FoodTableBody({ foods, rowsPerPage, currentPage }: FoodTableBody
     }
   };
   return (
-    <TableBody>
-      {foods.slice(rowsPerPage * currentPage, rowsPerPage * currentPage + rowsPerPage).map((food, key) => {
-        const ingredients = food.ingredients.join(', ');
-        return (
-          <StyledTableRow key={key}>
-            <StyledTableCell align='center'>
-              <EditIcon />
-            </StyledTableCell>
-            <StyledTableCell>
-              <Typography sx={foodNameStyles}>{food.name}</Typography>
-            </StyledTableCell>
-            <StyledTableCell>
-              <ReadMore
-                typographyOptions={foodIngredientStyles}
-                text={ingredients}
-                charLimit={ingredientsCharLimit()}
-              />
-            </StyledTableCell>
-            <StyledTableCell align='center'>
-              <DeleteIcon color='error' />
-            </StyledTableCell>
-          </StyledTableRow>
-        );
-      })}
-    </TableBody>
+    <>
+      <BaseModal isOpen={isDeleteOpen} handleClose={closeDeleteModal}>
+        {activeFood && (
+          <DeleteFood food={activeFood} handleClose={closeDeleteModal} />
+        )}
+      </BaseModal>
+      <TableBody>
+        {foods
+          .slice(
+            rowsPerPage * currentPage,
+            rowsPerPage * currentPage + rowsPerPage
+          )
+          .map((food, key) => {
+            const ingredients = food.ingredients.join(', ');
+            return (
+              <StyledTableRow key={key}>
+                <StyledTableCell align='center'>
+                  <EditIcon />
+                </StyledTableCell>
+                <StyledTableCell>
+                  <Typography sx={foodNameStyles}>{food.name}</Typography>
+                </StyledTableCell>
+                <StyledTableCell>
+                  <ReadMore
+                    typographyOptions={foodIngredientStyles}
+                    text={ingredients}
+                    charLimit={ingredientsCharLimit()}
+                  />
+                </StyledTableCell>
+                <StyledTableCell align='center'>
+                  <IconButton onClick={() => handleDeleteClick(food)}>
+                    <DeleteIcon color='error' />
+                  </IconButton>
+                </StyledTableCell>
+              </StyledTableRow>
+            );
+          })}
+      </TableBody>
+    </>
   );
 }
 
