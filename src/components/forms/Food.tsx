@@ -11,8 +11,20 @@ import { useFoodForm } from '../../hooks/useFoodForm';
 import ChipsArray from '../generic/ChipArray';
 import { IngredientType } from '../../hooks/useFoodForm';
 import { Loading } from '../generic/Loading';
+import { FoodFormReducerState } from '../../reducers/FoodFormReducer';
+import { IFoods } from '../../hooks/useFetchUserFood';
 
-export function FoodForm() {
+interface FoodFormProps {
+  initialFoodFormState?: FoodFormReducerState;
+  isUpdating?: boolean;
+  food?: IFoods;
+}
+
+export function FoodForm({
+  initialFoodFormState,
+  isUpdating,
+  food,
+}: FoodFormProps) {
   const {
     ingredientsQuery,
     state,
@@ -20,9 +32,11 @@ export function FoodForm() {
     handleInputChange,
     removeSelectedIngredient,
     handleFoodNameChange,
-    handleSubmit,
+    handleCreateSubmit,
     createFoodMutation,
-  } = useFoodForm();
+    handleUpdateSubmit,
+    updateFoodMutation,
+  } = useFoodForm({ initialState: initialFoodFormState, isUpdating, food });
 
   if (
     !ingredientsQuery ||
@@ -39,7 +53,7 @@ export function FoodForm() {
   return (
     <Box
       component='form'
-      onSubmit={handleSubmit}
+      onSubmit={isUpdating ? handleUpdateSubmit : handleCreateSubmit}
       sx={{
         display: 'flex',
         flexDirection: 'column',
@@ -55,6 +69,7 @@ export function FoodForm() {
       >
         <InputLabel id='food-name'>Food name</InputLabel>
         <TextField
+          value={state.foodName}
           onChange={handleFoodNameChange}
           size='small'
           required
@@ -87,18 +102,21 @@ export function FoodForm() {
         type='submit'
         size='small'
       >
-        Submit
+        {isUpdating ? 'Update' : 'Submit'}
       </Button>
-      {createFoodMutation.isSuccess && (
-        <Typography
-          fontWeight={'bold'}
-          align='center'
-          fontSize={'small'}
-          color={'lightGreen'}
-        >
-          Successfully created food!
-        </Typography>
-      )}
+      {createFoodMutation.isSuccess ||
+        (updateFoodMutation.isSuccess && (
+          <Typography
+            fontWeight={'bold'}
+            align='center'
+            fontSize={'small'}
+            color={'lightGreen'}
+          >
+            {isUpdating
+              ? 'Successfully updated food!'
+              : 'Successfully created food!'}
+          </Typography>
+        ))}
       {createFoodMutation.error && (
         <Typography
           fontWeight={'bold'}

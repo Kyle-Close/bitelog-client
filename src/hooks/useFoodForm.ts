@@ -3,11 +3,13 @@ import { useFetchIngredients } from './useFetchIngredients';
 import {
   FoodFormActionTypes,
   FoodFormReducer,
+  FoodFormReducerState,
 } from '../reducers/FoodFormReducer';
 import { RequestBody, makeRequestToBackend } from '../helpers/utility';
 import { BASE_URL } from '../config/axiosConfig';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { UserContext } from '../context';
+import { IFoods } from './useFetchUserFood';
 
 export interface IngredientType {
   name: string;
@@ -16,21 +18,50 @@ export interface IngredientType {
   updatedAt: string;
 }
 
-export function useFoodForm() {
+const defaultState = {
+  foodName: '',
+  autoCompleteValue: null,
+  inputValue: '',
+  selectedIngredients: [],
+};
+
+interface UseFoodFormProps {
+  initialState?: FoodFormReducerState;
+  isUpdating?: boolean;
+  food?: IFoods;
+}
+
+export function useFoodForm({ initialState, food }: UseFoodFormProps) {
   const { user } = useContext(UserContext);
   const queryClient = useQueryClient();
-  const [state, dispatch] = useReducer(FoodFormReducer, {
-    foodName: '',
-    autoCompleteValue: null,
-    inputValue: '',
-    selectedIngredients: [],
-  });
+  const [state, dispatch] = useReducer(
+    FoodFormReducer,
+    initialState ? initialState : defaultState
+  );
   const ingredientsQuery = useFetchIngredients();
 
   const createFoodMutation = useMutation({
     mutationKey: ['food', user?.uid],
     mutationFn: () =>
-      submitFoodForm(`${BASE_URL}/user/${user?.uid}/food`, getBody()),
+      submitFoodForm(`${BASE_URL}/user/${user?.uid}/food`, getBody(), false),
+    onSuccess: () => {
+      dispatch({ type: FoodFormActionTypes.RESET_FORM });
+      if (user?.uid) {
+        queryClient.invalidateQueries({
+          queryKey: ['food', user.uid],
+        });
+      }
+    },
+  });
+
+  const updateFoodMutation = useMutation({
+    mutationKey: ['food', user?.uid],
+    mutationFn: () =>
+      submitFoodForm(
+        `${BASE_URL}/user/${user?.uid}/food/${food?.id}`,
+        getBody(),
+        true
+      ),
     onSuccess: () => {
       dispatch({ type: FoodFormActionTypes.RESET_FORM });
       if (user?.uid) {
@@ -90,9 +121,14 @@ export function useFoodForm() {
     return { name: state.foodName, ingredientIds };
   };
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleCreateSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     createFoodMutation.mutate();
+  };
+
+  const handleUpdateSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    updateFoodMutation.mutate();
   };
 
   return {
@@ -102,8 +138,10 @@ export function useFoodForm() {
     handleInputChange,
     removeSelectedIngredient,
     handleFoodNameChange,
-    handleSubmit,
+    handleCreateSubmit,
     createFoodMutation,
+    handleUpdateSubmit,
+    updateFoodMutation,
   };
 }
 
@@ -112,15 +150,18 @@ interface CreateFoodPayload {
   ingredientIds: number[];
 }
 
-const submitFoodForm = async (url: string, payload: CreateFoodPayload) => {
+const submitFoodForm = async (
+  url: string,
+  payload: CreateFoodPayload,
+  isUpdating: boolean
+) => {
   try {
     await makeRequestToBackend({
       url,
-      method: 'POST',
+      method: isUpdating ? 'PUT' : 'POST',
       body: payload as unknown as RequestBody,
     });
   } catch (err) {
-    console.log('here', err);
     if (err instanceof Error) {
       throw new Error(err.message);
     }

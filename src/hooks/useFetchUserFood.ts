@@ -9,15 +9,14 @@ export interface IFoods {
   updatedAt: string;
   id: number;
   name: string;
-  ingredients: string[];
+  ingredients: IngredientType[];
 }
-
-interface IFoodDataValues {
-  Ingredients: IngredientType[];
-  id: number;
+export interface FoodResponseShape {
   createdAt: string;
   updatedAt: string;
+  id: number;
   name: string;
+  Ingredients: IngredientType[];
 }
 
 export function useFetchUserFood(user: User | null) {
@@ -33,18 +32,15 @@ export function useFetchUserFood(user: User | null) {
   function createFoods() {
     if (!foodQuery.data) return;
 
-    const foodData = foodQuery.data.foodDataValues as IFoodDataValues[];
+    const foodData = foodQuery.data.foodDataValues as FoodResponseShape[];
 
     return foodData.map((data) => {
-      const ingredientNames = data.Ingredients.map(
-        (ingredient) => ingredient.name
-      );
       return {
         createdAt: data.createdAt,
         updatedAt: data.updatedAt,
         id: data.id,
         name: data.name,
-        ingredients: ingredientNames,
+        ingredients: data.Ingredients,
       };
     });
   }

@@ -9,6 +9,7 @@ import { useScreenSize } from '../../../hooks/useScreenSize';
 import { BaseModal } from '../../../components/generic/BaseModal';
 import { useState } from 'react';
 import { DeleteFood } from '../DeleteFood';
+import { FoodIngredientModal } from '../FoodIngredientModal';
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   paddingTop: '1rem',
@@ -50,16 +51,28 @@ export function FoodTableBody({
   rowsPerPage,
   currentPage,
 }: FoodTableBodyProps) {
+  const [isEditOpen, setIsEditOpen] = useState(false);
   const [isDeleteOpen, setIsDeleteOpen] = useState(false);
   const [activeFood, setActiveFood] = useState<IFoods | null>(null);
 
   const handleDeleteClick = (food: IFoods) => {
+    setIsEditOpen(false);
     setIsDeleteOpen(true);
+    setActiveFood(food);
+  };
+
+  const handleEditClick = (food: IFoods) => {
+    setIsDeleteOpen(false);
+    setIsEditOpen(true);
     setActiveFood(food);
   };
 
   const closeDeleteModal = () => {
     setIsDeleteOpen(false);
+  };
+
+  const closeEditModal = () => {
+    setIsEditOpen(false);
   };
 
   const screenSize = useScreenSize();
@@ -79,11 +92,20 @@ export function FoodTableBody({
   };
   return (
     <>
-      <BaseModal isOpen={isDeleteOpen} handleClose={closeDeleteModal}>
-        {activeFood && (
+      {isDeleteOpen && activeFood && (
+        <BaseModal isOpen={isDeleteOpen} handleClose={closeDeleteModal}>
           <DeleteFood food={activeFood} handleClose={closeDeleteModal} />
-        )}
-      </BaseModal>
+        </BaseModal>
+      )}
+      {isEditOpen && activeFood && (
+        <FoodIngredientModal
+          isOpen={isEditOpen}
+          handleClose={closeEditModal}
+          initialFoodFormState={createInitalFoodFormState(activeFood)}
+          isUpdating={true}
+          food={activeFood}
+        />
+      )}
       <TableBody>
         {foods
           .slice(
@@ -91,11 +113,15 @@ export function FoodTableBody({
             rowsPerPage * currentPage + rowsPerPage
           )
           .map((food, key) => {
-            const ingredients = food.ingredients.join(', ');
+            const ingredients = food.ingredients.map(
+              (ingredient) => ingredient.name
+            );
             return (
               <StyledTableRow key={key}>
                 <StyledTableCell align='center'>
-                  <EditIcon />
+                  <IconButton onClick={() => handleEditClick(food)}>
+                    <EditIcon />
+                  </IconButton>
                 </StyledTableCell>
                 <StyledTableCell>
                   <Typography sx={foodNameStyles}>{food.name}</Typography>
@@ -103,7 +129,7 @@ export function FoodTableBody({
                 <StyledTableCell>
                   <ReadMore
                     typographyOptions={foodIngredientStyles}
-                    text={ingredients}
+                    text={ingredients.join(', ')}
                     charLimit={ingredientsCharLimit()}
                   />
                 </StyledTableCell>
@@ -136,4 +162,13 @@ const foodIngredientStyles = {
     md: '0.8rem',
     lg: '0.9rem',
   },
+};
+
+const createInitalFoodFormState = (food: IFoods) => {
+  return {
+    foodName: food.name,
+    autoCompleteValue: null,
+    inputValue: '',
+    selectedIngredients: food.ingredients,
+  };
 };

@@ -35,7 +35,6 @@ export function FoodFormReducer(
       const exists = state.selectedIngredients.some(
         (ingredient) => ingredient.name === action.payload.value
       );
-      console.log(exists);
       if (!exists) return { ...state };
       const newSelectedIngredients = state.selectedIngredients.filter(
         (ingredient) => ingredient.name !== action.payload.value
@@ -54,7 +53,7 @@ export function FoodFormReducer(
   }
 }
 
-interface FoodFormReducerState {
+export interface FoodFormReducerState {
   foodName: string;
   autoCompleteValue: IngredientType | null;
   inputValue: string;
