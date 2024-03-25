@@ -9,7 +9,6 @@ function EatEvent({ title }: EatEvent) {
     <Box
       sx={{
         display: 'flex',
-        backgroundColor: '#0B60B0',
         borderRadius: '0.5rem',
         px: '1rem',
         flexGrow: 1,

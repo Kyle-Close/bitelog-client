@@ -40,7 +40,6 @@ function HourRow({
         minHeight: { xs: '5rem', sm: '5.5rem', md: '6.5rem', lg: '7.8rem' },
         pl: '1rem',
         bgcolor: 'background.paper',
-        gap: '1rem',
       }}
     >
       <TimeColumn

@@ -28,18 +28,33 @@ function EventEntry({ type, title, data }: EventEntry) {
     <Box
       sx={{
         display: 'flex',
-        backgroundColor: eventBackgroundColor,
         borderRadius: '0.5rem',
-        px: '1rem',
         flexGrow: 1,
       }}
     >
-      <BasicModal isOpen={isModalOpen} onClose={onModalClose} title={`${title} Log`}>
+      <BasicModal
+        isOpen={isModalOpen}
+        onClose={onModalClose}
+        title={`${title} Log`}
+      >
         {type === 'event' && <Event data={data as EventLogDataValue} />}
         {type === 'eat' && <Eat data={data as EatLogDataValue} />}
       </BasicModal>
-      <Button onClick={handleButtonClick} sx={{ display: 'flex', flexGrow: 1 }}>
-        <Typography fontWeight='bold' textAlign='center' sx={{ flexGrow: 1 }} alignSelf='center'>
+      <Button
+        onClick={handleButtonClick}
+        sx={{
+          display: 'flex',
+          flexGrow: 1,
+          bgcolor: '#8FBC8F',
+          color: 'black',
+        }}
+      >
+        <Typography
+          fontWeight='bold'
+          textAlign='center'
+          sx={{ flexGrow: 1 }}
+          alignSelf='center'
+        >
           {title}
         </Typography>
       </Button>
