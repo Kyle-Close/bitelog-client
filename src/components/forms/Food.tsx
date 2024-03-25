@@ -105,19 +105,26 @@ export function FoodForm({
       >
         {isUpdating ? 'Update' : 'Submit'}
       </Button>
-      {createFoodMutation.isSuccess ||
-        (updateFoodMutation.isSuccess && (
-          <Typography
-            fontWeight={'bold'}
-            align='center'
-            fontSize={'small'}
-            color={'lightGreen'}
-          >
-            {isUpdating
-              ? 'Successfully updated food!'
-              : 'Successfully created food!'}
-          </Typography>
-        ))}
+      {createFoodMutation.isSuccess && (
+        <Typography
+          fontWeight={'bold'}
+          align='center'
+          fontSize={'small'}
+          color={'lightGreen'}
+        >
+          Successfully created food!
+        </Typography>
+      )}{' '}
+      {updateFoodMutation.isSuccess && (
+        <Typography
+          fontWeight={'bold'}
+          align='center'
+          fontSize={'small'}
+          color={'lightGreen'}
+        >
+          Successfully updated food!
+        </Typography>
+      )}
       {createFoodMutation.error && (
         <Typography
           fontWeight={'bold'}

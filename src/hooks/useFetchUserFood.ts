@@ -34,15 +34,20 @@ export function useFetchUserFood(user: User | null) {
 
     const foodData = foodQuery.data.foodDataValues as FoodResponseShape[];
 
-    return foodData.map((data) => {
-      return {
-        createdAt: data.createdAt,
-        updatedAt: data.updatedAt,
-        id: data.id,
-        name: data.name,
-        ingredients: data.Ingredients,
-      };
-    });
+    return foodData
+      .map((data) => {
+        return {
+          createdAt: data.createdAt,
+          updatedAt: data.updatedAt,
+          id: data.id,
+          name: data.name,
+          ingredients: data.Ingredients,
+        };
+      })
+      .sort(
+        (a, b) =>
+          new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+      );
   }
 
   const foods = createFoods();
