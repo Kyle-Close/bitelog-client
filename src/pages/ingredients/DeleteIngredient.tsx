@@ -11,7 +11,10 @@ interface DeleteIngredientProps {
   handleClose: () => void;
 }
 
-export function DeleteFood({ ingredient, handleClose }: DeleteIngredientProps) {
+export function DeleteIngredient({
+  ingredient,
+  handleClose,
+}: DeleteIngredientProps) {
   const { user } = useContext(UserContext);
   const queryClient = useQueryClient();
   const deleteIngredientMutation = useMutation({

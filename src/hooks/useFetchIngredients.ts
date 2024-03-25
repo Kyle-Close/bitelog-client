@@ -17,9 +17,18 @@ export function useFetchIngredients() {
     enabled: !!user,
   });
 
-  const ingredients: IngredientType[] = ingredientsQuery.data
+  let ingredients: IngredientType[] = ingredientsQuery.data
     ? ingredientsQuery.data.ingredients
     : null;
 
-  return { ingredientsQuery, ingredients };
+  if (ingredients)
+    ingredients = ingredients.sort(
+      (a, b) =>
+        new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+    );
+
+  return {
+    ingredientsQuery,
+    ingredients,
+  };
 }

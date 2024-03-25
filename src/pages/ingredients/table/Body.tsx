@@ -4,6 +4,9 @@ import { IconButton, TableBody, TableRow, Typography } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { IngredientType } from '../../../hooks/useFoodForm';
 import { convertToLocalDate } from '../../../helpers/utility';
+import { useState } from 'react';
+import { DeleteIngredient } from '../DeleteIngredient';
+import { BaseModal } from '../../../components/generic/BaseModal';
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   paddingTop: '1rem',
@@ -45,8 +48,25 @@ export function IngredientTableBody({
   rowsPerPage,
   currentPage,
 }: IngredientTableBodyProps) {
+  const [isOpen, setIsOpen] = useState(false);
+  const [activeIngredient, setActiveIngredient] =
+    useState<IngredientType | null>(null);
+
+  const handleDeleteClick = (ingredient: IngredientType) => {
+    setIsOpen(true);
+    setActiveIngredient(ingredient);
+  };
+
   return (
     <>
+      {activeIngredient && (
+        <BaseModal isOpen={isOpen} handleClose={() => setIsOpen(false)}>
+          <DeleteIngredient
+            ingredient={activeIngredient}
+            handleClose={() => setIsOpen(false)}
+          />
+        </BaseModal>
+      )}
       <TableBody>
         {ingredients
           .slice(
@@ -67,7 +87,11 @@ export function IngredientTableBody({
                   </Typography>
                 </StyledTableCell>
                 <StyledTableCell align='center'>
-                  <IconButton onClick={() => {}}>
+                  <IconButton
+                    onClick={() => {
+                      handleDeleteClick(ingredient);
+                    }}
+                  >
                     <DeleteIcon color='error' />
                   </IconButton>
                 </StyledTableCell>

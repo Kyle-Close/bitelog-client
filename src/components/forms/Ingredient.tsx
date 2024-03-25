@@ -38,6 +38,16 @@ export function IngredientForm() {
           Successfully created ingredient!
         </Typography>
       )}
+      {createIngredientMutation.isError && (
+        <Typography
+          color='error'
+          fontWeight={'bold'}
+          align='center'
+          fontSize={'small'}
+        >
+          {createIngredientMutation.error.message}
+        </Typography>
+      )}
       <Button
         sx={{ mt: '2rem' }}
         color='secondary'
