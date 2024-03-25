@@ -16,7 +16,8 @@ function PageSelector() {
 
   const { data, error, isLoading } = useQuery({
     queryKey: ['journal', user?.uid],
-    queryFn: () => fetchDataFromBackend(BASE_URL + `/user/${user?.uid}/journal`),
+    queryFn: () =>
+      fetchDataFromBackend(BASE_URL + `/user/${user?.uid}/journal`),
     enabled: !!user,
   });
 
@@ -53,9 +54,22 @@ function PageSelector() {
             mt: item.url.includes('settings') ? 'auto' : null,
           }}
         >
-          <Paper sx={{ display: 'flex', flexGrow: 1, p: '1rem', gap: '1.5rem' }} elevation={1}>
+          <Paper
+            sx={{
+              display: 'flex',
+              flexGrow: 1,
+              p: '1rem',
+              gap: '1.5rem',
+              bgcolor: 'background.darkerPaper',
+            }}
+            elevation={8}
+          >
             {item.icon}
-            <Typography textAlign='start' fontWeight='bold' sx={{ flexGrow: '1' }}>
+            <Typography
+              textAlign='start'
+              fontWeight='bold'
+              sx={{ flexGrow: '1' }}
+            >
               {item.name}
             </Typography>
           </Paper>
@@ -66,7 +80,16 @@ function PageSelector() {
 
   return (
     <>
-      <Typography textAlign='center' sx={{ minWidth: '100%', pb: '0.5rem' }} variant='h6'>
+      <Typography
+        align='center'
+        sx={{
+          minWidth: '100%',
+          pb: '0.5rem',
+          pl: '1rem',
+          fontSize: { xs: '1.5rem', sm: '1.6rem', md: '1.75rem', lg: '2rem' },
+        }}
+        variant='h5'
+      >
         {userJournal.name ? userJournal.name : user?.username + "'s Journal"}
       </Typography>
       <Divider />
@@ -82,6 +105,7 @@ const contentContainerClasses = {
   flexDirection: 'column',
   flexGrow: 1,
   my: '1rem',
+  gap: '0.5rem',
 };
 
 const buttonItems = [

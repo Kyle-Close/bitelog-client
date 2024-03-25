@@ -2,7 +2,10 @@ import { Box, TextField, Button } from '@mui/material';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useContext, useState } from 'react';
 import { UserContext } from '../../context';
-import { fetchDataFromBackend, updateDataFromBackend } from '../../helpers/utility';
+import {
+  fetchDataFromBackend,
+  updateDataFromBackend,
+} from '../../helpers/utility';
 import { BASE_URL } from '../../config/axiosConfig';
 import { Typography } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
@@ -15,13 +18,17 @@ function SettingsForm() {
   const [name, setName] = useState<string>(``);
   const { data, error, isLoading } = useQuery({
     queryKey: ['journal', user?.uid],
-    queryFn: () => fetchDataFromBackend(BASE_URL + `/user/${user?.uid}/journal`),
+    queryFn: () =>
+      fetchDataFromBackend(BASE_URL + `/user/${user?.uid}/journal`),
     enabled: !!user,
   });
 
   const journalMutation = useMutation({
     mutationFn: (name: string) =>
-      updateDataFromBackend(BASE_URL + `/user/${user?.uid}/journal/${user?.journalId}`, name),
+      updateDataFromBackend(
+        BASE_URL + `/user/${user?.uid}/journal/${user?.journalId}`,
+        name
+      ),
     onSettled: () => {
       queryClient.invalidateQueries({ queryKey: ['journal', user?.uid] });
     },
@@ -36,7 +43,6 @@ function SettingsForm() {
   }
 
   const userJournal = data.journals[0];
-  const homeURL = `/user/${user?.uid}/journal/${user?.journalId}`;
 
   const handleSubmit = async () => {
     if (name === '') return;
@@ -58,6 +64,7 @@ function SettingsForm() {
         alignItems: 'start',
         m: '1rem',
         gap: '2rem',
+        flexGrow: 1,
       }}
     >
       <Box sx={{ display: 'flex', gap: '3rem' }}>
@@ -79,7 +86,9 @@ function SettingsForm() {
           label='Journal Name'
           size='small'
           onChange={handleChange}
-          placeholder={userJournal.name ? userJournal.name : user?.username + "'s Journal"}
+          placeholder={
+            userJournal.name ? userJournal.name : user?.username + "'s Journal"
+          }
         />
         <Button onClick={handleSubmit} sx={{ mt: 'auto' }} variant='contained'>
           Update Settings

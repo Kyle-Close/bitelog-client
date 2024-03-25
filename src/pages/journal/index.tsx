@@ -1,13 +1,23 @@
 import { Container, Paper } from '@mui/material';
 import { ReactNode } from 'react';
+import { useScreenSize } from '../../hooks/useScreenSize';
 
 interface IJournalProps {
   children?: ReactNode;
 }
 
 function Journal({ children }: IJournalProps) {
+  const screenSize = useScreenSize();
   return (
-    <Container sx={{ height: '100%' }}>
+    <Container
+      disableGutters={screenSize === 'xs'}
+      sx={{
+        height: '100%',
+        display: 'flex',
+        flexDirection: 'column',
+        flexGrow: 1,
+      }}
+    >
       <Paper elevation={6} sx={bgPaperClasses}>
         {children}
       </Paper>
@@ -21,6 +31,7 @@ const bgPaperClasses = {
   display: 'flex',
   flexDirection: 'column',
   p: '1rem',
+  flexGrow: 1,
 };
 
 export default Journal;
