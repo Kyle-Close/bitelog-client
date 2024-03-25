@@ -36,6 +36,7 @@ export function FoodForm({
     createFoodMutation,
     handleUpdateSubmit,
     updateFoodMutation,
+    ingredients,
   } = useFoodForm({ initialState: initialFoodFormState, isUpdating, food });
 
   if (
@@ -46,7 +47,7 @@ export function FoodForm({
     return <Loading />;
 
   const defaultProps = {
-    options: ingredientsQuery.data,
+    options: ingredients,
     getOptionLabel: (option: IngredientType) => option.name,
   };
 

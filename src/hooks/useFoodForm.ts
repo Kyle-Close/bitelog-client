@@ -38,7 +38,7 @@ export function useFoodForm({ initialState, food }: UseFoodFormProps) {
     FoodFormReducer,
     initialState ? initialState : defaultState
   );
-  const ingredientsQuery = useFetchIngredients();
+  const { ingredientsQuery, ingredients } = useFetchIngredients();
 
   const createFoodMutation = useMutation({
     mutationKey: ['food', user?.uid],
@@ -142,6 +142,7 @@ export function useFoodForm({ initialState, food }: UseFoodFormProps) {
     createFoodMutation,
     handleUpdateSubmit,
     updateFoodMutation,
+    ingredients,
   };
 }
 

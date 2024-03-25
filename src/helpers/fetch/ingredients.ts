@@ -4,7 +4,9 @@ import { makeRequestToBackend } from '../utility';
 export async function fetchUserIngredients(uid: string) {
   const url = `${BASE_URL}/user/${uid}/ingredients`;
   try {
-    const ingredientData: IngredientsResponse = await makeRequestToBackend({ url });
+    const ingredientData: IngredientsResponse = await makeRequestToBackend({
+      url,
+    });
     return ingredientData.ingredients;
   } catch (err) {
     console.log(err);

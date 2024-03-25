@@ -1,4 +1,3 @@
-import { Box } from '@mui/material';
 import TabSwitcher from '../../components/generic/TabSwitcher';
 import { BaseModal } from '../../components/generic/BaseModal';
 import { FoodForm } from '../../components/forms/Food';
