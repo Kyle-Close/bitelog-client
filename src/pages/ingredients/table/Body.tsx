@@ -9,15 +9,15 @@ import { DeleteIngredient } from '../DeleteIngredient';
 import { BaseModal } from '../../../components/generic/BaseModal';
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
-  paddingTop: '1rem',
-  paddingBottom: '1rem',
+  paddingTop: '0.5rem',
+  paddingBottom: '0.5rem',
   [theme.breakpoints.up('sm')]: {
-    paddingTop: '1.5rem',
-    paddingBottom: '1.5rem',
+    paddingTop: '0.75rem',
+    paddingBottom: '0.75rem',
   },
   [theme.breakpoints.up('md')]: {
-    paddingTop: '2rem',
-    paddingBottom: '2rem',
+    paddingTop: '0.85rem',
+    paddingBottom: '0.85rem',
   },
   [`&.${tableCellClasses.head}`]: {
     backgroundColor: theme.palette.common.black,

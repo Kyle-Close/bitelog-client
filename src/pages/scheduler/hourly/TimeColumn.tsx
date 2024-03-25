@@ -12,11 +12,17 @@ function TimeColumn({ isCurrentHour, displayFullTime }: TimeColumn) {
         display: 'flex',
         alignItems: 'center',
         textAlign: 'center',
-        borderRight: '0.15rem solid #121212',
+        borderRight: 'solid 0.25rem #59616f',
         pr: '1rem',
       }}
     >
-      <Typography color={isCurrentHour ? 'gold' : ''} variant='h4'>
+      <Typography
+        sx={{
+          fontSize: { xs: '1.25rem', sm: '1.5rem', md: '1.75rem', lg: '2rem' },
+        }}
+        color={isCurrentHour ? 'primary' : ''}
+        variant='h4'
+      >
         {displayFullTime}
       </Typography>
     </Box>

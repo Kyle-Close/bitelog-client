@@ -1,4 +1,4 @@
-import { Box } from '@mui/material';
+import { Box, Paper } from '@mui/material';
 import HourContainerList from './HourContainerList';
 import StickyHourlyMenu from './StickyHourlyMenu';
 
@@ -9,20 +9,22 @@ interface HourlyScheduler {
 
 function HourlyScheduler({ date, setDate }: HourlyScheduler) {
   return (
-    <Box
+    <Paper
+      elevation={20}
       sx={{
         display: 'flex',
         flexDirection: 'column',
         maxHeight: '100%',
         overflowY: 'auto',
         position: 'relative',
+        borderRadius: '8px',
       }}
     >
       <StickyHourlyMenu date={date} setDate={setDate} />
-      <Box sx={{ display: 'flex', flexDirection: 'column', gap: '0.15rem' }}>
+      <Box sx={{ display: 'flex', flexDirection: 'column', gap: '0.25rem' }}>
         <HourContainerList date={date} />
       </Box>
-    </Box>
+    </Paper>
   );
 }
 

@@ -10,12 +10,12 @@ interface IngredientTableProps {
 
 export function IngredientTable({ ingredients }: IngredientTableProps) {
   const [currentPage, setCurrentPage] = useState(0);
-  const [rowsPerPage, setRowsPerPage] = useState(10);
+  const [rowsPerPage, setRowsPerPage] = useState(20);
 
   return (
     <TableContainer>
       <TablePagination
-        rowsPerPageOptions={[10, 20, 50]}
+        rowsPerPageOptions={[20, 50, 100]}
         component='div'
         count={ingredients.length}
         rowsPerPage={rowsPerPage}

@@ -3,6 +3,7 @@ import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import { Box, IconButton, Typography } from '@mui/material';
 import { getDaySuffix, getFullMonthText } from '../../../helpers/utility';
+import { useScreenSize } from '../../../hooks/useScreenSize';
 
 interface StickyHourlyMenu {
   date: Date;
@@ -10,6 +11,7 @@ interface StickyHourlyMenu {
 }
 
 function StickyHourlyMenu({ date, setDate }: StickyHourlyMenu) {
+  const screenSize = useScreenSize();
   const month = getFullMonthText(date.getMonth());
   const day = date.getDate();
   const daySuffix = getDaySuffix(day);
@@ -33,8 +35,7 @@ function StickyHourlyMenu({ date, setDate }: StickyHourlyMenu) {
       sx={{
         display: 'flex',
         alignContent: 'center',
-        flexGrow: 1,
-        minHeight: '5rem',
+        minHeight: { xs: '3rem', sm: '3.5rem', md: '4rem', lg: '5rem' },
         backgroundColor: '#606060',
         p: '0.5rem',
         position: 'sticky',
@@ -43,20 +44,44 @@ function StickyHourlyMenu({ date, setDate }: StickyHourlyMenu) {
         borderBottom: '0.15rem solid #121212',
       }}
     >
-      <IconButton onClick={onLeftBtnClick}>
-        <KeyboardArrowLeftIcon fontSize='large' />
-      </IconButton>
-      <IconButton onClick={onRightBtnClick}>
-        <KeyboardArrowRightIcon fontSize='large' />
-      </IconButton>
-      <Typography sx={{ alignSelf: 'center', ml: '1rem' }} variant='h6'>
-        {dateString}
-      </Typography>
-      <IconButton color='success' sx={{ ml: 'auto', pr: '1rem' }}>
-        <AddCircleIcon fontSize='large' />
-      </IconButton>
+      <Box sx={{ display: 'flex', flexGrow: 1 }}>
+        <Box sx={buttonContainerStyle}>
+          <IconButton onClick={onLeftBtnClick}>
+            <KeyboardArrowLeftIcon
+              fontSize={screenSize === 'xs' ? 'medium' : 'large'}
+            />
+          </IconButton>
+        </Box>
+        <Box sx={buttonContainerStyle}>
+          <IconButton onClick={onRightBtnClick}>
+            <KeyboardArrowRightIcon
+              fontSize={screenSize === 'xs' ? 'medium' : 'large'}
+            />
+          </IconButton>
+        </Box>
+        <Typography
+          sx={{
+            alignSelf: 'center',
+            ml: '1rem',
+            fontSize: { xs: '1rem', sm: '1.1rem', md: '1.2rem', lg: '1.3rem' },
+          }}
+          variant='h6'
+        >
+          {dateString}
+        </Typography>
+      </Box>
+      <Box sx={buttonContainerStyle}>
+        <IconButton color='success' sx={{ mr: '1rem' }}>
+          <AddCircleIcon fontSize={screenSize === 'xs' ? 'medium' : 'large'} />
+        </IconButton>
+      </Box>
     </Box>
   );
 }
 
 export default StickyHourlyMenu;
+
+const buttonContainerStyle = {
+  display: 'flex',
+  alignItems: 'center',
+};
