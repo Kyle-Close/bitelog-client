@@ -1,4 +1,4 @@
-import { Box, Button, IconButton, Typography } from '@mui/material';
+import { Box, Button, Divider, IconButton, Typography } from '@mui/material';
 import { EatLogDataValue } from '../../HourContainerList';
 import { formatISO8601ToReadableDate } from '../../../helpers';
 import { useQuery } from '@tanstack/react-query';
@@ -27,12 +27,18 @@ function Eat({ data }: Eat) {
   });
 
   return (
-    <Box sx={{ display: 'flex', flexDirection: 'column', gap: '0.25rem' }}>
-      <Typography fontSize='large'>
-        <Box fontWeight='600' component='span'>
-          {'Event Time: '}
-        </Box>
-        {eventTimeText}
+    <Box
+      sx={{
+        display: 'flex',
+        flexDirection: 'column',
+        gap: '0.25rem',
+        p: '2rem',
+      }}
+    >
+      <Typography variant='h5'>Eat Log</Typography>
+      <Divider />
+      <Typography fontWeight='600' sx={{ mt: '1rem' }} fontSize='large'>
+        Event Time: <Typography component='span'>{eventTimeText}</Typography>
       </Typography>
       <FoodIngredientList query={query} />
       <Box
@@ -48,7 +54,12 @@ function Eat({ data }: Eat) {
         <Typography fontWeight='600'>Notes:</Typography>
         <Typography>{data.notes}</Typography>
       </Box>
-      <Button sx={{ mt: '1rem' }} color='secondary' variant='contained' startIcon={<EditIcon />}>
+      <Button
+        sx={{ mt: '1rem' }}
+        color='secondary'
+        variant='contained'
+        startIcon={<EditIcon />}
+      >
         Edit
       </Button>
     </Box>

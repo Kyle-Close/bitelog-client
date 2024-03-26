@@ -1,4 +1,11 @@
-import { Drawer, Box, IconButton, Typography, Divider, useTheme } from '@mui/material';
+import {
+  Drawer,
+  Box,
+  IconButton,
+  Typography,
+  Divider,
+  useTheme,
+} from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import SpaIcon from '@mui/icons-material/Spa';
 import AutoStoriesIcon from '@mui/icons-material/AutoStories';
@@ -26,7 +33,6 @@ export function MobileMenu({
 }
 
 function MenuContent({ handleCloseDrawer }: { handleCloseDrawer: () => void }) {
-  const theme = useTheme();
   const createMenuItems = (handleCloseDrawer: () => void) => {
     const { user } = useContext(UserContext);
 
@@ -34,13 +40,15 @@ function MenuContent({ handleCloseDrawer }: { handleCloseDrawer: () => void }) {
       const url = `/user/${user?.uid}/journal/${user?.journalId}`;
       return (
         <Box key={key}>
-          <Box key={key} sx={{ display: 'flex', alignItems: 'center', gap: '.5rem' }}>
+          <Box
+            key={key}
+            sx={{ display: 'flex', alignItems: 'center', gap: '.5rem' }}
+          >
             {item.icon}
             <Link onClick={handleCloseDrawer} to={url}>
               {item.name}
             </Link>
           </Box>
-          <Divider sx={{ pt: '0.5rem' }} />
         </Box>
       );
     });
@@ -51,22 +59,43 @@ function MenuContent({ handleCloseDrawer }: { handleCloseDrawer: () => void }) {
       sx={{
         display: 'flex',
         flexDirection: 'column',
-        p: '0.8rem',
+        bgcolor: 'background.darkerPaper',
+        flexGrow: 1,
       }}
     >
-      <Box color={theme.palette.darker} sx={{ display: 'flex', alignItems: 'center', p: '1.5rem', gap: '1rem' }}>
-        <SpaIcon />
-        <Typography variant='h6'>Bitelog</Typography>
-      </Box>
       <Box
         sx={{
           display: 'flex',
-          flexDirection: 'column',
-          py: '1rem',
-          px: '1rem',
+          alignItems: 'center',
+          p: '1.5rem',
+          gap: '1rem',
         }}
       >
-        {createMenuItems(handleCloseDrawer)}
+        <SpaIcon />
+        <Typography color='primary' variant='h5' fontWeight='600'>
+          B
+          <Typography
+            fontWeight='600'
+            sx={{ fontSize: '1.2rem' }}
+            variant='h5'
+            component='span'
+          >
+            ITELOG
+          </Typography>
+        </Typography>
+      </Box>
+      <Divider />
+      <Box sx={{ display: 'flex', flexDirection: 'column', p: '1rem' }}>
+        <Box
+          sx={{
+            display: 'flex',
+            flexDirection: 'column',
+            py: '1rem',
+            px: '1rem',
+          }}
+        >
+          {createMenuItems(handleCloseDrawer)}
+        </Box>
       </Box>
     </Box>
   );

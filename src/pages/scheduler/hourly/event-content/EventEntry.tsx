@@ -5,6 +5,7 @@ import BasicModal from '../../../../components/generic/BasicModal';
 import { useState } from 'react';
 import Event from './modal-contents/Event';
 import Eat from './modal-contents/Eat';
+import { BaseModal } from '../../../../components/generic/BaseModal';
 
 interface EventEntry {
   type: 'eat' | 'event';
@@ -14,7 +15,7 @@ interface EventEntry {
 
 function EventEntry({ type, title, data }: EventEntry) {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
-  const eventBackgroundColor = type === 'eat' ? '#0B60B0' : '#ff7700';
+  const eventBackgroundColor = type === 'eat' ? '#8FBC8F' : '#ff7700';
 
   const onModalClose = () => {
     setIsModalOpen(false);
@@ -32,20 +33,16 @@ function EventEntry({ type, title, data }: EventEntry) {
         flexGrow: 1,
       }}
     >
-      <BasicModal
-        isOpen={isModalOpen}
-        onClose={onModalClose}
-        title={`${title} Log`}
-      >
+      <BaseModal isOpen={isModalOpen} handleClose={onModalClose}>
         {type === 'event' && <Event data={data as EventLogDataValue} />}
         {type === 'eat' && <Eat data={data as EatLogDataValue} />}
-      </BasicModal>
+      </BaseModal>
       <Button
         onClick={handleButtonClick}
         sx={{
           display: 'flex',
           flexGrow: 1,
-          bgcolor: '#8FBC8F',
+          bgcolor: eventBackgroundColor,
           color: 'black',
         }}
       >

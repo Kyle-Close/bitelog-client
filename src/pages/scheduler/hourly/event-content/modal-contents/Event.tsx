@@ -1,4 +1,5 @@
-import { Box, Typography } from '@mui/material';
+import { Box, Button, Divider, Typography } from '@mui/material';
+import EditIcon from '@mui/icons-material/Edit';
 import { EventLogDataValue } from '../../../helpers';
 import { formatISO8601ToReadableDate } from '../../../helpers';
 import DiscomfortRating from './DiscomfortRating';
@@ -11,12 +12,23 @@ function Event({ data }: Event) {
   const eventTimeText = formatISO8601ToReadableDate(data.logTimestamp);
 
   return (
-    <Box sx={{ display: 'flex', flexDirection: 'column', gap: '0.25rem' }}>
-      <Typography fontWeight='600' fontSize='large'>
-        <Box component='span'>{'Event Time: '}</Box>
-        {eventTimeText}
+    <Box
+      sx={{
+        display: 'flex',
+        flexDirection: 'column',
+        gap: '0.25rem',
+        p: '2rem',
+      }}
+    >
+      <Typography variant='h5'>Event</Typography>
+      <Divider />
+      <Typography sx={{ mt: '1rem' }} fontWeight='600' fontSize='large'>
+        Event Time: {<Typography component='span'>{eventTimeText}</Typography>}
       </Typography>
-      <Typography fontSize='large' sx={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+      <Typography
+        fontSize='large'
+        sx={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}
+      >
         <Box fontWeight='600' component='span'>
           Discomfort Rating:
         </Box>
@@ -35,6 +47,14 @@ function Event({ data }: Event) {
         <Typography fontWeight='600'>Notes:</Typography>
         <Typography>{data.notes}</Typography>
       </Box>
+      <Button
+        sx={{ mt: '1rem' }}
+        color='secondary'
+        variant='contained'
+        startIcon={<EditIcon />}
+      >
+        Edit
+      </Button>
     </Box>
   );
 }

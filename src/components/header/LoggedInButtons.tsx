@@ -8,7 +8,7 @@ export function LoggedInButtons() {
   return (
     <>
       <IconButton onClick={() => signOut(auth)} color='error' size='large'>
-        <LogoutIcon />
+        <LogoutIcon fontSize='large' />
       </IconButton>
     </>
   );

@@ -35,8 +35,10 @@ export default function Header() {
             handleOpenDrawer={handleOpenDrawer}
           />
           <SmallScreenHomeBtn />
-
-          <SpaIcon sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }} />
+          <SpaIcon
+            fontSize='small'
+            sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }}
+          />
           <LargeScreenLinks />
           <AuthButtons user={user} />
         </Toolbar>
@@ -102,7 +104,10 @@ function LargeScreenLinks() {
     return menuObjectList.map((item, key) => {
       const url = `/user/${user?.uid}/journal/${user?.journalId}`;
       return (
-        <Box key={key} sx={{ display: 'flex', alignItems: 'center', gap: '.5rem' }}>
+        <Box
+          key={key}
+          sx={{ display: 'flex', alignItems: 'center', gap: '.5rem' }}
+        >
           {item.icon}
           <Link to={url}>{item.name}</Link>
         </Box>
