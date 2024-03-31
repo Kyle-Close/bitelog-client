@@ -4,6 +4,8 @@ import AddCircleIcon from '@mui/icons-material/AddCircle';
 import { Box, IconButton, Typography } from '@mui/material';
 import { getDaySuffix, getFullMonthText } from '../../../helpers/utility';
 import { useScreenSize } from '../../../hooks/useScreenSize';
+import { SchedulerModal } from '../modals/SchedulerModal';
+import { useState } from 'react';
 
 interface StickyHourlyMenu {
   date: Date;
@@ -11,6 +13,7 @@ interface StickyHourlyMenu {
 }
 
 function StickyHourlyMenu({ date, setDate }: StickyHourlyMenu) {
+  const [isOpen, setIsOpen] = useState(false);
   const screenSize = useScreenSize();
   const month = getFullMonthText(date.getMonth());
   const day = date.getDate();
@@ -40,10 +43,15 @@ function StickyHourlyMenu({ date, setDate }: StickyHourlyMenu) {
         p: '0.5rem',
         position: 'sticky',
         zIndex: 50,
-        top: 0,
+        top: { xs: 55, sm: 60 },
         borderBottom: '0.15rem solid #121212',
       }}
     >
+      <SchedulerModal
+        isOpen={isOpen}
+        handleClose={() => setIsOpen(false)}
+        isUpdating={false}
+      />
       <Box sx={{ display: 'flex', flexGrow: 1 }}>
         <Box sx={buttonContainerStyle}>
           <IconButton onClick={onLeftBtnClick}>
@@ -71,7 +79,11 @@ function StickyHourlyMenu({ date, setDate }: StickyHourlyMenu) {
         </Typography>
       </Box>
       <Box sx={buttonContainerStyle}>
-        <IconButton color='success' sx={{ mr: '1rem' }}>
+        <IconButton
+          onClick={() => setIsOpen(true)}
+          color='success'
+          sx={{ mr: '1rem' }}
+        >
           <AddCircleIcon fontSize={screenSize === 'xs' ? 'medium' : 'large'} />
         </IconButton>
       </Box>

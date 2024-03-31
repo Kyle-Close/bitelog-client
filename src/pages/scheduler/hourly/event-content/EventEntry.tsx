@@ -44,12 +44,22 @@ function EventEntry({ type, title, data }: EventEntry) {
           flexGrow: 1,
           bgcolor: eventBackgroundColor,
           color: 'black',
+          maxHeight: {
+            xs: '1.5rem',
+            sm: '1.55rem',
+            md: '1.6rem',
+            lg: '1.75rem',
+          },
+          borderRadius: '2px',
         }}
       >
         <Typography
           fontWeight='bold'
           textAlign='center'
-          sx={{ flexGrow: 1 }}
+          sx={{
+            flexGrow: 1,
+            fontSize: { xs: '0.8rem', md: '0.9rem', lg: '1rem' },
+          }}
           alignSelf='center'
         >
           {title}

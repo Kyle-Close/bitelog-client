@@ -7,6 +7,7 @@ import {
   TextField,
 } from '@mui/material';
 import { Auth, getAuth } from 'firebase/auth';
+import { useScreenSize } from '../../../hooks/useScreenSize';
 
 interface ILoginFormContent {
   handleFormUpdate: (e: React.ChangeEvent<HTMLInputElement>) => void;
@@ -24,6 +25,7 @@ function LoginFormContent({
   isSubmitEnabled,
 }: ILoginFormContent) {
   const auth = getAuth();
+  const screenSize = useScreenSize();
 
   const displayErrorMessages = (errors: string[]) => {
     return errors.map((errorMsg, key) => (
@@ -70,7 +72,9 @@ function LoginFormContent({
           id='forgot-password-button'
           onClick={handleOpen}
           size='small'
-          sx={{ fontSize: '0.7rem' }}
+          sx={{
+            fontSize: { xs: '0.7rem', sm: '0.8rem' },
+          }}
         >
           Forgot Password?
         </Button>
@@ -84,7 +88,7 @@ function LoginFormContent({
       >
         Login
       </Button>
-      <Typography paragraph fontSize='small'>
+      <Typography paragraph fontSize='small' sx={{ fontSize: { md: '1rem' } }}>
         Don't have an account? <Link href='/register'>Create one now.</Link>
       </Typography>
     </Box>

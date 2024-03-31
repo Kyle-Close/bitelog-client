@@ -17,17 +17,24 @@ function Authentication({ isLogin }: IAuthentication) {
       }}
     >
       <Box
-        component='img'
-        alt='Side profile of woman made up of various fruits and vegetables'
-        src={authImg}
         sx={{
-          display: { xs: 'none', sm: 'block' },
-          objectFit: 'contain',
-          maxWidth: { sm: '50%', md: '40%' },
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
           backgroundColor: '#c7c7c7',
-          height: '100%',
         }}
-      ></Box>
+      >
+        <Box
+          component='img'
+          alt='Side profile of woman made up of various fruits and vegetables'
+          src={authImg}
+          sx={{
+            display: { xs: 'none', sm: 'block' },
+            objectFit: 'contain',
+            maxWidth: '80%',
+          }}
+        />
+      </Box>
       <Container maxWidth='md' sx={{ display: 'flex' }}>
         {isLogin ? <LoginForm /> : <Register />}
       </Container>

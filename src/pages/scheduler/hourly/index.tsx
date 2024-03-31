@@ -15,7 +15,6 @@ function HourlyScheduler({ date, setDate }: HourlyScheduler) {
         display: 'flex',
         flexDirection: 'column',
         maxHeight: '100%',
-        overflowY: 'auto',
         position: 'relative',
         borderRadius: '8px',
       }}

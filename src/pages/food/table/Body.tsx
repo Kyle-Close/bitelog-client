@@ -164,7 +164,7 @@ const foodIngredientStyles = {
   },
 };
 
-const createInitalFoodFormState = (food: IFoods) => {
+export const createInitalFoodFormState = (food: IFoods) => {
   return {
     foodName: food.name,
     autoCompleteValue: null,
