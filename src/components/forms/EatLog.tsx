@@ -1,24 +1,30 @@
 import { Autocomplete, Box, InputLabel, TextField } from '@mui/material';
+import { useEatLogForm } from '../../hooks/useEatLogForm';
 
 export function EatLogForm() {
+  const EatLogForm = useEatLogForm();
   return (
-    <Box
-      sx={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}
-      component='form'
-    >
-      <Box sx={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
-        <InputLabel id='combo-foods-label'>Foods</InputLabel>
-        <Autocomplete
-          {...defaultProps}
-          renderInput={(params) => <TextField {...params} variant='standard' />}
-          id='combo-ingredients'
-          size='small'
-          value={state.autoCompleteValue}
-          onChange={handleAutoCompleteChange}
-          inputValue={state.inputValue}
-          onInputChange={handleInputChange}
-        ></Autocomplete>
+    EatLogForm && (
+      <Box
+        sx={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}
+        component='form'
+      >
+        <Box sx={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+          <InputLabel id='combo-foods-label'>Foods</InputLabel>
+          <Autocomplete
+            {...EatLogForm.defaultProps}
+            renderInput={(params) => (
+              <TextField {...params} variant='standard' />
+            )}
+            id='combo-ingredients'
+            size='small'
+            value={EatLogForm.state.autoCompleteValue}
+            onChange={EatLogForm.handleAutoCompleteChange}
+            inputValue={EatLogForm.state.inputValue}
+            onInputChange={EatLogForm.handleInputChange}
+          ></Autocomplete>
+        </Box>
       </Box>
-    </Box>
+    )
   );
 }
