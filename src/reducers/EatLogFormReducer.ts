@@ -21,19 +21,19 @@ export function EatLogReducer(
         return { ...state };
       return {
         ...state,
-        selectedIngredients: [...state.selectedFoods, action.payload.value],
+        selectedFoods: [...state.selectedFoods, action.payload.value],
       };
     case EatLogActionTypes.REMOVE_SELECTED_FOOD:
       const exists = state.selectedFoods.some(
-        (ingredient) => ingredient.name === action.payload.value
+        (food) => food.name === action.payload.value
       );
       if (!exists) return { ...state };
-      const newSelectedIngredients = state.selectedFoods.filter(
+      const newSelectedFoods = state.selectedFoods.filter(
         (food) => food.name !== action.payload.value
       );
       return {
         ...state,
-        selectedIngredients: newSelectedIngredients,
+        selectedFoods: newSelectedFoods,
       };
     case EatLogActionTypes.RESET_FORM:
       return {

@@ -1,5 +1,12 @@
-import { Autocomplete, Box, InputLabel, TextField } from '@mui/material';
+import {
+  Autocomplete,
+  Box,
+  Divider,
+  InputLabel,
+  TextField,
+} from '@mui/material';
 import { useEatLogForm } from '../../hooks/useEatLogForm';
+import ChipsArray from '../generic/ChipArray';
 
 export function EatLogForm() {
   const EatLogForm = useEatLogForm();
@@ -24,6 +31,11 @@ export function EatLogForm() {
             onInputChange={EatLogForm.handleInputChange}
           ></Autocomplete>
         </Box>
+        <Divider />
+        <ChipsArray
+          chipData={EatLogForm.state.selectedFoods.map((food) => food.name)}
+          deleteData={EatLogForm.removeSelectedFood}
+        />
       </Box>
     )
   );

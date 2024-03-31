@@ -38,10 +38,10 @@ export function useEatLogForm() {
     });
   };
 
-  const removeSelectedIngredient = (ingredient: string) => {
+  const removeSelectedFood = (food: string) => {
     dispatch({
       type: EatLogActionTypes.REMOVE_SELECTED_FOOD,
-      payload: { value: ingredient },
+      payload: { value: food },
     });
   };
 
@@ -55,7 +55,7 @@ export function useEatLogForm() {
     defaultProps,
     handleAutoCompleteChange,
     handleInputChange,
-    removeSelectedIngredient,
+    removeSelectedFood,
     state,
   };
 }
