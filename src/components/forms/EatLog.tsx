@@ -7,6 +7,7 @@ import {
 } from '@mui/material';
 import { useEatLogForm } from '../../hooks/useEatLogForm';
 import ChipsArray from '../generic/ChipArray';
+import { NumberStepper } from '../generic/NumberStepper';
 
 export function EatLogForm() {
   const EatLogForm = useEatLogForm();
@@ -32,10 +33,7 @@ export function EatLogForm() {
           ></Autocomplete>
         </Box>
         <Divider />
-        <ChipsArray
-          chipData={EatLogForm.state.selectedFoods.map((food) => food.name)}
-          deleteData={EatLogForm.removeSelectedFood}
-        />
+        <NumberStepper />
       </Box>
     )
   );
