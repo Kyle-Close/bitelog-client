@@ -6,14 +6,21 @@ import {
   TextField,
 } from '@mui/material';
 import { useEatLogForm } from '../../hooks/useEatLogForm';
-import ChipsArray from '../generic/ChipArray';
-import { NumberStepper } from '../generic/NumberStepper';
+import ItemWithQuantityList from '../generic/ItemWithQuantityList';
 
 export function EatLogForm() {
   const EatLogForm = useEatLogForm();
+
+  const handleFoodItemListChange = (id: number, newQuantity: number) => {
+    if (EatLogForm) EatLogForm.updateFoodQuantity(id, newQuantity);
+  };
+
   return (
     EatLogForm && (
       <Box
+        onSubmit={(e) => {
+          e.preventDefault();
+        }}
         sx={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}
         component='form'
       >
@@ -24,16 +31,20 @@ export function EatLogForm() {
             renderInput={(params) => (
               <TextField {...params} variant='standard' />
             )}
+            isOptionEqualToValue={(option, value) => option.id === value.id}
             id='combo-ingredients'
             size='small'
             value={EatLogForm.state.autoCompleteValue}
             onChange={EatLogForm.handleAutoCompleteChange}
             inputValue={EatLogForm.state.inputValue}
             onInputChange={EatLogForm.handleInputChange}
-          ></Autocomplete>
+          />
         </Box>
         <Divider />
-        <NumberStepper />
+        <ItemWithQuantityList
+          handleChange={handleFoodItemListChange}
+          items={EatLogForm.state.selectedFoods}
+        />
       </Box>
     )
   );

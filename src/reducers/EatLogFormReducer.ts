@@ -41,13 +41,31 @@ export function EatLogReducer(
         inputValue: '',
         selectedFoods: [],
       };
+    case EatLogActionTypes.UPDATE_SELECTED_FOOD_QUANTITY:
+      if (state.selectedFoods.length === 0) return { ...state };
+      const { id, quantity } = action.payload;
+      const index = state.selectedFoods.findIndex((food) => food.id === id);
+      if (index === -1) {
+        console.warn(`Food with id ${id} not found.`);
+        return { ...state }; // Return current state if food not found
+      }
+      const newFoods = [...state.selectedFoods];
+      newFoods[index].quantity = quantity;
+      return {
+        ...state,
+        selectedFoods: newFoods,
+      };
   }
 }
 
+export interface SelectedFoods extends IFoods {
+  quantity: number;
+}
+
 export interface EatLogReducerState {
-  autoCompleteValue: IFoods | null;
+  autoCompleteValue: SelectedFoods | null;
   inputValue: string;
-  selectedFoods: IFoods[];
+  selectedFoods: SelectedFoods[];
 }
 
 export enum EatLogActionTypes {
@@ -55,11 +73,20 @@ export enum EatLogActionTypes {
   UPDATE_AUTO_COMPLETE_VALUE = 'UPDATE_AUTO_COMPLETE_VALUE',
   ADD_TO_SELECTED_FOODS = 'ADD_TO_SELECTED_FOODS',
   REMOVE_SELECTED_FOOD = 'REMOVE_SELECTED_FOOD',
+  UPDATE_SELECTED_FOOD_QUANTITY = 'UPDATE_SELECTED_FOOD_QUANTITY',
   RESET_FORM = 'RESET_FORM',
 }
 
 interface ResetForm {
   type: EatLogActionTypes.RESET_FORM;
+}
+
+interface UpdateSelectedFoodQuantity {
+  type: EatLogActionTypes.UPDATE_SELECTED_FOOD_QUANTITY;
+  payload: {
+    id: number;
+    quantity: number;
+  };
 }
 
 interface UpdateInputValue {
@@ -72,14 +99,14 @@ interface UpdateInputValue {
 interface UpdateAutoCompleteValue {
   type: EatLogActionTypes.UPDATE_AUTO_COMPLETE_VALUE;
   payload: {
-    value: IFoods | null;
+    value: SelectedFoods | null;
   };
 }
 
 interface AddToSelectedFoods {
   type: EatLogActionTypes.ADD_TO_SELECTED_FOODS;
   payload: {
-    value: IFoods | null;
+    value: SelectedFoods | null;
   };
 }
 
@@ -95,4 +122,5 @@ type FoodFormReducerAction =
   | UpdateInputValue
   | AddToSelectedFoods
   | RemoveSelectedFood
-  | ResetForm;
+  | ResetForm
+  | UpdateSelectedFoodQuantity;

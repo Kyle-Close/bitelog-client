@@ -1,9 +1,10 @@
 import { useContext, useReducer } from 'react';
-import { IFoods, useFetchUserFood } from './useFetchUserFood';
+import { useFetchUserFood } from './useFetchUserFood';
 import { UserContext } from '../context';
 import {
   EatLogActionTypes,
   EatLogReducer,
+  SelectedFoods,
 } from '../reducers/EatLogFormReducer';
 
 export function useEatLogForm() {
@@ -17,7 +18,10 @@ export function useEatLogForm() {
 
   if (!foods) return;
 
-  const handleAutoCompleteChange = (event: any, newValue: IFoods | null) => {
+  const handleAutoCompleteChange = (
+    event: any,
+    newValue: SelectedFoods | null
+  ) => {
     dispatch({
       type: EatLogActionTypes.UPDATE_AUTO_COMPLETE_VALUE,
       payload: { value: newValue },
@@ -38,6 +42,13 @@ export function useEatLogForm() {
     });
   };
 
+  const updateFoodQuantity = (foodId: number, quantity: number) => {
+    dispatch({
+      type: EatLogActionTypes.UPDATE_SELECTED_FOOD_QUANTITY,
+      payload: { id: foodId, quantity },
+    });
+  };
+
   const removeSelectedFood = (food: string) => {
     dispatch({
       type: EatLogActionTypes.REMOVE_SELECTED_FOOD,
@@ -45,9 +56,12 @@ export function useEatLogForm() {
     });
   };
 
+  const defaultPropsFoods = foods.map((food) => {
+    return { ...food, quantity: 1 };
+  });
   const defaultProps = {
-    options: foods,
-    getOptionLabel: (option: IFoods) => option.name,
+    options: defaultPropsFoods,
+    getOptionLabel: (option: SelectedFoods) => option.name,
   };
 
   return {
@@ -57,5 +71,6 @@ export function useEatLogForm() {
     handleInputChange,
     removeSelectedFood,
     state,
+    updateFoodQuantity,
   };
 }
