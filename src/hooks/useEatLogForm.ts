@@ -6,15 +6,37 @@ import {
   EatLogReducer,
   SelectedFoods,
 } from '../reducers/EatLogFormReducer';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { RequestBody, makeRequestToBackend } from '../helpers/utility';
+import { BASE_URL } from '../config/axiosConfig';
+import { getCurrentISODate } from '../helpers/dates';
 
 export function useEatLogForm() {
   const { user } = useContext(UserContext);
+  const queryClient = useQueryClient();
   const { foods, foodQuery } = useFetchUserFood(user);
   const [state, dispatch] = useReducer(EatLogReducer, {
     autoCompleteValue: null,
     inputValue: '',
     selectedFoods: [],
     note: '',
+  });
+  const createEatLogMutation = useMutation({
+    mutationKey: ['food', user?.uid],
+    mutationFn: () =>
+      submitForm(
+        `${BASE_URL}/user/${user?.uid}/journal/${user?.journalId}/eat_logs`,
+        buildSubmitObject(state.selectedFoods, state.note),
+        false
+      ),
+    onSuccess: () => {
+      dispatch({ type: EatLogActionTypes.RESET_FORM });
+      if (user?.uid) {
+        queryClient.invalidateQueries({
+          queryKey: ['eatLogs', user.uid],
+        });
+      }
+    },
   });
 
   if (!foods) return;
@@ -23,6 +45,7 @@ export function useEatLogForm() {
     event: any,
     newValue: SelectedFoods | null
   ) => {
+    if (!newValue) return;
     dispatch({
       type: EatLogActionTypes.UPDATE_AUTO_COMPLETE_VALUE,
       payload: { value: newValue },
@@ -59,6 +82,11 @@ export function useEatLogForm() {
     });
   };
 
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    createEatLogMutation.mutate();
+  };
+
   const removeSelectedFood = (foodId: number) => {
     dispatch({
       type: EatLogActionTypes.REMOVE_SELECTED_FOOD,
@@ -83,5 +111,48 @@ export function useEatLogForm() {
     state,
     updateFoodQuantity,
     handleUpdateNote,
+    handleSubmit,
   };
 }
+
+const buildSubmitObject = (selectedFoods: SelectedFoods[], note: string) => {
+  const logTimestamp = getCurrentISODate();
+  const foods = selectedFoods.map((food) => {
+    return { id: food.id, quantity: food.quantity };
+  });
+  if (note)
+    return {
+      foods,
+      notes: note,
+      logTimestamp,
+    };
+  else return { foods, logTimestamp };
+};
+
+interface SubmitFormPayload {
+  logTimestamp: string;
+  foods: {
+    id: number;
+    quantity: number;
+  }[];
+  notes?: string;
+}
+
+const submitForm = async (
+  url: string,
+  payload: SubmitFormPayload,
+  isUpdating: boolean
+) => {
+  try {
+    await makeRequestToBackend({
+      url,
+      method: isUpdating ? 'PUT' : 'POST',
+      body: payload as unknown as RequestBody,
+    });
+  } catch (err) {
+    if (err instanceof Error) {
+      throw new Error(err.message);
+    }
+    throw new Error('An unexpected error occurred');
+  }
+};

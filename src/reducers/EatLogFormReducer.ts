@@ -16,9 +16,8 @@ export function EatLogReducer(
         autoCompleteValue: action.payload.value,
       };
     case EatLogActionTypes.ADD_TO_SELECTED_FOODS:
-      if (!action.payload) return { ...state };
       if (
-        state.selectedFoods.some((food) => food.id === action.payload.value?.id)
+        state.selectedFoods.some((food) => food.id === action.payload.value.id)
       )
         return { ...state };
       return {
@@ -126,7 +125,7 @@ interface UpdateAutoCompleteValue {
 interface AddToSelectedFoods {
   type: EatLogActionTypes.ADD_TO_SELECTED_FOODS;
   payload: {
-    value: SelectedFoods | null;
+    value: SelectedFoods;
   };
 }
 

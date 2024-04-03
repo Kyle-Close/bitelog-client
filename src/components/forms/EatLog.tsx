@@ -25,9 +25,7 @@ export function EatLogForm() {
   return (
     EatLogForm && (
       <Box
-        onSubmit={(e) => {
-          e.preventDefault();
-        }}
+        onSubmit={EatLogForm.handleSubmit}
         sx={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}
         component='form'
       >
