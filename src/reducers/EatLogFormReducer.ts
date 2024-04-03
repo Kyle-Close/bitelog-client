@@ -48,6 +48,7 @@ export function EatLogReducer(
         inputValue: '',
         selectedFoods: [],
         note: '',
+        dateTime: new Date(),
       };
     case EatLogActionTypes.UPDATE_SELECTED_FOOD_QUANTITY:
       if (state.selectedFoods.length === 0) return { ...state };
@@ -65,6 +66,8 @@ export function EatLogReducer(
       };
     case EatLogActionTypes.UPDATE_NOTE_VALUE:
       return { ...state, note: action.payload.value };
+    case EatLogActionTypes.UPDATE_DATE_TIME:
+      return { ...state, dateTime: action.payload.date };
   }
 }
 
@@ -77,6 +80,7 @@ export interface EatLogReducerState {
   inputValue: string;
   selectedFoods: SelectedFoods[];
   note: string;
+  dateTime: Date;
 }
 
 export enum EatLogActionTypes {
@@ -87,6 +91,7 @@ export enum EatLogActionTypes {
   REMOVE_SELECTED_FOOD = 'REMOVE_SELECTED_FOOD',
   UPDATE_SELECTED_FOOD_QUANTITY = 'UPDATE_SELECTED_FOOD_QUANTITY',
   RESET_FORM = 'RESET_FORM',
+  UPDATE_DATE_TIME = 'UPDATE_DATE_TIME',
 }
 
 interface ResetForm {
@@ -98,6 +103,13 @@ interface UpdateSelectedFoodQuantity {
   payload: {
     id: number;
     quantity: number;
+  };
+}
+
+interface UpdateDateTime {
+  type: EatLogActionTypes.UPDATE_DATE_TIME;
+  payload: {
+    date: Date;
   };
 }
 
@@ -143,4 +155,5 @@ type FoodFormReducerAction =
   | RemoveSelectedFood
   | ResetForm
   | UpdateSelectedFoodQuantity
-  | UpdateNoteValue;
+  | UpdateNoteValue
+  | UpdateDateTime;

@@ -13,6 +13,8 @@ import ItemWithQuantityList from '../generic/ItemWithQuantityList';
 import { BASE_URL } from '../../config/axiosConfig';
 import { useContext } from 'react';
 import { UserContext } from '../../context';
+import { Loading } from '../generic/Loading';
+import { CustomDatePicker } from '../generic/DatePicker';
 
 export function EatLogForm() {
   const { user } = useContext(UserContext);
@@ -22,6 +24,8 @@ export function EatLogForm() {
     if (EatLogForm) EatLogForm.updateFoodQuantity(id, newQuantity);
   };
 
+  if (EatLogForm?.createEatLogMutation.isPending) return <Loading />;
+
   return (
     EatLogForm && (
       <Box
@@ -29,6 +33,10 @@ export function EatLogForm() {
         sx={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}
         component='form'
       >
+        <Typography mb={'-0.5rem'} fontWeight='bold'>
+          Log Timestamp:
+        </Typography>
+        <CustomDatePicker handleChange={EatLogForm.handleDateChange} />
         <Box sx={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
           <InputLabel id='combo-foods-label'>Your Foods</InputLabel>
           <Autocomplete
@@ -74,6 +82,11 @@ export function EatLogForm() {
         >
           Submit
         </Button>
+        {EatLogForm.createEatLogMutation.isSuccess && (
+          <Typography fontWeight='bold' fontSize='small' color='lightgreen'>
+            Successfully created eat log!
+          </Typography>
+        )}
         <Divider />
         <ItemWithQuantityList
           handleDelete={EatLogForm.removeSelectedFood}

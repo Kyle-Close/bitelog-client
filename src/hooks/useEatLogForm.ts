@@ -9,7 +9,6 @@ import {
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { RequestBody, makeRequestToBackend } from '../helpers/utility';
 import { BASE_URL } from '../config/axiosConfig';
-import { getCurrentISODate } from '../helpers/dates';
 
 export function useEatLogForm() {
   const { user } = useContext(UserContext);
@@ -20,13 +19,14 @@ export function useEatLogForm() {
     inputValue: '',
     selectedFoods: [],
     note: '',
+    dateTime: new Date(),
   });
   const createEatLogMutation = useMutation({
     mutationKey: ['food', user?.uid],
     mutationFn: () =>
       submitForm(
         `${BASE_URL}/user/${user?.uid}/journal/${user?.journalId}/eat_logs`,
-        buildSubmitObject(state.selectedFoods, state.note),
+        buildSubmitObject(state.selectedFoods, state.note, state.dateTime),
         false
       ),
     onSuccess: () => {
@@ -45,6 +45,7 @@ export function useEatLogForm() {
     event: any,
     newValue: SelectedFoods | null
   ) => {
+    createEatLogMutation.reset();
     if (!newValue) return;
     dispatch({
       type: EatLogActionTypes.UPDATE_AUTO_COMPLETE_VALUE,
@@ -59,16 +60,22 @@ export function useEatLogForm() {
   const handleUpdateNote = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
+    createEatLogMutation.reset();
     dispatch({
       type: EatLogActionTypes.UPDATE_NOTE_VALUE,
       payload: { value: e.target.value },
     });
   };
 
+  const handleDateChange = (date: Date) => {
+    dispatch({ type: EatLogActionTypes.UPDATE_DATE_TIME, payload: { date } });
+  };
+
   const handleInputChange = (
     event: React.SyntheticEvent<Element, Event>,
     newInputValue: string
   ) => {
+    createEatLogMutation.reset();
     dispatch({
       type: EatLogActionTypes.UPDATE_INPUT_VALUE,
       payload: { value: newInputValue },
@@ -84,6 +91,7 @@ export function useEatLogForm() {
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    if (!state.dateTime || !state.selectedFoods) return;
     createEatLogMutation.mutate();
   };
 
@@ -112,21 +120,25 @@ export function useEatLogForm() {
     updateFoodQuantity,
     handleUpdateNote,
     handleSubmit,
+    createEatLogMutation,
+    handleDateChange,
   };
 }
 
-const buildSubmitObject = (selectedFoods: SelectedFoods[], note: string) => {
-  const logTimestamp = getCurrentISODate();
+const buildSubmitObject = (
+  selectedFoods: SelectedFoods[],
+  note: string,
+  dateTime: Date
+) => {
+  const logTimestamp = dateTime.toISOString();
   const foods = selectedFoods.map((food) => {
     return { id: food.id, quantity: food.quantity };
   });
-  if (note)
-    return {
-      foods,
-      notes: note,
-      logTimestamp,
-    };
-  else return { foods, logTimestamp };
+  return {
+    foods,
+    notes: note,
+    logTimestamp,
+  };
 };
 
 interface SubmitFormPayload {

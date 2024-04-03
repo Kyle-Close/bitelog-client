@@ -30,3 +30,11 @@ a {
 .MuiTablePagination-input {
   font-size: 0.8rem;
 }
+
+.react-datepicker-ignore-onclickoutside {
+  padding: 0.3rem 0.5rem;
+}
+
+.react-datepicker__input-container > input {
+  padding: 0.3rem 0.5rem;
+}
