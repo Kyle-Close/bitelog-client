@@ -24,22 +24,29 @@ export function EatLogReducer(
         selectedFoods: [...state.selectedFoods, action.payload.value],
       };
     case EatLogActionTypes.REMOVE_SELECTED_FOOD:
+      const foodIdToRemove = action.payload.id;
+
       const exists = state.selectedFoods.some(
-        (food) => food.name === action.payload.value
+        (food) => food.id === foodIdToRemove
       );
+
       if (!exists) return { ...state };
+
       const newSelectedFoods = state.selectedFoods.filter(
-        (food) => food.name !== action.payload.value
+        (food) => food.id !== foodIdToRemove
       );
+
       return {
         ...state,
         selectedFoods: newSelectedFoods,
       };
+
     case EatLogActionTypes.RESET_FORM:
       return {
         autoCompleteValue: null,
         inputValue: '',
         selectedFoods: [],
+        note: '',
       };
     case EatLogActionTypes.UPDATE_SELECTED_FOOD_QUANTITY:
       if (state.selectedFoods.length === 0) return { ...state };
@@ -55,6 +62,8 @@ export function EatLogReducer(
         ...state,
         selectedFoods: newFoods,
       };
+    case EatLogActionTypes.UPDATE_NOTE_VALUE:
+      return { ...state, note: action.payload.value };
   }
 }
 
@@ -66,11 +75,13 @@ export interface EatLogReducerState {
   autoCompleteValue: SelectedFoods | null;
   inputValue: string;
   selectedFoods: SelectedFoods[];
+  note: string;
 }
 
 export enum EatLogActionTypes {
   UPDATE_INPUT_VALUE = 'UPDATE_INPUT_VALUE',
   UPDATE_AUTO_COMPLETE_VALUE = 'UPDATE_AUTO_COMPLETE_VALUE',
+  UPDATE_NOTE_VALUE = 'UPDATE_NOTE_VALUE',
   ADD_TO_SELECTED_FOODS = 'ADD_TO_SELECTED_FOODS',
   REMOVE_SELECTED_FOOD = 'REMOVE_SELECTED_FOOD',
   UPDATE_SELECTED_FOOD_QUANTITY = 'UPDATE_SELECTED_FOOD_QUANTITY',
@@ -86,6 +97,13 @@ interface UpdateSelectedFoodQuantity {
   payload: {
     id: number;
     quantity: number;
+  };
+}
+
+interface UpdateNoteValue {
+  type: EatLogActionTypes.UPDATE_NOTE_VALUE;
+  payload: {
+    value: string;
   };
 }
 
@@ -113,7 +131,7 @@ interface AddToSelectedFoods {
 interface RemoveSelectedFood {
   type: EatLogActionTypes.REMOVE_SELECTED_FOOD;
   payload: {
-    value: string;
+    id: number;
   };
 }
 
@@ -123,4 +141,5 @@ type FoodFormReducerAction =
   | AddToSelectedFoods
   | RemoveSelectedFood
   | ResetForm
-  | UpdateSelectedFoodQuantity;
+  | UpdateSelectedFoodQuantity
+  | UpdateNoteValue;

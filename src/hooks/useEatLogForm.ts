@@ -14,6 +14,7 @@ export function useEatLogForm() {
     autoCompleteValue: null,
     inputValue: '',
     selectedFoods: [],
+    note: '',
   });
 
   if (!foods) return;
@@ -29,6 +30,15 @@ export function useEatLogForm() {
     dispatch({
       type: EatLogActionTypes.ADD_TO_SELECTED_FOODS,
       payload: { value: newValue },
+    });
+  };
+
+  const handleUpdateNote = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    dispatch({
+      type: EatLogActionTypes.UPDATE_NOTE_VALUE,
+      payload: { value: e.target.value },
     });
   };
 
@@ -49,10 +59,10 @@ export function useEatLogForm() {
     });
   };
 
-  const removeSelectedFood = (food: string) => {
+  const removeSelectedFood = (foodId: number) => {
     dispatch({
       type: EatLogActionTypes.REMOVE_SELECTED_FOOD,
-      payload: { value: food },
+      payload: { id: foodId },
     });
   };
 
@@ -72,5 +82,6 @@ export function useEatLogForm() {
     removeSelectedFood,
     state,
     updateFoodQuantity,
+    handleUpdateNote,
   };
 }

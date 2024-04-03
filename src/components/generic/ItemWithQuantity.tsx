@@ -14,17 +14,22 @@ function ItemWithQuantity({
 }: ItemWithQuantityProps) {
   return (
     <Grid alignItems='center' container spacing={2}>
-      <Grid item xs={6}>
+      <Grid item xs={4} md={6}>
         <Typography
           sx={{
-            fontSize: { xs: '1rem', sm: '1.1rem', md: '1.2rem', lg: '1.3rem' },
+            fontSize: {
+              xs: '0.8rem',
+              sm: '0.9rem',
+              md: '0.95rem',
+              lg: '1rem',
+            },
           }}
           fontWeight='bold'
         >
           {name}
         </Typography>
       </Grid>
-      <Grid item xs={6}>
+      <Grid item xs={8} md={6}>
         <QuantityInput
           min={1}
           max={99}

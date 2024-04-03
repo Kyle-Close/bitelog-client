@@ -27,11 +27,6 @@ export function SchedulerModal({
             tabPanel: <EatLogForm />,
           },
           { tabName: 'Create Event', tabPanel: <Box /> },
-          {
-            tabName: isUpdating ? 'Update Food' : 'Create Food',
-            tabPanel: <FoodForm isUpdating={isUpdating} />,
-          },
-          { tabName: 'Create Ingredient', tabPanel: <IngredientForm /> },
         ]}
       />
     </BaseModal>
