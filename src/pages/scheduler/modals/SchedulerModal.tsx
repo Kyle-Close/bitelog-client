@@ -7,6 +7,7 @@ import { IFoods } from '../../../hooks/useFetchUserFood';
 import { IngredientForm } from '../../../components/forms/Ingredient';
 import { EatLogForm } from '../../../components/forms/EatLog';
 import { EatLogReducerState } from '../../../reducers/EatLogFormReducer';
+import { EventLogForm } from '../../../components/forms/EventLog';
 
 interface EventAndEatModalProps {
   isOpen: boolean;
@@ -33,7 +34,7 @@ export function SchedulerModal({
               <EatLogForm initialState={initialEatLogState} logId={logId} />
             ),
           },
-          { tabName: 'Create Event', tabPanel: <Box /> },
+          { tabName: 'Create Event', tabPanel: <EventLogForm /> },
         ]}
       />
     </BaseModal>
