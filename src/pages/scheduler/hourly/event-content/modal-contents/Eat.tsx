@@ -1,7 +1,7 @@
 import { Box, Button, Divider, Typography } from '@mui/material';
 import { EatLogDataValue } from '../../HourContainerList';
 import { formatISO8601ToReadableDate } from '../../../helpers';
-import { useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { makeRequestToBackend } from '../../../../../helpers/utility';
 import { BASE_URL } from '../../../../../config/axiosConfig';
 import { useContext, useState } from 'react';
@@ -18,10 +18,11 @@ interface Eat {
 function Eat({ data }: Eat) {
   const { user } = useContext(UserContext);
   const [isDeleting, setIsDeleting] = useState(false);
+  const queryClient = useQueryClient();
   const eventTimeText = formatISO8601ToReadableDate(data.logTimestamp);
 
-  const query = useQuery({
-    queryKey: ['eat_log', data.id],
+  const fetchEatLogQuery = useQuery({
+    queryKey: ['eatLogs', data.id],
     queryFn: () =>
       makeRequestToBackend({
         url: `${BASE_URL}/user/${user?.uid}/journal/${user?.journalId}/eat_logs/${data.id}`,
@@ -29,14 +30,41 @@ function Eat({ data }: Eat) {
     enabled: !!user,
   });
 
-  if (query.isLoading || query.isError) return <Loading />;
+  const deleteEatLogMutation = useMutation({
+    mutationKey: ['eatLogs', user?.uid],
+    mutationFn: () => deleteEatLog(),
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ['eatLogs', user?.uid],
+      });
+    },
+  });
+
+  if (fetchEatLogQuery.isLoading || fetchEatLogQuery.isError)
+    return <Loading />;
 
   const foodDataForTable = getFoodDataForTable(
-    query.data.eatLogDataValues.UserFoods
+    fetchEatLogQuery.data.eatLogDataValues.UserFoods
   );
 
-  const handleDeleteClick = (foodId: number) => {
+  const handleDeleteClick = () => {
     setIsDeleting(true);
+  };
+
+  const handleConfirmDelete = () => {
+    deleteEatLogMutation.mutate();
+  };
+
+  const deleteEatLog = async () => {
+    if (!user || !user.uid) return;
+    try {
+      await makeRequestToBackend({
+        url: `${BASE_URL}/user/${user?.uid}/journal/${user?.journalId}/eat_logs/${data.id}`,
+        method: 'DELETE',
+      });
+    } catch (err) {
+      throw err;
+    }
   };
 
   return (
@@ -64,7 +92,11 @@ function Eat({ data }: Eat) {
               justifyContent: 'center',
             }}
           >
-            <Button color='error' variant='contained'>
+            <Button
+              onClick={() => handleConfirmDelete()}
+              color='error'
+              variant='contained'
+            >
               Confirm Delete
             </Button>
             <Button
@@ -82,19 +114,24 @@ function Eat({ data }: Eat) {
             {eventTimeText}
           </Typography>
           <EatLogTable foodData={foodDataForTable} />
-          <Box
-            sx={{
-              display: 'flex',
-              flexDirection: 'column',
-              mt: '1rem',
-              py: '0.5rem',
-              px: '1rem',
-              backgroundColor: '#434343',
-            }}
-          >
-            <Typography fontWeight='600'>Notes:</Typography>
-            <Typography>{data.notes}</Typography>
-          </Box>
+
+          {data.notes && (
+            <Box
+              sx={{
+                display: 'flex',
+                flexDirection: 'column',
+                mt: '1rem',
+                py: '0.5rem',
+                px: '1rem',
+                backgroundColor: '#434343',
+              }}
+            >
+              <>
+                <Typography fontWeight='600'>Notes:</Typography>
+                <Typography>{data.notes}</Typography>
+              </>
+            </Box>
+          )}
           <Box sx={{ mt: '1rem', display: 'flex', gap: '1rem' }}>
             <Button
               sx={{ flexGrow: 2 }}
@@ -105,7 +142,7 @@ function Eat({ data }: Eat) {
               Edit
             </Button>
             <Button
-              onClick={(e) => handleDeleteClick(data.id)}
+              onClick={() => handleDeleteClick()}
               sx={{ flexGrow: 1, fontWeight: 'bold' }}
               color='error'
               variant='contained'

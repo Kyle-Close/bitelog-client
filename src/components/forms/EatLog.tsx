@@ -10,7 +10,6 @@ import {
 } from '@mui/material';
 import { useEatLogForm } from '../../hooks/useEatLogForm';
 import ItemWithQuantityList from '../generic/ItemWithQuantityList';
-import { BASE_URL } from '../../config/axiosConfig';
 import { useContext } from 'react';
 import { UserContext } from '../../context';
 import { Loading } from '../generic/Loading';
