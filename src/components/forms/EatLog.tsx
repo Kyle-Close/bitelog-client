@@ -18,11 +18,12 @@ import { EatLogReducerState } from '../../reducers/EatLogFormReducer';
 
 interface EatLogFormProps {
   initialState?: EatLogReducerState;
+  logId?: number;
 }
 
-export function EatLogForm({ initialState }: EatLogFormProps) {
+export function EatLogForm({ initialState, logId }: EatLogFormProps) {
   const { user } = useContext(UserContext);
-  const EatLogForm = useEatLogForm(initialState);
+  const EatLogForm = useEatLogForm(initialState, logId);
 
   const handleFoodItemListChange = (id: number, newQuantity: number) => {
     if (EatLogForm) EatLogForm.updateFoodQuantity(id, newQuantity);

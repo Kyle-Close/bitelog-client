@@ -11,7 +11,10 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { RequestBody, makeRequestToBackend } from '../helpers/utility';
 import { BASE_URL } from '../config/axiosConfig';
 
-export function useEatLogForm(initalState?: EatLogReducerState) {
+export function useEatLogForm(
+  initalState?: EatLogReducerState,
+  logId?: number
+) {
   const { user } = useContext(UserContext);
   const queryClient = useQueryClient();
   const { foods, foodQuery } = useFetchUserFood(user);
@@ -28,12 +31,29 @@ export function useEatLogForm(initalState?: EatLogReducerState) {
         }
   );
   const createEatLogMutation = useMutation({
-    mutationKey: ['food', user?.uid],
+    mutationKey: ['eatLogs', user?.uid],
     mutationFn: () =>
       submitForm(
         `${BASE_URL}/user/${user?.uid}/journal/${user?.journalId}/eat_logs`,
         buildSubmitObject(state.selectedFoods, state.note, state.dateTime),
         false
+      ),
+    onSuccess: () => {
+      dispatch({ type: EatLogActionTypes.RESET_FORM });
+      if (user?.uid) {
+        queryClient.invalidateQueries({
+          queryKey: ['eatLogs', user.uid],
+        });
+      }
+    },
+  });
+  const updateEatLogMutation = useMutation({
+    mutationKey: ['eatLogs', user?.uid],
+    mutationFn: () =>
+      submitForm(
+        `${BASE_URL}/user/${user?.uid}/journal/${user?.journalId}/eat_logs/${logId}`,
+        buildSubmitObject(state.selectedFoods, state.note, state.dateTime),
+        true
       ),
     onSuccess: () => {
       dispatch({ type: EatLogActionTypes.RESET_FORM });
@@ -98,7 +118,8 @@ export function useEatLogForm(initalState?: EatLogReducerState) {
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!state.dateTime || !state.selectedFoods) return;
-    createEatLogMutation.mutate();
+    if (initalState && logId) updateEatLogMutation.mutate();
+    else createEatLogMutation.mutate();
   };
 
   const removeSelectedFood = (foodId: number) => {
@@ -128,6 +149,7 @@ export function useEatLogForm(initalState?: EatLogReducerState) {
     handleSubmit,
     createEatLogMutation,
     handleDateChange,
+    updateEatLogMutation,
   };
 }
 

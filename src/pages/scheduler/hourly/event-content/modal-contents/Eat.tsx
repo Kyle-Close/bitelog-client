@@ -91,6 +91,7 @@ function Eat({ data }: Eat) {
             note: data.notes,
             dateTime: new Date(data.logTimestamp),
           }}
+          logId={data.id}
         />
       )}
       <Box

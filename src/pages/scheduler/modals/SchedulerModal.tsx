@@ -13,6 +13,7 @@ interface EventAndEatModalProps {
   handleClose: () => void;
   isUpdating: boolean;
   initialEatLogState?: EatLogReducerState;
+  logId?: number;
 }
 
 export function SchedulerModal({
@@ -20,6 +21,7 @@ export function SchedulerModal({
   handleClose,
   isUpdating,
   initialEatLogState,
+  logId,
 }: EventAndEatModalProps) {
   return (
     <BaseModal isOpen={isOpen} handleClose={handleClose}>
@@ -27,7 +29,9 @@ export function SchedulerModal({
         tabs={[
           {
             tabName: isUpdating ? 'Update Eat Log' : 'Create Eat Log',
-            tabPanel: <EatLogForm initialState={initialEatLogState} />,
+            tabPanel: (
+              <EatLogForm initialState={initialEatLogState} logId={logId} />
+            ),
           },
           { tabName: 'Create Event', tabPanel: <Box /> },
         ]}
