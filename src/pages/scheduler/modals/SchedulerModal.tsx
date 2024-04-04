@@ -6,17 +6,20 @@ import { FoodFormReducerState } from '../../../reducers/FoodFormReducer';
 import { IFoods } from '../../../hooks/useFetchUserFood';
 import { IngredientForm } from '../../../components/forms/Ingredient';
 import { EatLogForm } from '../../../components/forms/EatLog';
+import { EatLogReducerState } from '../../../reducers/EatLogFormReducer';
 
 interface EventAndEatModalProps {
   isOpen: boolean;
   handleClose: () => void;
   isUpdating: boolean;
+  initialEatLogState?: EatLogReducerState;
 }
 
 export function SchedulerModal({
   isOpen,
   handleClose,
   isUpdating,
+  initialEatLogState,
 }: EventAndEatModalProps) {
   return (
     <BaseModal isOpen={isOpen} handleClose={handleClose}>
@@ -24,7 +27,7 @@ export function SchedulerModal({
         tabs={[
           {
             tabName: isUpdating ? 'Update Eat Log' : 'Create Eat Log',
-            tabPanel: <EatLogForm />,
+            tabPanel: <EatLogForm initialState={initialEatLogState} />,
           },
           { tabName: 'Create Event', tabPanel: <Box /> },
         ]}

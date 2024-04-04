@@ -14,10 +14,15 @@ import { useContext } from 'react';
 import { UserContext } from '../../context';
 import { Loading } from '../generic/Loading';
 import { CustomDatePicker } from '../generic/DatePicker';
+import { EatLogReducerState } from '../../reducers/EatLogFormReducer';
 
-export function EatLogForm() {
+interface EatLogFormProps {
+  initialState?: EatLogReducerState;
+}
+
+export function EatLogForm({ initialState }: EatLogFormProps) {
   const { user } = useContext(UserContext);
-  const EatLogForm = useEatLogForm();
+  const EatLogForm = useEatLogForm(initialState);
 
   const handleFoodItemListChange = (id: number, newQuantity: number) => {
     if (EatLogForm) EatLogForm.updateFoodQuantity(id, newQuantity);
@@ -35,7 +40,10 @@ export function EatLogForm() {
         <Typography mb={'-0.5rem'} fontWeight='bold'>
           Log Timestamp:
         </Typography>
-        <CustomDatePicker handleChange={EatLogForm.handleDateChange} />
+        <CustomDatePicker
+          initialDate={initialState && new Date(initialState.dateTime)}
+          handleChange={EatLogForm.handleDateChange}
+        />
         <Box sx={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
           <InputLabel id='combo-foods-label'>Your Foods</InputLabel>
           <Autocomplete

@@ -4,10 +4,16 @@ import 'react-datepicker/dist/react-datepicker.css';
 
 interface CustomDatePickerProps {
   handleChange: (date: Date) => void;
+  initialDate?: Date;
 }
 
-export function CustomDatePicker({ handleChange }: CustomDatePickerProps) {
-  const [startDate, setStartDate] = useState<Date>(new Date());
+export function CustomDatePicker({
+  handleChange,
+  initialDate,
+}: CustomDatePickerProps) {
+  const [startDate, setStartDate] = useState<Date>(
+    initialDate ? initialDate : new Date()
+  );
 
   const onDateChange = (date: Date) => {
     handleChange(date);

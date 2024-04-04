@@ -4,23 +4,29 @@ import { UserContext } from '../context';
 import {
   EatLogActionTypes,
   EatLogReducer,
+  EatLogReducerState,
   SelectedFoods,
 } from '../reducers/EatLogFormReducer';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { RequestBody, makeRequestToBackend } from '../helpers/utility';
 import { BASE_URL } from '../config/axiosConfig';
 
-export function useEatLogForm() {
+export function useEatLogForm(initalState?: EatLogReducerState) {
   const { user } = useContext(UserContext);
   const queryClient = useQueryClient();
   const { foods, foodQuery } = useFetchUserFood(user);
-  const [state, dispatch] = useReducer(EatLogReducer, {
-    autoCompleteValue: null,
-    inputValue: '',
-    selectedFoods: [],
-    note: '',
-    dateTime: new Date(),
-  });
+  const [state, dispatch] = useReducer(
+    EatLogReducer,
+    initalState
+      ? initalState
+      : {
+          autoCompleteValue: null,
+          inputValue: '',
+          selectedFoods: [],
+          note: '',
+          dateTime: new Date(),
+        }
+  );
   const createEatLogMutation = useMutation({
     mutationKey: ['food', user?.uid],
     mutationFn: () =>
