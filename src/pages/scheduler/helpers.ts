@@ -73,5 +73,5 @@ export function formatISO8601ToReadableDate(iso8601String: string) {
   const minutes = date.getMinutes().toString().padStart(2, '0');
 
   // Return the formatted string with actual hours and minutes
-  return `${year}-${month}-${day} at ${hours}:${minutes}`;
+  return `${year}-${month}-${day} @ ${hours}:${minutes}`;
 }
