@@ -10,7 +10,10 @@ export interface EventLogFormState {
   discomfortLevel: number;
 }
 
-export function useEventLogForm(initialState?: EventLogFormState) {
+export function useEventLogForm(
+  initialState?: EventLogFormState,
+  logId?: number
+) {
   const { user } = useContext(UserContext);
   const queryClient = useQueryClient();
   const [timeStamp, setTimestamp] = useState(
@@ -39,6 +42,24 @@ export function useEventLogForm(initialState?: EventLogFormState) {
     },
   });
 
+  const updateEventMutation = useMutation({
+    mutationKey: ['eventLogs', user?.uid],
+    mutationFn: () =>
+      submitForm(
+        `${BASE_URL}/user/${user?.uid}/journal/${user?.journalId}/report_logs/${logId}`,
+        buildSubmitObject(timeStamp, note, discomfortLevel),
+        true
+      ),
+    onSuccess: () => {
+      resetState();
+      if (user?.uid) {
+        queryClient.invalidateQueries({
+          queryKey: ['eventLogs', user.uid],
+        });
+      }
+    },
+  });
+
   const handleDateChange = (date: Date) => {
     setTimestamp(date);
   };
@@ -56,8 +77,8 @@ export function useEventLogForm(initialState?: EventLogFormState) {
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log('submitting');
-    createEventMutation.mutate();
+    if (logId) updateEventMutation.mutate();
+    else createEventMutation.mutate();
   };
 
   const resetState = () => {

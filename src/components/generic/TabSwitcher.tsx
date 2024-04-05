@@ -12,9 +12,10 @@ interface ITabSwitcherTabs {
 
 interface TabSwitcherProps {
   tabs: ITabSwitcherTabs[];
+  activeTab?: number;
 }
 
-export default function TabSwitcher({ tabs }: TabSwitcherProps) {
+export default function TabSwitcher({ tabs, activeTab }: TabSwitcherProps) {
   const tabList = tabs.map((tab, index) => (
     <Tab key={index} value={index}>
       {tab.tabName}
@@ -28,6 +29,7 @@ export default function TabSwitcher({ tabs }: TabSwitcherProps) {
 
   return (
     <Tabs
+      value={activeTab}
       style={{
         backgroundColor: '#1C2025',
         padding: '1rem',

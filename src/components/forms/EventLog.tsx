@@ -21,7 +21,7 @@ interface EventLogProps {
 }
 
 export function EventLogForm({ initialState, logId }: EventLogProps) {
-  const EventLogForm = useEventLogForm();
+  const EventLogForm = useEventLogForm(initialState, logId);
   return (
     <Box
       onSubmit={EventLogForm.handleSubmit}
