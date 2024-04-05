@@ -13,6 +13,7 @@ interface EventAndEatModalProps {
   initialEventState?: EventLogFormState;
   logId?: number;
   activeTab?: number;
+  createSelectedDate: Date;
 }
 
 export function SchedulerModal({
@@ -23,6 +24,7 @@ export function SchedulerModal({
   initialEventState,
   logId,
   activeTab,
+  createSelectedDate,
 }: EventAndEatModalProps) {
   return (
     <BaseModal isOpen={isOpen} handleClose={handleClose}>
@@ -32,13 +34,21 @@ export function SchedulerModal({
           {
             tabName: isUpdating ? 'Update Eat Log' : 'Create Eat Log',
             tabPanel: (
-              <EatLogForm initialState={initialEatLogState} logId={logId} />
+              <EatLogForm
+                createSelectedDate={createSelectedDate}
+                initialState={initialEatLogState}
+                logId={logId}
+              />
             ),
           },
           {
             tabName: isUpdating ? 'Update Event' : 'Create Event',
             tabPanel: (
-              <EventLogForm initialState={initialEventState} logId={logId} />
+              <EventLogForm
+                createSelectedDate={createSelectedDate}
+                initialState={initialEventState}
+                logId={logId}
+              />
             ),
           },
         ]}

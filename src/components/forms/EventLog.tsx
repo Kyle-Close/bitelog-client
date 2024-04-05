@@ -6,7 +6,6 @@ import {
   TextField,
   Typography,
 } from '@mui/material';
-import { CustomDatePicker } from '../generic/DatePicker';
 import { DiscomfortPicker } from '../generic/DiscomfortPicker';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
@@ -14,13 +13,19 @@ import {
   EventLogFormState,
   useEventLogForm,
 } from '../../hooks/useEventLogForm';
+import { MuiDateTimePicker } from '../generic/MuiDateTimePicker';
 
 interface EventLogProps {
   initialState?: EventLogFormState;
   logId?: number;
+  createSelectedDate: Date;
 }
 
-export function EventLogForm({ initialState, logId }: EventLogProps) {
+export function EventLogForm({
+  initialState,
+  logId,
+  createSelectedDate,
+}: EventLogProps) {
   const EventLogForm = useEventLogForm(initialState, logId);
   return (
     <Box
@@ -31,8 +36,8 @@ export function EventLogForm({ initialState, logId }: EventLogProps) {
       <Typography mb={'-0.5rem'} fontWeight='bold'>
         Log Timestamp:
       </Typography>
-      <CustomDatePicker
-        initialDate={initialState && new Date(initialState.timeStamp)}
+      <MuiDateTimePicker
+        date={initialState ? initialState.timeStamp : createSelectedDate}
         handleChange={EventLogForm.handleDateChange}
       />
       <Accordion>

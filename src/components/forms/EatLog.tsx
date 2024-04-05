@@ -13,15 +13,20 @@ import ItemWithQuantityList from '../generic/ItemWithQuantityList';
 import { useContext } from 'react';
 import { UserContext } from '../../context';
 import { Loading } from '../generic/Loading';
-import { CustomDatePicker } from '../generic/DatePicker';
 import { EatLogReducerState } from '../../reducers/EatLogFormReducer';
+import { MuiDateTimePicker } from '../generic/MuiDateTimePicker';
 
 interface EatLogFormProps {
   initialState?: EatLogReducerState;
   logId?: number;
+  createSelectedDate: Date;
 }
 
-export function EatLogForm({ initialState, logId }: EatLogFormProps) {
+export function EatLogForm({
+  initialState,
+  logId,
+  createSelectedDate,
+}: EatLogFormProps) {
   const { user } = useContext(UserContext);
   const EatLogForm = useEatLogForm(initialState, logId);
 
@@ -41,8 +46,8 @@ export function EatLogForm({ initialState, logId }: EatLogFormProps) {
         <Typography mb={'-0.5rem'} fontWeight='bold'>
           Log Timestamp:
         </Typography>
-        <CustomDatePicker
-          initialDate={initialState && new Date(initialState.dateTime)}
+        <MuiDateTimePicker
+          date={initialState ? initialState.dateTime : createSelectedDate}
           handleChange={EatLogForm.handleDateChange}
         />
         <Box sx={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>

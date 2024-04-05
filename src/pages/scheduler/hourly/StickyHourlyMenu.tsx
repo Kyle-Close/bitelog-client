@@ -1,11 +1,8 @@
-import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
-import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
-import { Box, IconButton, Typography } from '@mui/material';
-import { getDaySuffix, getFullMonthText } from '../../../helpers/utility';
-import { useScreenSize } from '../../../hooks/useScreenSize';
+import { Box, IconButton } from '@mui/material';
 import { SchedulerModal } from '../modals/SchedulerModal';
 import { useState } from 'react';
+import { MuiDatePicker } from '../../../components/generic/MuiDatePicker';
 
 interface StickyHourlyMenu {
   date: Date;
@@ -14,24 +11,6 @@ interface StickyHourlyMenu {
 
 function StickyHourlyMenu({ date, setDate }: StickyHourlyMenu) {
   const [isOpen, setIsOpen] = useState(false);
-  const screenSize = useScreenSize();
-  const month = getFullMonthText(date.getMonth());
-  const day = date.getDate();
-  const daySuffix = getDaySuffix(day);
-  const year = date.getFullYear();
-  const dateString = `${month} ${day + daySuffix} ${year}`;
-
-  const onRightBtnClick = () => {
-    let tempDate = new Date(date);
-    tempDate.setDate(date.getDate() + 1);
-    setDate(tempDate);
-  };
-
-  const onLeftBtnClick = () => {
-    let tempDate = new Date(date);
-    tempDate.setDate(date.getDate() - 1);
-    setDate(tempDate);
-  };
 
   return (
     <Box
@@ -48,35 +27,13 @@ function StickyHourlyMenu({ date, setDate }: StickyHourlyMenu) {
       }}
     >
       <SchedulerModal
+        createSelectedDate={date}
         isOpen={isOpen}
         handleClose={() => setIsOpen(false)}
         isUpdating={false}
       />
       <Box sx={{ display: 'flex', flexGrow: 1 }}>
-        <Box sx={buttonContainerStyle}>
-          <IconButton onClick={onLeftBtnClick}>
-            <KeyboardArrowLeftIcon
-              fontSize={screenSize === 'xs' ? 'medium' : 'large'}
-            />
-          </IconButton>
-        </Box>
-        <Box sx={buttonContainerStyle}>
-          <IconButton onClick={onRightBtnClick}>
-            <KeyboardArrowRightIcon
-              fontSize={screenSize === 'xs' ? 'medium' : 'large'}
-            />
-          </IconButton>
-        </Box>
-        <Typography
-          sx={{
-            alignSelf: 'center',
-            ml: '1rem',
-            fontSize: { xs: '1rem', sm: '1.1rem', md: '1.2rem', lg: '1.3rem' },
-          }}
-          variant='h6'
-        >
-          {dateString}
-        </Typography>
+        <MuiDatePicker date={date} handleChange={(date) => setDate(date)} />
       </Box>
       <Box sx={buttonContainerStyle}>
         <IconButton
@@ -84,7 +41,7 @@ function StickyHourlyMenu({ date, setDate }: StickyHourlyMenu) {
           color='success'
           sx={{ mr: '1rem' }}
         >
-          <AddCircleIcon fontSize={screenSize === 'xs' ? 'medium' : 'large'} />
+          <AddCircleIcon fontSize='large' />
         </IconButton>
       </Box>
     </Box>
