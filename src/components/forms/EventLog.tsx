@@ -1,13 +1,27 @@
-import { Box, TextField, Typography } from '@mui/material';
+import {
+  Accordion,
+  AccordionSummary,
+  Box,
+  Button,
+  TextField,
+  Typography,
+} from '@mui/material';
 import { CustomDatePicker } from '../generic/DatePicker';
 import { DiscomfortPicker } from '../generic/DiscomfortPicker';
+import AccordionDetails from '@mui/material/AccordionDetails';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import {
+  EventLogFormState,
+  useEventLogForm,
+} from '../../hooks/useEventLogForm';
 
 interface EventLogProps {
-  initialState?: any; // to be implemented
+  initialState?: EventLogFormState;
   logId?: number;
 }
 
 export function EventLogForm({ initialState, logId }: EventLogProps) {
+  const EventLogForm = useEventLogForm();
   return (
     <Box
       onSubmit={() => {}}
@@ -18,12 +32,26 @@ export function EventLogForm({ initialState, logId }: EventLogProps) {
         Log Timestamp:
       </Typography>
       <CustomDatePicker
-        initialDate={initialState && new Date(initialState.dateTime)}
-        handleChange={() => {}}
+        initialDate={initialState && new Date(initialState.timeStamp)}
+        handleChange={EventLogForm.handleDateChange}
       />
+      <Accordion>
+        <AccordionSummary
+          expandIcon={<ExpandMoreIcon />}
+          aria-controls='panel1-content'
+          id='panel1-header'
+        >
+          Discomfort Level (optional)
+        </AccordionSummary>
+        <AccordionDetails>
+          <DiscomfortPicker
+            handleChange={EventLogForm.handleUpdateDiscomfortLevel}
+          />
+        </AccordionDetails>
+      </Accordion>
       <TextField
-        onChange={() => {}}
-        value={'todo - hold in state'}
+        onChange={EventLogForm.handleUpdateNote}
+        value={EventLogForm.note}
         sx={{ mt: '1rem' }}
         id='event-note-text-field'
         label='Event Description'
@@ -31,7 +59,9 @@ export function EventLogForm({ initialState, logId }: EventLogProps) {
         rows={4}
         placeholder='Provide a description for this event.'
       />
-      <DiscomfortPicker />
+      <Button variant='contained' color='secondary'>
+        Submit
+      </Button>
     </Box>
   );
 }

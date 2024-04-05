@@ -6,15 +6,21 @@ import SickIcon from '@mui/icons-material/Sick';
 import { Box, IconButton } from '@mui/material';
 import { useState } from 'react';
 
-export function DiscomfortPicker() {
+interface DiscomfortPickerProps {
+  handleChange: (value: number) => void;
+}
+
+export function DiscomfortPicker({ handleChange }: DiscomfortPickerProps) {
   const [discomfortRating, setDiscomfortRating] = useState(0);
   const [colors, setColors] = useState([false, false, false, false, false]);
 
   const handleUpdate = (index: number) => {
+    handleChange(0);
     if (discomfortRating - 1 === index && colors[index] === true) {
       setDiscomfortRating(0);
       setColors([false, false, false, false, false]);
     } else {
+      handleChange(index + 1);
       setDiscomfortRating(index + 1);
       const newColorArray = colors.map((color, key) => {
         if (index >= key) return true;
@@ -25,7 +31,7 @@ export function DiscomfortPicker() {
   };
 
   return (
-    <Box sx={{ display: 'flex', gap: '0.25rem' }}>
+    <Box sx={{ display: 'flex', gap: '0.1rem' }}>
       <IconButton
         color={colors[0] ? 'error' : 'default'}
         onClick={() => handleUpdate(0)}
