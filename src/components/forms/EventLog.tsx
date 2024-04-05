@@ -61,6 +61,26 @@ export function EventLogForm({ initialState, logId }: EventLogProps) {
         rows={4}
         placeholder='Provide a description for this event.'
       />
+      {EventLogForm.createEventMutation.isSuccess && (
+        <Typography fontWeight='bold' fontSize='small' color='lightgreen'>
+          Successfully created event!
+        </Typography>
+      )}
+      {EventLogForm.updateEventMutation.isSuccess && (
+        <Typography fontWeight='bold' fontSize='small' color='lightgreen'>
+          Successfully updated event!
+        </Typography>
+      )}
+      {EventLogForm.createEventMutation.isError && (
+        <Typography fontWeight='bold' fontSize='small' color='error'>
+          {EventLogForm.createEventMutation.error.message}
+        </Typography>
+      )}
+      {EventLogForm.updateEventMutation.isError && (
+        <Typography fontWeight='bold' fontSize='small' color='error'>
+          {EventLogForm.updateEventMutation.error.message}
+        </Typography>
+      )}
       <Button type='submit' variant='contained' color='secondary'>
         Submit
       </Button>

@@ -61,16 +61,22 @@ export function useEventLogForm(
   });
 
   const handleDateChange = (date: Date) => {
+    createEventMutation.reset();
+    updateEventMutation.reset();
     setTimestamp(date);
   };
 
   const handleUpdateNote = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
+    createEventMutation.reset();
+    updateEventMutation.reset();
     setNote(e.target.value);
   };
 
   const handleUpdateDiscomfortLevel = (discomfortLevel: number) => {
+    createEventMutation.reset();
+    updateEventMutation.reset();
     if (discomfortLevel === 0) setDiscomfortLevel(null);
     else setDiscomfortLevel(discomfortLevel);
   };
@@ -94,6 +100,8 @@ export function useEventLogForm(
     note,
     handleUpdateDiscomfortLevel,
     handleSubmit,
+    createEventMutation,
+    updateEventMutation,
   };
 }
 

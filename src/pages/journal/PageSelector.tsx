@@ -9,6 +9,7 @@ import { BASE_URL } from '../../config/axiosConfig';
 import { useContext } from 'react';
 import { User, UserContext } from '../../context';
 import { useNavigate } from 'react-router-dom';
+import { Loading } from '../../components/generic/Loading';
 
 function PageSelector() {
   const { user } = useContext(UserContext);
@@ -31,7 +32,7 @@ function PageSelector() {
 
   // Show loading only on initial load when there's no data
   if (isLoading || !data) {
-    return <Typography>Loading journal...</Typography>;
+    return <Loading />;
   }
 
   const userJournal = data.journals[0];

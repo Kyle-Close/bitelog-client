@@ -82,6 +82,26 @@ export function EatLogForm({ initialState, logId }: EatLogFormProps) {
           rows={4}
           placeholder='Add any additional notes you would like to log - optional'
         />
+        {EatLogForm.createEatLogMutation.isSuccess && (
+          <Typography fontWeight='bold' fontSize='small' color='lightgreen'>
+            Successfully created eat log!
+          </Typography>
+        )}
+        {EatLogForm.updateEatLogMutation.isSuccess && (
+          <Typography fontWeight='bold' fontSize='small' color='lightgreen'>
+            Successfully updated eat log!
+          </Typography>
+        )}
+        {EatLogForm.createEatLogMutation.isError && (
+          <Typography fontWeight='bold' fontSize='small' color='error'>
+            {EatLogForm.createEatLogMutation.error.message}
+          </Typography>
+        )}
+        {EatLogForm.updateEatLogMutation.isError && (
+          <Typography fontWeight='bold' fontSize='small' color='error'>
+            {EatLogForm.updateEatLogMutation.error.message}
+          </Typography>
+        )}
         <Button
           sx={{ mt: '0.5rem' }}
           type='submit'
@@ -90,11 +110,6 @@ export function EatLogForm({ initialState, logId }: EatLogFormProps) {
         >
           Submit
         </Button>
-        {EatLogForm.createEatLogMutation.isSuccess && (
-          <Typography fontWeight='bold' fontSize='small' color='lightgreen'>
-            Successfully created eat log!
-          </Typography>
-        )}
         <Divider />
         <ItemWithQuantityList
           handleDelete={EatLogForm.removeSelectedFood}
