@@ -45,6 +45,7 @@ export function EventLogForm({ initialState, logId }: EventLogProps) {
         </AccordionSummary>
         <AccordionDetails>
           <DiscomfortPicker
+            initialState={initialState?.discomfortLevel}
             handleChange={EventLogForm.handleUpdateDiscomfortLevel}
           />
         </AccordionDetails>

@@ -8,11 +8,19 @@ import { useState } from 'react';
 
 interface DiscomfortPickerProps {
   handleChange: (value: number) => void;
+  initialState?: number;
 }
 
-export function DiscomfortPicker({ handleChange }: DiscomfortPickerProps) {
-  const [discomfortRating, setDiscomfortRating] = useState(0);
-  const [colors, setColors] = useState([false, false, false, false, false]);
+export function DiscomfortPicker({
+  handleChange,
+  initialState,
+}: DiscomfortPickerProps) {
+  const [discomfortRating, setDiscomfortRating] = useState(
+    initialState ? initialState : 0
+  );
+  const [colors, setColors] = useState<boolean[]>(
+    setInitialColors(initialState)
+  );
 
   const handleUpdate = (index: number) => {
     handleChange(0);
@@ -29,6 +37,18 @@ export function DiscomfortPicker({ handleChange }: DiscomfortPickerProps) {
       setColors(newColorArray);
     }
   };
+
+  function setInitialColors(rating?: number): boolean[] {
+    const result: boolean[] = [false, false, false, false, false];
+
+    if (typeof rating === 'number') {
+      for (let i = 0; i < result.length; i++) {
+        result[i] = i < rating;
+      }
+    }
+
+    return result;
+  }
 
   return (
     <Box sx={{ display: 'flex', gap: '0.1rem' }}>
