@@ -24,7 +24,7 @@ export function EventLogForm({ initialState, logId }: EventLogProps) {
   const EventLogForm = useEventLogForm();
   return (
     <Box
-      onSubmit={() => {}}
+      onSubmit={EventLogForm.handleSubmit}
       sx={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}
       component='form'
     >
@@ -50,6 +50,7 @@ export function EventLogForm({ initialState, logId }: EventLogProps) {
         </AccordionDetails>
       </Accordion>
       <TextField
+        required
         onChange={EventLogForm.handleUpdateNote}
         value={EventLogForm.note}
         sx={{ mt: '1rem' }}
@@ -59,7 +60,7 @@ export function EventLogForm({ initialState, logId }: EventLogProps) {
         rows={4}
         placeholder='Provide a description for this event.'
       />
-      <Button variant='contained' color='secondary'>
+      <Button type='submit' variant='contained' color='secondary'>
         Submit
       </Button>
     </Box>
