@@ -19,7 +19,7 @@ export function Footer() {
           <Typography fontWeight='bold' color='primary' sx={{ flexGrow: 1 }}>
             BITELOG
           </Typography>
-          <Typography fontSize='small'>© 2024 Kyle Close</Typography>
+          <Typography fontSize='small'>© 2024 Bitelog</Typography>
         </Box>
         <Box sx={{ display: 'flex', gap: '2rem' }}>
           <Box sx={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
@@ -32,7 +32,7 @@ export function Footer() {
             </Typography>
             <Typography fontWeight={400} color='secondary' fontSize='small'>
               <Link to={`/user/${user?.uid}/journal/${user?.journalId}`}>
-                Your Journal
+                Journal
               </Link>
             </Typography>
           </Box>
@@ -47,11 +47,6 @@ export function Footer() {
             <Typography fontWeight={400} color='secondary' fontSize='small'>
               <Link to={`/user/${user?.uid}/journal/${user?.journalId}`}>
                 About
-              </Link>
-            </Typography>
-            <Typography fontWeight={400} color='secondary' fontSize='small'>
-              <Link to={`/user/${user?.uid}/journal/${user?.journalId}`}>
-                Contact
               </Link>
             </Typography>
           </Box>
