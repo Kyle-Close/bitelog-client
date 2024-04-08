@@ -3,14 +3,36 @@ import IngredientsFeatureImg from '../../assets/ingredientsFeature.png';
 import CreateFoodFeatureImg from '../../assets/createFoodFeature.png';
 import EatLogFeatureImg from '../../assets/eatLogFeature.png';
 import EventLogFeatureImg from '../../assets/eventLogFeature.png';
-import { Box } from '@mui/material';
+import { Box, Grid } from '@mui/material';
 
 export function Features() {
   return (
-    <Box sx={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-      {features.map((feature, key) => (
-        <FeatureHighlight key={key} src={feature.src} text={feature.text} />
-      ))}
+    <Box sx={{ flexGrow: 1, mt: '2rem' }}>
+      <Grid
+        container
+        spacing={6}
+        sx={{ justifyContent: { xs: 'flex-start', lg: 'center' } }}
+      >
+        {features.map((feature, key) => (
+          <Grid
+            sx={{
+              display: 'flex',
+              justifyContent: { xs: 'flex-start', lg: 'center' },
+              alignItems: 'center',
+            }}
+            key={key}
+            item
+            xs={8}
+            lg={6}
+          >
+            <FeatureHighlight
+              src={feature.src}
+              text={feature.text}
+              order={key + 1}
+            />
+          </Grid>
+        ))}
+      </Grid>
     </Box>
   );
 }

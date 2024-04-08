@@ -6,31 +6,43 @@ import { UserContext } from '../../context';
 export function Footer() {
   const { user } = useContext(UserContext);
   return (
-    <Paper elevation={6} sx={{ display: 'flex', borderRadius: 0, py: '1rem' }}>
+    <Paper
+      elevation={6}
+      sx={{
+        display: 'flex',
+        borderRadius: 0,
+        py: '1rem',
+      }}
+    >
       <Container
+        maxWidth='lg'
         sx={{
+          fontSize: { xs: '0.8rem', sm: '1rem', lg: '1.1rem' },
           display: 'flex',
           justifyContent: 'space-between',
           gap: { xs: 0, md: '5rem' },
-          mr: { xs: 0, md: '3rem' },
         }}
       >
         <Box sx={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-          <Typography fontWeight='bold' color='primary' sx={{ flexGrow: 1 }}>
+          <Typography
+            fontWeight='bold'
+            color='primary'
+            sx={{ flexGrow: 1, fontSize: 'inherit' }}
+          >
             BITELOG
           </Typography>
-          <Typography fontSize='small'>© 2024 Bitelog</Typography>
+          <Typography fontSize='inherit'>© 2024 Bitelog</Typography>
         </Box>
         <Box sx={{ display: 'flex', gap: '2rem' }}>
           <Box sx={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
             <Typography
               sx={{ textDecoration: 'underline' }}
               fontWeight='bold'
-              fontSize='small'
+              fontSize='inherit'
             >
               Product
             </Typography>
-            <Typography fontWeight={400} color='secondary' fontSize='small'>
+            <Typography fontWeight={400} color='secondary' fontSize='inherit'>
               <Link to={`/user/${user?.uid}/journal/${user?.journalId}`}>
                 Journal
               </Link>
@@ -40,11 +52,11 @@ export function Footer() {
             <Typography
               sx={{ textDecoration: 'underline' }}
               fontWeight='bold'
-              fontSize='small'
+              fontSize='inherit'
             >
               Support
             </Typography>
-            <Typography fontWeight={400} color='secondary' fontSize='small'>
+            <Typography fontWeight={400} color='secondary' fontSize='inherit'>
               <Link to={`/user/${user?.uid}/journal/${user?.journalId}`}>
                 About
               </Link>
@@ -54,16 +66,16 @@ export function Footer() {
             <Typography
               sx={{ textDecoration: 'underline' }}
               fontWeight='bold'
-              fontSize='small'
+              fontSize='inherit'
             >
               Developer
             </Typography>
-            <Typography fontWeight={400} color='secondary' fontSize='small'>
+            <Typography fontWeight={400} color='secondary' fontSize='inherit'>
               <Link target='_blank' to='https://github.com/Kyle-Close'>
                 Github
               </Link>
             </Typography>
-            <Typography fontWeight={400} color='secondary' fontSize='small'>
+            <Typography fontWeight={400} color='secondary' fontSize='inherit'>
               <Link
                 target='_blank'
                 to='https://www.linkedin.com/in/kyle-close/'

@@ -17,7 +17,7 @@ const style = {
   boxShadow: 24,
   borderRadius: '8px',
   maxHeight: '95vh',
-  overflow: 'scroll',
+  overflow: 'auto',
 };
 
 export function BaseModal({ isOpen, handleClose, children }: BaseModalProps) {
