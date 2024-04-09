@@ -19,7 +19,7 @@ function StickyHourlyMenu({ date, setDate }: StickyHourlyMenu) {
         alignContent: 'center',
         minHeight: { xs: '3rem', sm: '3.5rem', md: '4rem', lg: '5rem' },
         backgroundColor: '#606060',
-        p: '0.5rem',
+        p: '0.8rem',
         position: 'sticky',
         zIndex: 50,
         top: { xs: 55, sm: 60 },
