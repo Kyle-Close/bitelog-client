@@ -1,6 +1,5 @@
-import { Box, Button, Container, Divider, Typography } from '@mui/material';
+import { Box, Container, Divider } from '@mui/material';
 import { Footer } from '../../components/footer';
-import { Link } from 'react-router-dom';
 import { GettingStarted } from './GettingStarted';
 import { Features } from './Features';
 
@@ -12,6 +11,7 @@ function LandingPage() {
         display: 'flex',
         flexDirection: 'column',
         flexGrow: 1,
+        mt: { xs: '1rem', md: '2rem' },
       }}
     >
       <Container sx={{ flexGrow: 1, my: '1rem' }}>

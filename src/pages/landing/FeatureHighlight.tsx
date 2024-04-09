@@ -23,6 +23,7 @@ export function FeatureHighlight({ text, src, order }: FeatureHighlightProps) {
         }}
       >
         <IconButton
+          disabled
           sx={{
             bgcolor: 'lightblue',
             width: '30px',
@@ -33,11 +34,16 @@ export function FeatureHighlight({ text, src, order }: FeatureHighlightProps) {
         >
           {order}
         </IconButton>
-        <Typography fontWeight='semi-bold'>{text}</Typography>
+        <Typography
+          fontSize={{ xs: '0.95rem', sm: '1rem', md: '1.1rem' }}
+          fontWeight='semi-bold'
+        >
+          {text}
+        </Typography>
       </Box>
       <Box
         sx={{
-          maxWidth: { xs: '300px', sm: '500px' },
+          maxWidth: { xs: '350px', sm: '500px' },
           height: 'auto',
         }}
         component='img'

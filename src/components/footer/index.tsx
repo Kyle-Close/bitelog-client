@@ -31,7 +31,7 @@ export function Footer() {
           >
             BITELOG
           </Typography>
-          <Typography fontSize='inherit'>© 2024 Bitelog</Typography>
+          <Typography fontSize='small'>© 2024 Bitelog</Typography>
         </Box>
         <Box sx={{ display: 'flex', gap: '2rem' }}>
           <Box sx={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
@@ -42,11 +42,11 @@ export function Footer() {
             >
               Product
             </Typography>
-            <Typography fontWeight={400} color='secondary' fontSize='inherit'>
-              <Link to={`/user/${user?.uid}/journal/${user?.journalId}`}>
+            <Link to={`/user/${user?.uid}/journal/${user?.journalId}`}>
+              <Typography fontWeight={400} color='secondary' fontSize='inherit'>
                 Journal
-              </Link>
-            </Typography>
+              </Typography>
+            </Link>
           </Box>
           <Box sx={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
             <Typography
@@ -56,11 +56,11 @@ export function Footer() {
             >
               Support
             </Typography>
-            <Typography fontWeight={400} color='secondary' fontSize='inherit'>
-              <Link to={`/user/${user?.uid}/journal/${user?.journalId}`}>
+            <Link to={`/user/${user?.uid}/journal/${user?.journalId}`}>
+              <Typography fontWeight={400} color='secondary' fontSize='inherit'>
                 About
-              </Link>
-            </Typography>
+              </Typography>
+            </Link>
           </Box>
           <Box sx={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
             <Typography
@@ -70,19 +70,16 @@ export function Footer() {
             >
               Developer
             </Typography>
-            <Typography fontWeight={400} color='secondary' fontSize='inherit'>
-              <Link target='_blank' to='https://github.com/Kyle-Close'>
+            <Link target='_blank' to='https://github.com/Kyle-Close'>
+              <Typography fontWeight={400} color='secondary' fontSize='inherit'>
                 Github
-              </Link>
-            </Typography>
-            <Typography fontWeight={400} color='secondary' fontSize='inherit'>
-              <Link
-                target='_blank'
-                to='https://www.linkedin.com/in/kyle-close/'
-              >
+              </Typography>
+            </Link>
+            <Link target='_blank' to='https://www.linkedin.com/in/kyle-close/'>
+              <Typography fontWeight={400} color='secondary' fontSize='inherit'>
                 LinkedIn
-              </Link>
-            </Typography>
+              </Typography>
+            </Link>
           </Box>
         </Box>
       </Container>

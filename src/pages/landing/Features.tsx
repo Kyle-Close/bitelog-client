@@ -7,7 +7,7 @@ import { Box, Grid } from '@mui/material';
 
 export function Features() {
   return (
-    <Box sx={{ flexGrow: 1, mt: '2rem' }}>
+    <Box sx={{ flexGrow: 1, my: '2rem' }}>
       <Grid
         container
         spacing={6}
