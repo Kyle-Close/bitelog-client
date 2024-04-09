@@ -78,7 +78,7 @@ export function GettingStarted() {
           >
             Get Started
           </Button>
-          <Link to={''}>
+          <Link to={'/about'}>
             <Typography
               color='secondary'
               sx={{ textDecoration: 'underline', fontSize: { xs: '0.9rem' } }}

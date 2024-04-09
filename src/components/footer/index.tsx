@@ -56,7 +56,7 @@ export function Footer() {
             >
               Support
             </Typography>
-            <Link to={`/user/${user?.uid}/journal/${user?.journalId}`}>
+            <Link to={'/about'}>
               <Typography fontWeight={400} color='secondary' fontSize='inherit'>
                 About
               </Typography>

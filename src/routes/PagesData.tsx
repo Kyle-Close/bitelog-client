@@ -7,6 +7,7 @@ import Authentication from '../components/authentication';
 import FoodsPage from '../pages/food';
 import IngredientsPage from '../pages/ingredients';
 import SettingsForm from '../pages/journal/Settings';
+import { About } from '../pages/about';
 
 const pagesData = [
   {
@@ -84,6 +85,15 @@ const pagesData = [
       </App>
     ),
     title: 'journal',
+  },
+  {
+    path: '/about',
+    element: (
+      <App>
+        <About />
+      </App>
+    ),
+    title: 'about',
   },
 ];
 
