@@ -11,6 +11,8 @@ import LoggedInButtons from './LoggedInButtons';
 import { Link, useNavigate } from 'react-router-dom';
 import { User } from '../../context';
 import { MobileMenu, menuObjectList } from './MobileMenu';
+import { Typography } from '@mui/material';
+import { BASE_CLIENT_URL } from '../../config/axiosConfig';
 
 export default function Header() {
   const { user } = React.useContext(UserContext);
@@ -65,7 +67,7 @@ function LargeScreenMenuAndHome() {
           },
           fontSize: { md: '1.1rem', lg: '1.3rem', xl: '1.4rem' },
         }}
-        onClick={() => navigate('/')}
+        onClick={() => navigate(`/${BASE_CLIENT_URL}`)}
       >
         BiteLog
       </Button>
@@ -89,7 +91,7 @@ function SmallScreenHomeBtn() {
             },
           },
         }}
-        onClick={() => navigate('/')}
+        onClick={() => navigate(`/${BASE_CLIENT_URL}`)}
         variant='text'
       >
         BiteLog
@@ -102,14 +104,21 @@ function LargeScreenLinks() {
   const { user } = React.useContext(UserContext);
   const createLargeScreenLinks = () => {
     return menuObjectList.map((item, key) => {
-      const url = `/user/${user?.uid}/journal/${user?.journalId}`;
+      const journalUrl = `/${BASE_CLIENT_URL}/user/${user?.uid}/journal/${user?.journalId}`;
       return (
         <Box
           key={key}
           sx={{ display: 'flex', alignItems: 'center', gap: '.5rem' }}
         >
-          {item.icon}
-          <Link to={url}>{item.name}</Link>
+          <Link to={item.to === 'journal' ? journalUrl : item.to}>
+            <Typography
+              align='center'
+              fontWeight='bold'
+              sx={{ textDecoration: 'underline' }}
+            >
+              {item.name}
+            </Typography>
+          </Link>
         </Box>
       );
     });
@@ -120,6 +129,7 @@ function LargeScreenLinks() {
         flex: 1,
         display: { xs: 'none', md: 'flex' },
         marginLeft: 8,
+        gap: '2rem',
       }}
     >
       {createLargeScreenLinks()}

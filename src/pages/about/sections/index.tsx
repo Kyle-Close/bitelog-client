@@ -12,10 +12,14 @@ export function AboutSection({ heading, children }: AboutSectionProps) {
         display: 'flex',
         flexDirection: 'column',
         gap: '0.75rem',
-        fontSize: { xs: '1.05rem' },
+        fontSize: { xs: '1.05rem', sm: '1.1rem', md: '1.2rem' },
       }}
     >
-      <Typography color='primary' variant='h5'>
+      <Typography
+        color='primary'
+        variant='h5'
+        fontSize={{ xs: '1.4rem', sm: '1.55rem', md: '1.65rem' }}
+      >
         {heading}
       </Typography>
       {children}

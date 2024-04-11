@@ -12,6 +12,7 @@ import AutoStoriesIcon from '@mui/icons-material/AutoStories';
 import { Link } from 'react-router-dom';
 import { useContext } from 'react';
 import { UserContext } from '../../context';
+import { BASE_CLIENT_URL } from '../../config/axiosConfig';
 
 export function MobileMenu({
   handleOpenDrawer,
@@ -37,18 +38,21 @@ function MenuContent({ handleCloseDrawer }: { handleCloseDrawer: () => void }) {
     const { user } = useContext(UserContext);
 
     return menuObjectList.map((item, key) => {
-      const url = `/user/${user?.uid}/journal/${user?.journalId}`;
+      const journalUrl = `/${BASE_CLIENT_URL}/user/${user?.uid}/journal/${user?.journalId}`;
       return (
         <Box key={key}>
-          <Box
-            key={key}
-            sx={{ display: 'flex', alignItems: 'center', gap: '.5rem' }}
+          <Link
+            onClick={handleCloseDrawer}
+            to={item.to === 'journal' ? journalUrl : item.to}
           >
-            {item.icon}
-            <Link onClick={handleCloseDrawer} to={url}>
+            <Typography
+              fontWeight='bold'
+              color='secondary'
+              sx={{ textDecoration: 'underline' }}
+            >
               {item.name}
-            </Link>
-          </Box>
+            </Typography>
+          </Link>
         </Box>
       );
     });
@@ -90,6 +94,7 @@ function MenuContent({ handleCloseDrawer }: { handleCloseDrawer: () => void }) {
           sx={{
             display: 'flex',
             flexDirection: 'column',
+            gap: '1rem',
             py: '1rem',
             px: '1rem',
           }}
@@ -128,6 +133,9 @@ export const menuObjectList = [
   {
     name: 'My Journal',
     to: `journal`,
-    icon: <AutoStoriesIcon />,
+  },
+  {
+    name: 'About',
+    to: `/${BASE_CLIENT_URL}/about`,
   },
 ];

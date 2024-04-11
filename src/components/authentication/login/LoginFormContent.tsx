@@ -7,7 +7,7 @@ import {
   TextField,
 } from '@mui/material';
 import { Auth, getAuth } from 'firebase/auth';
-import { useScreenSize } from '../../../hooks/useScreenSize';
+import { BASE_CLIENT_URL } from '../../../config/axiosConfig';
 
 interface ILoginFormContent {
   handleFormUpdate: (e: React.ChangeEvent<HTMLInputElement>) => void;
@@ -25,7 +25,6 @@ function LoginFormContent({
   isSubmitEnabled,
 }: ILoginFormContent) {
   const auth = getAuth();
-  const screenSize = useScreenSize();
 
   const displayErrorMessages = (errors: string[]) => {
     return errors.map((errorMsg, key) => (
@@ -89,7 +88,8 @@ function LoginFormContent({
         Login
       </Button>
       <Typography paragraph fontSize='small' sx={{ fontSize: { md: '1rem' } }}>
-        Don't have an account? <Link href='/register'>Create one now.</Link>
+        Don't have an account?{' '}
+        <Link href={`/${BASE_CLIENT_URL}/register`}>Create one now.</Link>
       </Typography>
     </Box>
   );

@@ -7,6 +7,7 @@ import {
   TextField,
 } from '@mui/material';
 import { Auth, getAuth } from 'firebase/auth';
+import { BASE_CLIENT_URL } from '../../../config/axiosConfig';
 
 interface IRegisterFormContent {
   handleFormUpdate: (e: React.ChangeEvent<HTMLInputElement>) => void;
@@ -93,7 +94,8 @@ function RegisterFormContent({
         Register
       </Button>
       <Typography paragraph fontSize='small'>
-        Already have an account? <Link href='/login'>Login now.</Link>
+        Already have an account?{' '}
+        <Link href={`/${BASE_CLIENT_URL}/login`}>Login now.</Link>
       </Typography>
     </Box>
   );

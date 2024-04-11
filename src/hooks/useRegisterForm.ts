@@ -115,7 +115,6 @@ function useRegisterForm(handleOpen: () => void): IUseRegisterFormExports {
       handleOpen();
       //LoginUser(auth, { email: email, username: displayName });
       clearErrors();
-      //navigate('/');
     } catch (err: any) {
       const errorMessage = err.message;
       const regex: RegExp = /(?<=\()(.*)(?=\))/;

@@ -2,6 +2,7 @@ import { Button } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { useTheme } from '@mui/material/styles';
+import { BASE_CLIENT_URL } from '../../config/axiosConfig';
 
 function LoggedOutButtons() {
   // TODO: put below logic into a custom hook. Use the hook with log out btn after
@@ -25,14 +26,14 @@ function LoggedOutButtons() {
   return (
     <>
       <Button
-        onClick={() => navigate('/login')}
+        onClick={() => navigate(`/${BASE_CLIENT_URL}/login`)}
         size={buttonSize}
         variant='outlined'
       >
         Login
       </Button>
       <Button
-        onClick={() => navigate('/register')}
+        onClick={() => navigate(`/${BASE_CLIENT_URL}/register`)}
         size={buttonSize}
         variant='contained'
       >

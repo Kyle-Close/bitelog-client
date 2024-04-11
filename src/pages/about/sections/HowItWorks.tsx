@@ -38,9 +38,14 @@ interface ListItemProps {
 function ListItemWrapper({ title, text }: ListItemProps) {
   return (
     <ListItem>
-      <Typography color='secondary' fontWeight={500}>
+      <Typography color='secondary' fontWeight={500} fontSize='inherit'>
         {title}:{' '}
-        <Typography component='span' color={'#fff'} fontWeight={400}>
+        <Typography
+          component='span'
+          color={'#fff'}
+          fontWeight={400}
+          fontSize='inherit'
+        >
           {text}
         </Typography>
       </Typography>
