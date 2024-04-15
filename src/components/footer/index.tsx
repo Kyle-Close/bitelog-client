@@ -2,7 +2,6 @@ import { Box, Container, Paper, Typography } from '@mui/material';
 import { useContext } from 'react';
 import { Link } from 'react-router-dom';
 import { UserContext } from '../../context';
-import { BASE_CLIENT_URL } from '../../config/axiosConfig';
 
 export function Footer() {
   const { user } = useContext(UserContext);
@@ -44,9 +43,7 @@ export function Footer() {
             >
               Product
             </Typography>
-            <Link
-              to={`/${BASE_CLIENT_URL}/user/${user?.uid}/journal/${user?.journalId}`}
-            >
+            <Link to={`/user/${user?.uid}/journal/${user?.journalId}`}>
               <Typography fontWeight={400} color='secondary' fontSize='inherit'>
                 Journal
               </Typography>
@@ -60,7 +57,7 @@ export function Footer() {
             >
               Support
             </Typography>
-            <Link to={`/${BASE_CLIENT_URL}/about`}>
+            <Link to={`/about`}>
               <Typography fontWeight={400} color='secondary' fontSize='inherit'>
                 About
               </Typography>

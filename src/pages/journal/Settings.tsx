@@ -6,10 +6,9 @@ import {
   fetchDataFromBackend,
   updateDataFromBackend,
 } from '../../helpers/utility';
-import { BASE_CLIENT_URL, BASE_URL } from '../../config/axiosConfig';
+import { BASE_URL } from '../../config/axiosConfig';
 import { Typography } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
-import GoToHome from '../../components/generic/GoToHome';
 
 function SettingsForm() {
   const navigate = useNavigate();
@@ -47,9 +46,7 @@ function SettingsForm() {
   const handleSubmit = async () => {
     if (name === '') return;
     journalMutation.mutate(name);
-    navigate(
-      `/${BASE_CLIENT_URL}/user/${user?.uid}/journal/${user?.journalId}`
-    );
+    navigate(`/user/${user?.uid}/journal/${user?.journalId}`);
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {

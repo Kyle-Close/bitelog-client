@@ -5,7 +5,7 @@ import EggIcon from '@mui/icons-material/Egg';
 import SettingsIcon from '@mui/icons-material/Settings';
 import { useQuery } from '@tanstack/react-query';
 import { fetchDataFromBackend } from '../../helpers/utility';
-import { BASE_CLIENT_URL, BASE_URL } from '../../config/axiosConfig';
+import { BASE_URL } from '../../config/axiosConfig';
 import { useContext } from 'react';
 import { User, UserContext } from '../../context';
 import { useNavigate } from 'react-router-dom';
@@ -113,22 +113,22 @@ const buttonItems = [
   {
     name: 'My Journal Logs',
     icon: <CalendarTodayIcon />,
-    url: `/${BASE_CLIENT_URL}/user/:userId/journal/:journalId/scheduler`,
+    url: `/user/:userId/journal/:journalId/scheduler`,
   },
   {
     name: 'My Foods',
     icon: <FastfoodIcon />,
-    url: `/${BASE_CLIENT_URL}/user/:userId/food`,
+    url: `/user/:userId/food`,
   },
   {
     name: 'My Ingredients',
     icon: <EggIcon />,
-    url: `/${BASE_CLIENT_URL}/user/:userId/ingredients`,
+    url: `/user/:userId/ingredients`,
   },
   {
     name: 'Journal Settings',
     icon: <SettingsIcon />,
-    url: `/${BASE_CLIENT_URL}/user/:userId/journal/:journalId/settings`,
+    url: `/user/:userId/journal/:journalId/settings`,
   },
 ];
 

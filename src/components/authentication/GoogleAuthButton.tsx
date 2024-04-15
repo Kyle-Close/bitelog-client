@@ -10,7 +10,6 @@ import {
 import { useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { UserContext } from '../../context';
-import { BASE_CLIENT_URL } from '../../config/axiosConfig';
 interface IGoogleAuthButton {
   isLogin: boolean;
 }
@@ -33,7 +32,7 @@ function GoogleAuthButton({ isLogin }: IGoogleAuthButton) {
         if (!email || !displayName) return;
 
         LoginUser(auth, { email, username: displayName, uid, journalId: null });
-        navigate(`/${BASE_CLIENT_URL}/`);
+        navigate(`/`);
       }
     } catch (err: any) {
       console.log(err.code);

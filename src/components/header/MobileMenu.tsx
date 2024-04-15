@@ -8,11 +8,9 @@ import {
 } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import SpaIcon from '@mui/icons-material/Spa';
-import AutoStoriesIcon from '@mui/icons-material/AutoStories';
 import { Link } from 'react-router-dom';
 import { useContext } from 'react';
 import { UserContext } from '../../context';
-import { BASE_CLIENT_URL } from '../../config/axiosConfig';
 
 export function MobileMenu({
   handleOpenDrawer,
@@ -38,7 +36,7 @@ function MenuContent({ handleCloseDrawer }: { handleCloseDrawer: () => void }) {
     const { user } = useContext(UserContext);
 
     return menuObjectList.map((item, key) => {
-      const journalUrl = `/${BASE_CLIENT_URL}/user/${user?.uid}/journal/${user?.journalId}`;
+      const journalUrl = `/user/${user?.uid}/journal/${user?.journalId}`;
       return (
         <Box key={key}>
           <Link
@@ -136,6 +134,6 @@ export const menuObjectList = [
   },
   {
     name: 'About',
-    to: `/${BASE_CLIENT_URL}/about`,
+    to: `/about`,
   },
 ];

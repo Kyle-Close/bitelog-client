@@ -15,7 +15,6 @@ import { UserContext } from '../../context';
 import { Loading } from '../generic/Loading';
 import { EatLogReducerState } from '../../reducers/EatLogFormReducer';
 import { MuiDateTimePicker } from '../generic/MuiDateTimePicker';
-import { BASE_CLIENT_URL } from '../../config/axiosConfig';
 
 interface EatLogFormProps {
   initialState?: EatLogReducerState;
@@ -72,7 +71,7 @@ export function EatLogForm({
             fontSize='small'
             underline='none'
             color='secondary'
-            href={`${BASE_CLIENT_URL}/user/${user?.uid}/food`}
+            href={`/user/${user?.uid}/food`}
           >
             Create Food
           </Link>{' '}

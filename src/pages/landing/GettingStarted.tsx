@@ -4,7 +4,6 @@ import JournalImg from '../../assets/journal.png';
 import { useScreenSize } from '../../hooks/useScreenSize';
 import { useContext } from 'react';
 import { UserContext } from '../../context';
-import { BASE_CLIENT_URL } from '../../config/axiosConfig';
 
 export function GettingStarted() {
   const { user } = useContext(UserContext);
@@ -69,9 +68,7 @@ export function GettingStarted() {
         >
           <Button
             onClick={() => {
-              navigate(
-                `/${BASE_CLIENT_URL}/user/${user?.uid}/journal/${user?.journalId}`
-              );
+              navigate(`/user/${user?.uid}/journal/${user?.journalId}`);
             }}
             variant='contained'
             sx={{

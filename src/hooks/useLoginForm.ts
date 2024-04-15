@@ -3,7 +3,6 @@ import { useNavigate } from 'react-router-dom';
 import { Auth, signInWithEmailAndPassword } from 'firebase/auth';
 import { isLoginFormPopulated } from '../helpers/utility';
 import { UserContext } from '../context';
-import { BASE_CLIENT_URL } from '../config/axiosConfig';
 
 export interface LoginFormData {
   email: string;
@@ -90,7 +89,7 @@ function useLoginForm(): IUseAuthFormExports {
       }
       LoginUser(auth, { email: email, username: displayName });
       clearErrors();
-      navigate(`/${BASE_CLIENT_URL}/`);
+      navigate(`/`);
     } catch (err: any) {
       const errorMessage = err.message;
       const regex: RegExp = /(?<=\()(.*)(?=\))/;

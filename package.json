@@ -1,6 +1,5 @@
 {
-  "homepage": "https://kyle-close.github.io/bitelog-client/",
-  "name": "bitelog-client",
+  "homepage": "bitelog.dev",
   "private": true,
   "version": "0.0.0",
   "type": "module",

@@ -12,7 +12,6 @@ import { Link, useNavigate } from 'react-router-dom';
 import { User } from '../../context';
 import { MobileMenu, menuObjectList } from './MobileMenu';
 import { Typography } from '@mui/material';
-import { BASE_CLIENT_URL } from '../../config/axiosConfig';
 
 export default function Header() {
   const { user } = React.useContext(UserContext);
@@ -67,7 +66,7 @@ function LargeScreenMenuAndHome() {
           },
           fontSize: { md: '1.1rem', lg: '1.3rem', xl: '1.4rem' },
         }}
-        onClick={() => navigate(`/${BASE_CLIENT_URL}`)}
+        onClick={() => navigate(`/`)}
       >
         BiteLog
       </Button>
@@ -91,7 +90,7 @@ function SmallScreenHomeBtn() {
             },
           },
         }}
-        onClick={() => navigate(`/${BASE_CLIENT_URL}`)}
+        onClick={() => navigate(`/`)}
         variant='text'
       >
         BiteLog
@@ -104,7 +103,7 @@ function LargeScreenLinks() {
   const { user } = React.useContext(UserContext);
   const createLargeScreenLinks = () => {
     return menuObjectList.map((item, key) => {
-      const journalUrl = `/${BASE_CLIENT_URL}/user/${user?.uid}/journal/${user?.journalId}`;
+      const journalUrl = `/user/${user?.uid}/journal/${user?.journalId}`;
       return (
         <Box
           key={key}
