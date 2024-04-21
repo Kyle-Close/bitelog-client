@@ -1,30 +1,40 @@
-# React + TypeScript + Vite
+# Bitelog
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Welcome to Bitelog, a comprehensive food journaling web application designed to help users monitor their dietary habits and understand how different foods affect their well-being. Bitelog enables users to create detailed food diaries, track reactions to specific meals, and analyze their dietary patterns over time.
 
-Currently, two official plugins are available:
+## Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+**Ingredient Library**: Users can build a personal library of ingredients to streamline the journaling process.
 
-## Expanding the ESLint configuration
+**Meal Logging**: Log meals by combining ingredients from your library, adding timestamps, quantities, and additional meal details.
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+**Health Event Tracking**: Record health-related events such as discomforts or allergic reactions with timestamps, detailed notes, and severity levels.
 
-- Configure the top-level `parserOptions` property like this:
+**Data Insights**: The application offers insights into how different foods correlate with health events, aiding users in identifying potential food sensitivities and preferences.
 
-```js
-export default {
-  // other rules...
-  parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-  },
-}
+## Technologies Used
+
+**Frontend**: React.js, Vite, Material UI, Tanstack Query
+
+**Backend**: Node.js, Express.js, PostgreSQL
+
+## Installation
+
+To set up Bitelog locally, follow these steps:
+
+Clone the repository (client)
 ```
-
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+git clone https://github.com/kyle-close/bitelog-client.git
+```
+Open the repository
+```
+cd bitelog-client
+```
+Install dependencies
+```
+npm install
+```
+Run
+```
+npm run dev
+```
